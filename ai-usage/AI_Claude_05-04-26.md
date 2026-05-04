@@ -17,6 +17,3 @@ uso de ia para inicializacion del proyecto
     4. crera un repositorio separado y privadi que sirva como fuente de la verdad donde quede tanto todas las decisiones como el registro detallado del uso de ia y demas, esta separado de la propia ia que tendra el repositorio descrita
 
 ## [response](https://gist.github.com/Jrgil20/ac439e2df3f5a8e09093c9b733499010)
-
-<script src="https://gist.github.com/Jrgil20/ac439e2df3f5a8e09093c9b733499010.js"></script>
-
