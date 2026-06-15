@@ -1,14 +1,48 @@
-# Arrow Maze — Puzzle Game Engine
+# Arrow Maze — Project Core 🎯
 
-Una aplicación de puzzle interactivo basada en **Specification-Driven Development (SDD)**, Clean Architecture y Domain-Driven Design.
+**Fuente única de verdad** para decisiones de arquitectura, especificaciones y diseño del puzzle game Arrow Maze.
 
-## 🎮 Descripción rápida
+## 🏗️ ¿Qué es Arrow Maze Project Core?
 
-Arrow Maze es un puzzle donde debes guiar flechas a través de un tablero para alcanzar objetivos. Actualmente en fase de especificación y diseño arquitectónico (pre-implementación).
+Este repositorio es el **compendio centralizado** de:
+- ✅ **Decisiones arquitectónicas** documentadas y validadas
+- ✅ **Especificaciones Gherkin (BDD)** listas para implementación
+- ✅ **Histórico completo de sesiones SDD** con rationale de cada decisión
+- ✅ **Blueprint** que guía la implementación en `arrow-maze-client` (React) y `arrow-maze-backend` (Express)
+
+**Punto de control:** Junio 15, 2026 — A partir de aquí, todas las decisiones se centralizan en este repositorio.
+
+## 🎮 Descripción del juego
+
+Arrow Maze es un puzzle donde debes guiar flechas a través de un tablero para alcanzar objetivos. Implementado usando **Clean Architecture + Domain-Driven Design**, con especificaciones completas **antes** de escribir código (Specification-Driven Development).
+
+**Estado actual:** Pre-implementación. ✅ Arquitectura finalizada, ✅ 5 features especificadas (A1-A5), ⏳ Implementación comienza Semana 1.
 
 ---
 
-## 📁 Estructura del proyecto
+## 🔗 Repositorios relacionados
+
+| Repo | Tech | Rol | Estado |
+|---|---|---|---|
+| **arrowmaze-project-core** (este) | Markdown + Gherkin | 📋 Decisiones y specs | ✅ Activo |
+| [**arrow-maze-client**](https://github.com/NRC25783-G4-ArrowMaze/arrowmaze-game) | React 18 + Vite + TypeScript + Capacitor | 🎨 Frontend web + móvil | ⏳ Por crear |
+| [**arrow-maze-backend**](https://github.com/NRC25783-G4-ArrowMaze/arrowmaze-backend) | Express.js + Node.js + TypeScript + PostgreSQL | 🔌 API REST + DB | ⏳ Por crear |
+
+**Flujo de sincronización:**
+```
+Decisiones/Specs en project-core
+        ↓
+Implementación en arrow-maze-client (sigue specs A1-A5 + B/C/D)
+Implementación en arrow-maze-backend (sigue specs F1-F4 + E)
+        ↓
+Testing contra Gherkin features
+        ↓
+Deployment coordinado
+```
+
+---
+
+## 📁 Estructura de este repositorio
 
 ```
 arrowmaze-project-core/
@@ -35,6 +69,26 @@ arrowmaze-project-core/
 
 ---
 
+## 📌 Por qué "Project Core"
+
+A partir de **Junio 15, 2026**, arrowmaze-project-core es:
+
+| Aspecto | Antes | Ahora |
+|---|---|---|
+| **Decisiones** | Dispersas en múltiples documentos | ✅ Centralizadas aquí |
+| **Fuente de verdad** | ❌ No definida | ✅ Este repositorio |
+| **Histórico de decisiones** | En archivos locales separados | ✅ `.ai-usage/` centralizado |
+| **Syncronización** | Manual entre repos | ✅ Features en project-core → ambos repos |
+| **Specs BDD** | En gists externos | ✅ `features/` en este repo |
+
+**Implicaciones para el equipo:**
+- Todos los cambios de spec → actualizar `.feature` en project-core primero
+- Todos los cambios de arquitectura → documentar en `.ai-usage/` con sesión SDD
+- Frontend y backend **sincronizan specs** desde `features/` aquí
+- Decisiones son **reproducibles y auditables** (historial completo en `.ai-usage/`)
+
+---
+
 ## 🚀 Documentación principal
 
 ### Para entender el proyecto:
@@ -58,10 +112,12 @@ arrowmaze-project-core/
 
 ### Para ver el historial de decisiones:
 
-- **[ai-usage/MANIFEST.md](./ai-usage/MANIFEST.md)** — Índice de todas las sesiones SDD
-  - Meta: fecha, modelo, duración
-  - Decisiones registradas
-  - Artefactos generados (.feature files, notas de diseño)
+- **[.ai-usage/manifest.json](./.ai-usage/manifest.json)** — Índice centralizado de todas las sesiones SDD (7 sesiones)
+  - **Sesión checkpoint:** [2026-06-15: Project Core Checkpoint](./.ai-usage/2026-06/2026-06-15_project-core-checkpoint.md)
+  - **Todas las sesiones:** Mayo 3 - Junio 15, 2026
+  - Decisiones registradas con rationale completo
+  - Artefactos generados (.feature files, matrices, reportes)
+  - Métricas de IA assistance y team contribution
 
 ---
 
@@ -175,11 +231,24 @@ Cada `.feature` incluye:
 
 ## 🛠️ Próximos pasos
 
-1. **Resolver P15** — Definir esquema JSON para niveles
-2. **Resolver NQ4** — Elegir tecnología de renderizado (CSS/Canvas/WebGL)
-3. **Completar specs B–G** — Extender SDD a features de UI, backend, etc.
-4. **Setup scaffolding** — Crear repos `arrow-maze-client` y `arrow-maze-backend`
-5. **Implementar A1–A5** — Sprint 1–2 usando specs validadas
+### Inmediatos (Semana 1 de implementación)
+
+1. ✅ **P15 resolution** — Definir JSON schema para niveles (bloquea C2, F2)
+2. ✅ **NQ4 resolution** — Elegir renderizado: CSS vs Canvas vs WebGL (bloquea B1, B2)
+3. 📋 **Setup scaffolding** — Crear `arrow-maze-client` y `arrow-maze-backend` con estructura Clean Architecture
+4. 🧪 **Implementar A1–A5** — Sprint 1–2 (motor núcleo sin UI)
+
+### Mediano plazo
+
+5. 📋 **Completar specs B–G** — Extender SDD a features de UI, backend, persistencia
+6. 🎨 **UI/Rendering** — Implementar B1, B2 (renderizado + animaciones)
+7. 🔌 **Backend + API** — Implementar F1–F4 (autenticación, distribución de niveles, leaderboard)
+
+### Referencias completas en:
+
+- **Roadmap detallado:** [docs/FEATURES.md](./docs/FEATURES.md) — 7 sprints, orden de dependencias
+- **Bloqueadores activos:** Tabla en [docs/FEATURES.md](./docs/FEATURES.md#decisiones-que-aún-bloquean-features-específicos)
+- **Estado de decisiones:** [.ai-usage/manifest.json](./.ai-usage/manifest.json)
 
 ---
 
@@ -209,6 +278,50 @@ Cada `.feature` incluye:
 
 ---
 
-**Última actualización:** 2026-06-15  
+---
+
+## 💡 Cómo usar este repositorio
+
+### Si eres implementador (developer)
+
+1. **Empieza por CLAUDE.md** — Guía del proyecto y decisiones clave
+2. **Lee docs/FEATURES.md** — Qué implementar y en qué orden (roadmap)
+3. **Consulta features/*.feature** — Especificaciones exactas en Gherkin
+4. **Valida decisiones** — Abre `.ai-usage/manifest.json` para ver rationale de cada decision
+5. **Sigue Clean Architecture** — Estructura en `docs/STACK.md` es tu blueprint
+
+### Si eres gestor/stakeholder
+
+1. **Overview:** Este README + stats en [Project Core Checkpoint](./.ai-usage/2026-06/2026-06-15_project-core-checkpoint.md)
+2. **Decisiones:** Búsca por feature (A1, A2, A3, etc.) en `.ai-usage/manifest.json`
+3. **Timeline:** 7 sprints (~7 semanas), comenzando con resolución de P15 + NQ4
+4. **Blockers:** Tabla en [docs/FEATURES.md](./docs/FEATURES.md) - qué bloquea qué
+
+### Si necesitas hacer cambios
+
+1. **Cambio en especificación:** Actualiza `.feature` correspondiente + crea sesión en `.ai-usage/`
+2. **Cambio arquitectónico:** Documenta en `docs/STACK.md` + crea sesión SDD en `.ai-usage/`
+3. **Cambio de decisión:** Abre issue, discute, documenta rationale, actualiza manifest
+4. **Sincronización:** Ambos repos (`arrow-maze-client`, `arrow-maze-backend`) sincronizan desde aquí
+
+---
+
+## 📊 Métricas del proyecto (Estado actual)
+
+| Métrica | Valor | Status |
+|---|---|---|
+| **Sesiones SDD completadas** | 7 | ✅ Finalizadas |
+| **Decisiones documentadas** | 30+ | ✅ Registradas |
+| **Features especificadas** | A1-A5 (5) | ✅ Listas para impl. |
+| **Escenarios Gherkin** | ~100 | ✅ Cubiertos |
+| **Bloqueadores activos** | P15, NQ4 | ⏳ Requieren resolución |
+| **Tiempo ahorrado (IA)** | ~60 horas | 📈 80% efficiency gain |
+| **Código listo para usar** | 70% | ⚠️ Requiere validación compilación |
+
+---
+
+**Última actualización:** 2026-06-15 (Checkpoint)  
+**Proyecto:** Arrow Maze — Specification-Driven Development + Clean Architecture  
 **Mantenido por:** Jrgil20  
-**Contacto:** fariasjr223@gmail.com
+**Contacto:** fariasjr223@gmail.com  
+**Estado:** 🔴 Pre-implementación → 🟢 Listo para Semana 1 (tras resolver P15 + NQ4)

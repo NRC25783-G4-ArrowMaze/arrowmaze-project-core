@@ -4,7 +4,7 @@
     "description": "Registro centralizado de uso de IA en desarrollo de puzzle game",
     "lastUpdated": "2026-06-15",
     "maintainedBy": "Jrgil20",
-    "totalSessions": 7,
+    "totalSessions": 8,
     "dateRange": {
       "start": "2026-05-03",
       "end": "2026-06-13"
@@ -387,6 +387,72 @@
         "victory",
         "defeat",
         "aggregate-root"
+      ]
+    },
+    {
+      "id": "2026-06-15-001",
+      "date": "2026-06-15",
+      "month": "2026-06",
+      "title": "Project Core Centralization & Checkpoint",
+      "file": "2026-06/2026-06-15_project-core-checkpoint.md",
+      "duration": {
+        "value": 120,
+        "unit": "minutes",
+        "estimated": true
+      },
+      "aiModel": "Claude Haiku 4.5",
+      "tool": "claude.ai",
+      "phase": "Pre-implementation Transition",
+      "feature": null,
+      "context": "Consolidación de arrowmaze-project-core como fuente única de verdad, reorganización de documentación, y preparación para implementación en arrow-maze-client + arrow-maze-backend",
+      "methodology": "Documentation synthesis + repository restructuring + team enablement",
+      "deliverables": [
+        "Proyecto Core Checkpoint report (síntesis de 7 sesiones previas)",
+        "Reorganización de carpetas (.ai-usage, docs/, features/)",
+        "README.md actualizado con rol de 'Project Core'",
+        "Actualización de manifest.json con nuevas sesiones",
+        "Estructura de referencias para repos frontend y backend",
+        "Guía de uso para developers, stakeholders, y cambios futuros"
+      ],
+      "status": "completed",
+      "purpose": "Marcar transición de pre-diseño a implementación, centralizar documentación",
+      "keyDecisions": [
+        {
+          "decision": "arrowmaze-project-core como fuente única de verdad",
+          "rationale": "Evitar duplicación, facilitar sincronización, auditoría completa"
+        },
+        {
+          "decision": "Centralizar .ai-usage con manifest.json",
+          "rationale": "Histórico completo, busqueda por feature, rationale documentado"
+        },
+        {
+          "decision": "README destaca 'Project Core' en lugar de solo descripción",
+          "rationale": "Claridad sobre rol del repo para todos los stakeholders"
+        }
+      ],
+      "teamContribution": "Reorganización de documentación existente, validación de estructura",
+      "aiOutputQuality": {
+        "checkpoint-report": "95%",
+        "readme-restructuring": "90%",
+        "documentation-synthesis": "95%"
+      },
+      "blockedResolutions": [
+        "P15 - JSON level schema (crítico para Sprint 1)",
+        "NQ4 - Rendering technology decision (crítico para Sprint 2)"
+      ],
+      "nextMilestones": [
+        "Crear arrow-maze-client con estructura Clean Architecture",
+        "Crear arrow-maze-backend con estructura Clean Architecture",
+        "Resolver P15 + NQ4 en Semana 1",
+        "Implementar A1-A3 (Sprint 1-2, motor núcleo)"
+      ],
+      "keywords": [
+        "project-core",
+        "centralization",
+        "checkpoint",
+        "documentation",
+        "pre-implementation",
+        "source-of-truth"
       ]
     }
   ],
