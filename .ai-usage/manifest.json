@@ -4,7 +4,7 @@
     "description": "Registro centralizado de uso de IA en desarrollo de puzzle game",
     "lastUpdated": "2026-06-15",
     "maintainedBy": "Jrgil20",
-    "totalSessions": 9,
+    "totalSessions": 10,
     "dateRange": {
       "start": "2026-05-03",
       "end": "2026-06-15"
@@ -303,6 +303,63 @@
         "registration",
         "login",
         "logout"
+      ]
+    },
+    {
+      "id": "2026-05-30-002",
+      "date": "2026-05-30",
+      "month": "2026-05",
+      "title": "Active Session Management (E2)",
+      "file": "2026-05/2026-05-30_active-session-management.md",
+      "duration": {
+        "value": 18,
+        "unit": "minutes",
+        "estimated": true
+      },
+      "aiModel": "Gemini 3.1 Pro",
+      "tool": "Gemini AI",
+      "phase": "Foundation & Architecture",
+      "feature": "E2",
+      "context": "Diseño de gestión de sesiones activas mediante arquitectura de token JWT único con blacklist de revocación",
+      "deliverables": [
+        "active_session_management.feature — Gherkin BDD con 4 bloques y 8 escenarios",
+        "Cobertura de: acceso a recursos protegidos, expiración de token, revocación y cierre de sesión",
+        "Validación de invariantes en payload JWT (userId, jti, sin datos sensibles)",
+        "Especificación de Blacklist y limpieza automática"
+      ],
+      "status": "completed",
+      "methodology": "Spec-Driven Development (SDD) con patrón iterativo-correctivo",
+      "iterationRounds": 1,
+      "keyDecisions": [
+        {
+          "decision": "Arquitectura de token único (sin refresh token)",
+          "rationale": "Simplicidad, reducción de complejidad, claridad en almacenamiento cliente"
+        },
+        {
+          "decision": "TTL de 7 días",
+          "rationale": "Balance entre seguridad y experiencia de usuario"
+        },
+        {
+          "decision": "Blacklist de tokens en logout",
+          "rationale": "Terminación explícita de sesión antes de expiración natural"
+        },
+        {
+          "decision": "Rechazo de fingerprint de dispositivo",
+          "rationale": "Complejidad innecesaria, enfoque en prácticas JWT estándar"
+        }
+      ],
+      "teamContribution": "Rechazo del mecanismo dual-token, definición de TTL explícito, rechazo de fingerprinting, iteración en escenarios",
+      "keywords": [
+        "session-management",
+        "jwt",
+        "token",
+        "blacklist",
+        "expiration",
+        "revocation",
+        "logout",
+        "protected-resources",
+        "authentication",
+        "security"
       ]
     },
     {
@@ -612,6 +669,12 @@
       },
       {
         "feature": "F1 - API Users Authentication",
+        "sessions": 1,
+        "status": "completed",
+        "refactored": false
+      },
+      {
+        "feature": "E2 - Active Session Management",
         "sessions": 1,
         "status": "completed",
         "refactored": false
