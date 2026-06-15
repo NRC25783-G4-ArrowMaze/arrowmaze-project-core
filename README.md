@@ -16,28 +16,26 @@ Este repositorio es el **compendio centralizado** de:
 
 Arrow Maze es un puzzle donde debes guiar flechas a través de un tablero para alcanzar objetivos. Implementado usando **Clean Architecture + Domain-Driven Design**, con especificaciones completas **antes** de escribir código (Specification-Driven Development).
 
-**Estado actual:** Pre-implementación. ✅ Arquitectura finalizada, ✅ 5 features especificadas (A1-A5), ⏳ Implementación comienza Semana 1.
+**Estado actual:** ✅ Arquitectura finalizada, ✅ 5 features especificadas (A1-A5), 🔄 Diseñando features B-G, ⏳ Pendiente resolver P15 (JSON schema) y NQ4 (renderizado).
 
 ---
 
 ## 🔗 Repositorios relacionados
 
-| Repo | Tech | Rol | Estado |
-|---|---|---|---|
-| **arrowmaze-project-core** (este) | Markdown + Gherkin | 📋 Decisiones y specs | ✅ Activo |
-| [**arrow-maze-client**](https://github.com/NRC25783-G4-ArrowMaze/arrowmaze-game) | React 18 + Vite + TypeScript + Capacitor | 🎨 Frontend web + móvil | ⏳ Por crear |
-| [**arrow-maze-backend**](https://github.com/NRC25783-G4-ArrowMaze/arrowmaze-backend) | Express.js + Node.js + TypeScript + PostgreSQL | 🔌 API REST + DB | ⏳ Por crear |
+| Repo | Tech | Rol |
+|---|---|---|
+| **arrowmaze-project-core** (este) | Markdown + Gherkin | 📋 **Fuente única de verdad** — Especificaciones y decisiones arquitectónicas |
+| [**arrow-maze-client**](https://github.com/NRC25783-G4-ArrowMaze/arrowmaze-game) | React 18 + Vite + TypeScript + Capacitor | 🎨 Implementación del frontend (sincroniza specs desde aquí) |
+| [**arrow-maze-backend**](https://github.com/NRC25783-G4-ArrowMaze/arrowmaze-backend) | Express.js + Node.js + TypeScript + PostgreSQL | 🔌 Implementación del backend (sincroniza specs desde aquí) |
 
-**Flujo de sincronización:**
+**Flujo de trabajo:**
 ```
-Decisiones/Specs en project-core
+Cambios en specs/decisiones
         ↓
-Implementación en arrow-maze-client (sigue specs A1-A5 + B/C/D)
-Implementación en arrow-maze-backend (sigue specs F1-F4 + E)
+Actualizar features/*.feature + docs/ en project-core
         ↓
-Testing contra Gherkin features
-        ↓
-Deployment coordinado
+arrow-maze-client y arrow-maze-backend sincronizan
+desde las specs aquí
 ```
 
 ---
@@ -145,20 +143,20 @@ Dominio (Entidades puras) ← NUNCA DEPENDE DE NADA
 ## 📋 Fases del proyecto
 
 ### Fase 1: Especificación (Actual)
+**En project-core:**
 - ✅ Decisiones de arquitectura (Clean Architecture + DDD)
-- ✅ Especificaciones en Gherkin (features A1–A5 diseñadas)
-- ✅ Stack técnico elegido: React + Capacitor + Express.js
-- 🔄 Finalizar features B–G
-- 📋 Resolver decisiones pendientes (P15, NQ4, etc.)
+- ✅ Especificaciones Gherkin finalizadas: features A1–A5
+- ✅ Stack técnico documentado: React + Capacitor + Express.js
+- 🔄 Diseñar features B–G
+- 📋 Resolver decisiones pendientes (P15: esquema JSON, NQ4: tecnología renderizado)
 
-### Fase 2: Implementación (Próxima)
-- Crear scaffolding: `package.json`, `tsconfig.json`, configuración
-- Implementar Sprint 1: A1–A3 (motor núcleo)
-- Mapear tests 1:1 con Gherkin
-- Setup CI/CD
+**En arrow-maze-client + arrow-maze-backend:**
+- Sincronizan specs desde project-core
+- Implementan según roadmap en `docs/FEATURES.md`
 
-### Fase 3: Completitud
-- Sprints 4–7: UI, persistencia, backend, sincronización
+### Fase 2: Completitud
+- Completar todas las features B–G en project-core
+- Implementar sprints correspondientes en ambos repos
 
 ---
 
@@ -229,20 +227,18 @@ Cada `.feature` incluye:
 
 ---
 
-## 🛠️ Próximos pasos
+## 🛠️ Próximos pasos (en project-core)
 
-### Inmediatos (Semana 1 de implementación)
+### Inmediatos
 
-1. ✅ **P15 resolution** — Definir JSON schema para niveles (bloquea C2, F2)
-2. ✅ **NQ4 resolution** — Elegir renderizado: CSS vs Canvas vs WebGL (bloquea B1, B2)
-3. 📋 **Setup scaffolding** — Crear `arrow-maze-client` y `arrow-maze-backend` con estructura Clean Architecture
-4. 🧪 **Implementar A1–A5** — Sprint 1–2 (motor núcleo sin UI)
+1. 📋 **Resolver P15** — Definir esquema JSON para niveles (bloquea C2, F2)
+2. 📋 **Resolver NQ4** — Elegir renderizado: CSS vs Canvas vs WebGL (bloquea B1, B2)
+3. 📋 **Diseñar specs B–G** — Extender SDD a features de UI, backend, persistencia
 
 ### Mediano plazo
 
-5. 📋 **Completar specs B–G** — Extender SDD a features de UI, backend, persistencia
-6. 🎨 **UI/Rendering** — Implementar B1, B2 (renderizado + animaciones)
-7. 🔌 **Backend + API** — Implementar F1–F4 (autenticación, distribución de niveles, leaderboard)
+4. 🔄 **Validar A1–A5** — Asegurar escenarios Gherkin cubren edge cases
+5. 📋 **Documentar decisiones pendientes** — B-G como A1-A5 (matriz SDD completa)
 
 ### Referencias completas en:
 
@@ -271,10 +267,10 @@ Cada `.feature` incluye:
 
 ## ⚠️ Notas importantes
 
-1. **Pre-implementación** — Este proyecto está en fase de diseño. No hay código fuente aún.
-2. **Especificaciones en español** — Todas las features y muchos documentos de decisión están en español.
-3. **SDD riguroso** — Las decisiones de diseño están congeladas en Gherkin antes de que comience la implementación.
-4. **No saltar pasos** — La cadena A1 → A2 → A3 → A4 → A5 es estricta.
+1. **Fuente única de especificaciones** — Este repo define QUÉ se implementa. El código está en arrow-maze-client y arrow-maze-backend.
+2. **Especificaciones en español** — Todas las features y documentos de decisión están en español. Referir siempre a original si hay duda de traducción.
+3. **SDD riguroso** — Las decisiones de diseño se congelan en Gherkin ANTES de cambios de implementación. Cambios de spec → sesión SDD aquí primero.
+4. **Cadena de dependencias estricta** — A1 → A2 → A3 → A4 → A5 es hard dependency. No reordenar sin validar impacto.
 
 ---
 
@@ -324,4 +320,4 @@ Cada `.feature` incluye:
 **Proyecto:** Arrow Maze — Specification-Driven Development + Clean Architecture  
 **Mantenido por:** Jrgil20  
 **Contacto:** fariasjr223@gmail.com  
-**Estado:** 🔴 Pre-implementación → 🟢 Listo para Semana 1 (tras resolver P15 + NQ4)
+**Estado:** 🟡 A1-A5 especificadas y en implementación | 🔄 Diseñando B-G | ⏳ Resolviendo P15, NQ4

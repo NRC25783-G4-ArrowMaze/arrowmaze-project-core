@@ -8,7 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **Arrow Maze** is a puzzle game engine implemented using **Specification-Driven Development (SDD)** with Clean Architecture and Domain-Driven Design (DDD).
 
-**Current Phase:** Specification and architectural design (pre-implementation). No production code yet—focus is on BDD feature specifications and design decisions.
+**Current Phase:** Specification authority. A1–A5 finalized and in implementation; B–G being designed. This repo is the single source of truth for specs and architecture decisions; code lives in `arrow-maze-client` and `arrow-maze-backend` repos.
 
 **Key Characteristics:**
 - **Methodology:** SDD with structured Q&A using Claude + Gherkin BDD
@@ -28,11 +28,14 @@ arrowmaze-project-core/
 │   ├── A3-arrow_movement.feature
 │   ├── A4-game_end_detection.feature
 │   └── A5-game_session_scoring.feature
-├── ai-usage/                    # Structured AI session documentation
-│   ├── MANIFEST.md              # Central index of all AI usage reports
+├── docs/                        # Design and architecture documentation
+│   ├── FEATURES.md              # Feature dependency matrix + implementation roadmap
+│   └── STACK.md                 # Technology stack decisions + folder structure for implementation
+├── .ai-usage/                   # Structured AI session documentation (hidden folder)
+│   ├── manifest.json            # Central index of all AI usage reports
 │   ├── 2026-05/                 # May: Foundation & Architecture
 │   └── 2026-06/                 # June: Game Logic & Specs
-├── FEATURES.md                  # Feature dependency matrix + implementation roadmap
+├── CLAUDE.md                    # This file
 ├── README.md                    # Brief project title (minimal)
 └── .claude/                     # Claude Code local settings
 ```
@@ -71,6 +74,21 @@ arrowmaze-project-core/
 
 ---
 
+## 📘 Implementation-Ready Architecture (Next Phase)
+
+Technology stack and folder structure decisions **have been finalized**. See **`docs/STACK.md`** for:
+
+- **Tech stack chosen:** React 18 + TypeScript + Vite (frontend) | Express.js + TypeScript (backend) | Capacitor (mobile) | PostgreSQL + SQLite (databases)
+- **Why this stack:** Fast build times, excellent TypeScript support on both ends, strong IA code generation, natural Clean Architecture fit
+- **Folder structure** for both client (`arrow-maze-client`) and backend (`arrow-maze-backend`) repos—detailed layer breakdowns (domain, application, adapters, infrastructure)
+- **Testing strategy:** Jest + React Testing Library (frontend), Jest + Supertest (backend); unit/integration/e2e patterns
+- **Initial setup commands** — npm projects, folder scaffolding, dependency installation
+- **First-sprint roadmap** — minimal Board entity, basic use case, React component skeleton
+
+When implementation begins, clone the structure from STACK.md's folder trees exactly. Do not invent intermediate abstractions—build what the spec demands, no more.
+
+---
+
 ## 📋 Feature Groups and Dependencies
 
 Features are organized into 7 groups (A–G) with clear dependencies. See **FEATURES.md** for the complete matrix.
@@ -93,9 +111,11 @@ Features are organized into 7 groups (A–G) with clear dependencies. See **FEAT
 
 ---
 
-## 🎯 Specification-Driven Development Workflow
+## 🎯 Specification-Driven Development (SDD) Workflow
 
-### How This Project Uses AI
+This repo **owns the specs**. Implementation repos sync from here.
+
+### How Specs Are Created
 
 1. **Elicitation** — Claude structures Q&A to disambiguate design decisions
    - Deliverable: decision matrix (closed/open questions)
@@ -103,23 +123,29 @@ Features are organized into 7 groups (A–G) with clear dependencies. See **FEAT
 
 2. **Consolidation** — Feature spec synthesized from validated decisions
    - Deliverable: `.feature` file (Gherkin BDD, Spanish)
-   - Includes: scenarios, background, examples
+   - Includes: scenarios, background, examples, invariants
 
-3. **Review & Iteration** — Design reviewed before implementation
-   - Validation: edge cases, invariants, topology
+3. **Review & Iteration** — Design validated before implementation repos start
+   - Validation: edge cases, topology, dependencies
    - Pattern: quality-driven, not speed-driven
+
+### How Implementation Syncs
+
+- Implementation repos pull specs from `features/` here
+- Changes to spec → update `.feature` file here first, then implementation follows
+- No ad-hoc implementation changes; all changes traced back to SDD session
 
 ### AI Usage Records
 
-**Location:** `/ai-usage/MANIFEST.md` — central index with metadata for all sessions
+**Location:** `.ai-usage/manifest.json` — central index with metadata for all sessions (hidden folder)
 
 Each session includes:
 - Date, model, duration
 - Decisions made (matrix format)
-- Artefacts generated (`.feature` files, architectural notes)
+- Artefacts generated (`.feature` files, architectural notes, tech stack analysis)
 - Methodology and validation performed
 
-**Why this matters:** SDD requires explicit traceability from decision → design → spec → implementation.
+**Why this matters:** SDD requires explicit traceability from decision → design → spec → implementation. All design rationale is recorded before code begins.
 
 ---
 
@@ -208,61 +234,71 @@ Defines permissions for Claude to:
 
 **Do not edit settings unless adding new permissions.**
 
-### Future Project Configuration
+### When Implementation Begins
 
-When implementation begins:
-- `package.json` — Node.js dependencies + scripts
-- `tsconfig.json` — TypeScript configuration
-- `.env` — environment variables (if needed)
-- Jest/Cucumber configuration for test runners
+Both `arrow-maze-client` and `arrow-maze-backend` repos will include:
+- `package.json` — Node.js dependencies + scripts (React/Express, Jest, testing libraries)
+- `tsconfig.json` — TypeScript configuration (strict mode, target ES2020)
+- `.env.example` — environment variable template
+- `jest.config.js` — test runner config with ts-jest
+- `vite.config.ts` (frontend) / Express app structure (backend) — see `docs/STACK.md` for full structure
 
 ---
 
-## 🛠️ Commands (When Development Starts)
+## 🛠️ Commands (Implementation Phase)
 
-These are **templates**—exact commands TBD pending architecture finalization:
+**This is the specification/design repo.** The actual implementation will occur in two separate repos: `arrow-maze-client` and `arrow-maze-backend`. See `docs/STACK.md` for exact setup commands for each.
+
+### Design/Specification Phase (Current)
 
 ```bash
-# Install dependencies
-npm install
-
-# Run all tests
-npm run test
-
-# Run unit tests only
-npm run test:unit
-
-# Run feature/scenario tests (Gherkin)
-npm run test:features
-
-# Lint & format
-npm run lint
-npm run format
-
-# Build (if applicable)
-npm run build
-
-# Watch mode for development
-npm run dev
+# No build/test/test commands yet—focus is on Gherkin specs and design docs
+# Read feature files in ./features/
+# Review design decisions in .ai-usage/
+# Check implementation roadmap in docs/FEATURES.md
 ```
 
-**Until implementation:** no build/test/lint commands apply. Focus is on Gherkin specs and design docs.
+### Implementation Phase (Next)
+
+**Frontend (`arrow-maze-client`):**
+```bash
+npm create vite@latest arrow-maze-client -- --template react-ts
+cd arrow-maze-client
+npm install
+npm run dev           # Start dev server
+npm run test          # Run Jest tests
+npm run build         # Build for production
+```
+
+**Backend (`arrow-maze-backend`):**
+```bash
+mkdir arrow-maze-backend && cd arrow-maze-backend
+npm init -y
+npm install express typescript ts-node cors dotenv
+npm install jsonwebtoken bcryptjs pg
+npx ts-node src/main.ts    # Run backend
+npm run test                 # Run tests
+```
+
+See **`docs/STACK.md`** for the complete folder structures and sprint-level implementation plan for both repos.
 
 ---
 
 ## 📚 Important References
 
-### Primary Decision Log
-- **FEATURES.md** — feature matrix, implementation roadmap, blocking decisions
+### Primary Design Documents
+- **`docs/FEATURES.md`** — feature matrix, implementation roadmap, blocking decisions, sprint order
+- **`docs/STACK.md`** — technology stack, folder structure for client/backend, setup commands, testing patterns (crucial for implementation phase)
 
 ### Specification Files
-- **features/*.feature** — executable specs (Gherkin)
+- **`features/*.feature`** — executable specs (Gherkin, Spanish)
 - Search by feature ID: A1, A2, A3, A4, A5 (Sprints 1–2 designed; B–G pending)
 
 ### AI Usage & Design Rationale
-- **ai-usage/MANIFEST.md** — index of all AI sessions with metadata
-- **ai-usage/2026-05/** — architectural foundation decisions
-- **ai-usage/2026-06/** — game logic and scoring specs
+- **`.ai-usage/manifest.json`** — index of all AI sessions with metadata (hidden folder)
+- **`.ai-usage/2026-05/`** — architectural foundation decisions
+- **`.ai-usage/2026-06/`** — game logic and scoring specs
+- Each session file is dated and linked in manifest.json
 
 ---
 
@@ -294,26 +330,35 @@ npm run dev
 
 1. **Spanish specification language** — All features and many decision docs are in Spanish. Machine translation may cause confusion; refer to original when in doubt.
 
-2. **Pre-implementation phase** — No source code exists yet. CLAUDE.md will evolve as actual development begins.
+2. **This repo is the spec authority** — All `.feature` files, design decisions, and architecture rules live here. Implementation repos (`arrow-maze-client`, `arrow-maze-backend`) sync specs from here, not the other way around.
 
-3. **Specification-Driven** — Design decisions are frozen in Gherkin before coding begins. Request changes via structured Q&A, not ad-hoc modifications.
+3. **Spec changes require SDD sessions** — Request changes via structured Q&A (add to `.ai-usage/`), not ad-hoc edits to `.feature` files. Rationale must be documented.
 
-4. **SDD dependency chain** — A1 → A2 → A3 → A4 → A5 forms a strict dependency chain. Don't skip steps.
+4. **Strict dependency chain** — A1 → A2 → A3 → A4 → A5 is hard. Sprint order in `docs/FEATURES.md` is final; reordering requires validating impact on all downstream features.
 
-5. **Architectural constraints** — Clean Architecture + DDD is not optional; it's foundational. Every feature must respect layer boundaries.
+5. **Clean Architecture is mandatory** — Domain/Application/Infrastructure/Presentation separation is non-negotiable. Every feature must respect layer boundaries per `docs/STACK.md`.
 
 ---
 
-## 🚀 Next Steps (For Future Sessions)
+## 🚀 Next Steps
 
-1. **P15 resolution** — Finalize JSON schema for level definitions (blocks Sprint 3)
-2. **NQ4 resolution** — Choose rendering technology (CSS/Canvas/WebGL)
-3. **Feature B–G design** — Extend SDD to remaining feature groups
-4. **Setup scaffolding** — `package.json`, TypeScript config, test infrastructure
-5. **Implement A1–A5** — Core game motor using validated specs
+### Immediate (Before Implementation)
+1. **Resolve P15** — Finalize JSON schema for level definitions (blocks Sprint 3+)
+2. **Resolve NQ4** — Confirm rendering technology choice (CSS/Canvas/WebGL) for frontend components
+3. **Validate edge cases** — A1–A5 specs reviewed for determinism and invariant coverage
+
+### Implementation Phase (After approval)
+1. **Clone template structure** — Use `docs/STACK.md` folder structure exactly for both repos
+2. **Implement A1–A5** — Core game motor in frontend domain layer, following specs
+3. **Design B–G specs** — Extend SDD to remaining feature groups (rendering, levels, persistence, auth)
+4. **Setup backend API** — Express.js + PostgreSQL for auth, levels, leaderboard
+5. **Connect frontend-backend** — Use case repos adapt to API contracts from F1–F4
 
 ---
 
 **Last updated:** 2026-06-15  
 **Maintained by:** Jrgil20  
-**Reference:** `/ai-usage/MANIFEST.md` for complete design history
+**Reference:** 
+- Complete design history: `.ai-usage/manifest.json` (hidden folder)
+- Implementation roadmap: `docs/FEATURES.md`
+- Tech stack & architecture: `docs/STACK.md`
