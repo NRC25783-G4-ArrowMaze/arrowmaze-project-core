@@ -4,7 +4,7 @@
     "description": "Registro centralizado de uso de IA en desarrollo de puzzle game",
     "lastUpdated": "2026-06-15",
     "maintainedBy": "Jrgil20",
-    "totalSessions": 11,
+    "totalSessions": 12,
     "dateRange": {
       "start": "2026-05-03",
       "end": "2026-06-15"
@@ -624,6 +624,72 @@
         "pre-implementation",
         "source-of-truth"
       ]
+    },
+    {
+      "id": "2026-06-15-002",
+      "date": "2026-06-15",
+      "month": "2026-06",
+      "title": "Board Static Rendering (B1/C1)",
+      "file": "2026-06/2026-06-15_board-rendering.md",
+      "duration": {
+        "value": 60,
+        "unit": "minutes",
+        "estimated": true
+      },
+      "aiModel": "Claude (Model TBD)",
+      "tool": "claude.ai",
+      "phase": "Rendering & UI Specification",
+      "feature": "B1, C1",
+      "context": "Especificación del renderizado estático del tablero en web y Android, incluyendo posicionamiento de celdas, pintado de flechas, y mapeador de puertos a direcciones pantalla",
+      "methodology": "Spec-Driven Development (SDD) con cobertura de rendering pipeline",
+      "deliverables": [
+        "board_rendering.feature — Gherkin BDD con 14 escenarios + tabla de mapeo puerto-dirección",
+        "Especificación de dos-pass rendering: Pass 1 (dots por cells), Pass 2 (flechas arriba)",
+        "Reglas de estilo: cuerpo redondeado (SVG path), cabeza triangular, color desde ArrowData",
+        "Fórmula de viewport fitting y cellSize derivado",
+        "Port-to-direction mapping para P=4 (North/East/South/West)"
+      ],
+      "status": "completed",
+      "iterationRounds": 1,
+      "rules": [
+        "JSON level es única fuente de verdad para layout y color",
+        "Rendering en dos passes: células primero, flechas arriba",
+        "Body stroke: rounded caps/joins, 30-50% de cellSize",
+        "Head: triángulo apuntando a exitDir (puerto), color de Arrow"
+      ],
+      "keyDecisions": [
+        {
+          "decision": "JSON como single source of truth",
+          "rationale": "Determina no-inference, no-randomization, same output para cualquier renderer"
+        },
+        {
+          "decision": "Dos-pass rendering",
+          "rationale": "Claridad visual: dots de fondo, flechas encima"
+        },
+        {
+          "decision": "Port-to-direction mapping en rendering layer",
+          "rationale": "Domain agnóstico a dirección; solo renderer interpreta índices como cardinales"
+        },
+        {
+          "decision": "cellSize computado, no configurado",
+          "rationale": "Fitting automático al viewport, escalado consistente"
+        }
+      ],
+      "scopeOutOfBounds": [
+        "Animación de movimiento entre ticks",
+        "Rendering en-vuelo durante AdvanceArrowUseCase",
+        "Input de usuario (taps)",
+        "Debug overlays",
+        "Formas no-cuadradas (hex, triangular)",
+        "Theme switching"
+      ],
+      "keywords": [
+        "rendering",
+        "board-static",
+        "svg",
+        "visualization",
+        "ui-specification"
+      ]
     }
   ],
   "summary": {
@@ -685,10 +751,22 @@
         "type": "Specs + Refactoring"
       },
       {
-        "phase": "Game Logic & Gameplay",
+        "phase": "Game Logic & Specification",
         "month": "2026-06",
         "sessions": 2,
         "type": "Feature Specs"
+      },
+      {
+        "phase": "Pre-implementation Transition",
+        "month": "2026-06",
+        "sessions": 1,
+        "type": "Consolidation"
+      },
+      {
+        "phase": "Rendering & UI Specification",
+        "month": "2026-06",
+        "sessions": 1,
+        "type": "UI Feature Specs"
       }
     ],
     "byFeature": [
@@ -737,6 +815,18 @@
       },
       {
         "feature": "E2 - Active Session Management",
+        "sessions": 1,
+        "status": "completed",
+        "refactored": false
+      },
+      {
+        "feature": "B1 - Board Static Rendering",
+        "sessions": 1,
+        "status": "completed",
+        "refactored": false
+      },
+      {
+        "feature": "C1 - Board Static Rendering (Variant)",
         "sessions": 1,
         "status": "completed",
         "refactored": false
