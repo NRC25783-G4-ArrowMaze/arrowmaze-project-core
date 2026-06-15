@@ -6,11 +6,11 @@
 
 | # | Feature | Depende de |
 |---|---|---|
-| [A1](https://gist.github.com/Jrgil20/2bb71884800c2a1e807a13fb8042160c) | Inicialización y representación del tablero como grafo de nodos en memoria | — |
-| [A2](https://gist.github.com/Jrgil20/2dbce87402cc7d1abfbcf2d35aa2ae47) | Definición y colocación de entidades como listas enlazadas sobre el grafo | A1 |
-| [A3](https://gist.github.com/Jrgil20/40ae7d2bc4bdceb19c1cad8046911cbd) | Resolución y desplazamiento de entidades direccionales | A1, A2 |
-| [A4](https://gist.github.com/Jrgil20/7d7547a57b712f57d0b513a4f6fca658) | Detección de victoria por vaciado del tablero y de derrota por agotamiento de movimientos disponibles | A3 |
-| [A5](https://gist.github.com/Jrgil20/5462e7cca6af4979b228e448f2b76f8e) | Cálculo y composición de la puntuación por sesión de juego | A4 |
+| [A1](../features/A1-board_graph.feature) | Inicialización y representación del tablero como grafo de nodos en memoria | — |
+| [A2](../features/A2-arrow_placement.feature) | Definición y colocación de entidades como listas enlazadas sobre el grafo | A1 |
+| [A3](../features/A3-arrow_movement.feature) | Resolución y desplazamiento de entidades direccionales | A1, A2 |
+| [A4](../features/A4-game_end_detection.feature) | Detección de victoria por vaciado del tablero y de derrota por agotamiento de movimientos disponibles | A3 |
+| [A5](../features/A5-game_session_scoring.feature) | Cálculo y composición de la puntuación por sesión de juego | A4 |
 
 ---
 
@@ -48,8 +48,8 @@
 
 | # | Feature | Depende de |
 |---|---|---|
-| [E1](https://gist.github.com/SantiagoChirinos/fad0906673eb71cf1f8e1453820bb76f) | Registro e inicio de sesión de usuario | — |
-| [E2](https://gist.github.com/SantiagoChirinos/626ceaeb54c93371cfc248bc9ac6a1e0) | Gestión de sesión activa y renovación de credenciales JWT | E1 |
+| E1 | Registro e inicio de sesión de usuario | — |
+| E2 | Gestión de sesión activa y renovación de credenciales JWT | E1 |
 
 ---
 
@@ -57,7 +57,7 @@
 
 | # | Feature | Depende de |
 |---|---|---|
-| [F1](https://gist.github.com/SantiagoChirinos/ce6673f1fcd6cc7368b2e51a448cfef7) | API de autenticación de usuarios (registro, login, refresh) | — |
+| F1 | API de autenticación de usuarios (registro, login, refresh) | — |
 | F2 | API de distribución y actualización remota de definiciones de niveles | Contrato C2 |
 | F3 | API de recepción y consulta del progreso del jugador | F1 |
 | F4 | Sistema de clasificación por nivel (leaderboard) | F1, F3 |
