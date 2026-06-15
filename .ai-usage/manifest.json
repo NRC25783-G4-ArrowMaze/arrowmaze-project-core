@@ -1,0 +1,431 @@
+{
+  "metadata": {
+    "project": "Arrow Maze",
+    "description": "Registro centralizado de uso de IA en desarrollo de puzzle game",
+    "lastUpdated": "2026-06-15",
+    "maintainedBy": "Jrgil20",
+    "totalSessions": 6,
+    "dateRange": {
+      "start": "2026-05-04",
+      "end": "2026-06-13"
+    },
+    "aiTools": [
+      "Claude (Sonnet 4.5, Sonnet 4.6, Opus 4.7)",
+      "Gemini"
+    ]
+  },
+  "sessions": [
+    {
+      "id": "2026-05-04-001",
+      "date": "2026-05-04",
+      "month": "2026-05",
+      "title": "Project Initialization & Strategy",
+      "file": "2026-05/2026-05-04_claude-project-initialization.md",
+      "duration": {
+        "value": 20,
+        "unit": "minutes",
+        "estimated": true
+      },
+      "aiModel": "Claude 4.6 (adaptive thinking mode)",
+      "tool": "claude.ai",
+      "phase": "Foundation & Architecture",
+      "feature": null,
+      "context": "Establecimiento de estrategia base y estructura organizacional",
+      "deliverables": [
+        "Estrategia de organización para colaboración fluida",
+        "Reglas de conventional commits",
+        "Protección de ramas y branching strategy",
+        "Repositorio privado de decisiones"
+      ],
+      "status": "completed",
+      "humanContribution": "Diseño de estrategia organizacional, decisiones de estructura",
+      "keywords": [
+        "organization",
+        "git-strategy",
+        "conventional-commits",
+        "branching"
+      ]
+    },
+    {
+      "id": "2026-05-31-001",
+      "date": "2026-05-31",
+      "month": "2026-05",
+      "title": "Arrow Placement Feature (A1)",
+      "file": "2026-05/2026-05-31_arrow-placement.md",
+      "duration": {
+        "value": 15,
+        "unit": "minutes",
+        "estimated": true
+      },
+      "aiModel": "Claude Sonnet 4.6",
+      "tool": "claude.ai",
+      "phase": "Foundation & Architecture",
+      "feature": "A2",
+      "context": "Definición y colocación de flechas como listas enlazadas sobre el grafo",
+      "deliverables": [
+        "arrow_placement.feature — Gherkin BDD con 4 bloques temáticos y 22 escenarios",
+        "Validación de colocación incremental y dirección de salida explícita"
+      ],
+      "status": "completed",
+      "modifications": "none",
+      "keyDecisions": [
+        {
+          "decision": "Flecha mínima válida = solo cabeza",
+          "rationale": "Simplifica validación de estructura"
+        },
+        {
+          "decision": "Colocación incremental restringida",
+          "rationale": "Garantiza integridad de lista enlazada"
+        }
+      ],
+      "keywords": [
+        "arrow",
+        "placement",
+        "linked-list",
+        "validation"
+      ]
+    },
+    {
+      "id": "2026-05-31-002",
+      "date": "2026-05-31",
+      "month": "2026-05",
+      "title": "Arrow Movement Refactoring & Review (A3)",
+      "file": "2026-05/2026-05-31_arrow-movement-review.md",
+      "duration": {
+        "value": 45,
+        "unit": "minutes",
+        "estimated": true
+      },
+      "aiModel": "Claude Sonnet 4.6",
+      "tool": "claude.ai",
+      "phase": "Foundation & Architecture",
+      "feature": "A3",
+      "context": "Revisión crítica y reescritura de especificación de movimiento simultáneo de flechas",
+      "deliverables": [
+        "Reescritura 90% de especificación Gherkin",
+        "23 cambios en ~15 escenarios",
+        "Validación exhaustiva de tablas de ticks y topología"
+      ],
+      "status": "completed",
+      "pattern": "Quality-driven iteration (mejor resultado, no más rápido)",
+      "changes": {
+        "eliminated": 5,
+        "corrected": 10,
+        "rewritten": 3,
+        "expanded": 2,
+        "total": 23
+      },
+      "changeDetails": [
+        "Eliminados: 5 escenarios (duplicados y malformados)",
+        "Corregidos: 10 escenarios (tick tables, topología, nomenclatura)",
+        "Reescritos: 3 escenarios (orientación visual, estado de colisión, flecha curva)",
+        "Expandidos: 2 escenarios (tablas tick-by-tick explícitas)"
+      ],
+      "keywords": [
+        "arrow-movement",
+        "simultaneous-movement",
+        "tick-tables",
+        "topology",
+        "collision"
+      ]
+    },
+    {
+      "id": "2026-05-31-003",
+      "date": "2026-05-31",
+      "month": "2026-05",
+      "title": "Board Graph Refactoring (A1)",
+      "file": "2026-05/2026-05-31_board-graph-feature.md",
+      "duration": {
+        "value": 30,
+        "unit": "minutes",
+        "estimated": true
+      },
+      "aiModel": "Gemini",
+      "tool": "Gemini AI",
+      "phase": "Foundation & Architecture",
+      "feature": "A1",
+      "context": "Refactorización topológica y matemática del grafo de tablero",
+      "deliverables": [
+        "Fórmula de aritmética modular: (puertoEntrada + Math.floor(P / 2)) % P",
+        "Refactorización de entidad Cell: de Map<String, Side> a arrays indexados",
+        "board_graph.feature — archivo Gherkin completamente refactorizado"
+      ],
+      "status": "completed",
+      "modifications": "none",
+      "keyDecisions": [
+        {
+          "decision": "Eliminación de Magic Strings (cardinales)",
+          "rationale": "Scalabilidad y consistencia"
+        },
+        {
+          "decision": "Adopción de aritmética modular",
+          "rationale": "Complejidad O(1)"
+        },
+        {
+          "decision": "Desacoplamiento geométrico",
+          "rationale": "Agnóstico a forma visual (cuadrado, hexágono, etc.)"
+        }
+      ],
+      "formula": "(puertoEntrada + Math.floor(P / 2)) % P",
+      "formulaExplanation": "Calcula puerto opuesto en O(1)",
+      "keywords": [
+        "board-graph",
+        "modular-arithmetic",
+        "topology",
+        "refactoring"
+      ]
+    },
+    {
+      "id": "2026-06-13-001",
+      "date": "2026-06-13",
+      "month": "2026-06",
+      "title": "Game Session Scoring (A5)",
+      "file": "2026-06/2026-06-13_game-session-scoring.md",
+      "duration": {
+        "value": 45,
+        "unit": "minutes",
+        "estimated": true
+      },
+      "aiModel": "Claude Sonnet 4.5",
+      "tool": "claude.ai",
+      "phase": "Game Logic & Specification",
+      "feature": "A5",
+      "context": "Diseño y especificación del cálculo de puntuación en GameSession",
+      "methodology": "Spec-Driven Development (SDD) con Q&A estructurada",
+      "deliverables": [
+        "game-session-scoring.feature — Gherkin BDD con 14 escenarios + tabla de 10 ejemplos",
+        "Matriz de 14 decisiones cerradas (0 pendientes)",
+        "Fórmula de cálculo validada y consolidada"
+      ],
+      "status": "ready_for_implementation",
+      "iterationRounds": 3,
+      "iterationPhases": [
+        "Elicitación",
+        "Desambiguación",
+        "Confirmación scope"
+      ],
+      "decisions": {
+        "total": 14,
+        "closed": 12,
+        "outOfScope": 2
+      },
+      "keyDecisions": [
+        {
+          "id": 1,
+          "decision": "Score como VO inmutable del Domain",
+          "rationale": "Regla de negocio pura, reemplazable sin mutable internals"
+        },
+        {
+          "id": 6,
+          "decision": "Penalización lineal",
+          "rationale": "Simple, predecible, escala gradualmente"
+        },
+        {
+          "id": 7,
+          "decision": "Reset de racha con cualquier éxito",
+          "rationale": "Perdonar después de error, reset psicológico"
+        },
+        {
+          "id": 8,
+          "decision": "Unidad de tiempo: ticks",
+          "rationale": "Determinista, no depende del UI ni sistema operativo"
+        },
+        {
+          "id": 9,
+          "decision": "Clamp negativo a 0",
+          "rationale": "Usuario ganó pero con errores → score ≥ 0"
+        }
+      ],
+      "formula": "finalScore = max(0, max(0, BASE − ticksUsed × DECAY) − Σ(BASE_PENALTY × consecutiveFailsAt(i)) + (flawlessVictory ? FLAWLESS_BONUS : 0))",
+      "constants": {
+        "BASE": 1000,
+        "DECAY": 2,
+        "BASE_PENALTY": 10,
+        "FLAWLESS_BONUS": 500
+      },
+      "scopeOutOfBounds": [
+        "Scaling por nivel",
+        "Persistencia histórica (high score)",
+        "Tipos de constantes inyectables"
+      ],
+      "keywords": [
+        "scoring",
+        "game-session",
+        "formula",
+        "sdd",
+        "decision-matrix"
+      ]
+    },
+    {
+      "id": "2026-06-13-002",
+      "date": "2026-06-13",
+      "month": "2026-06",
+      "title": "Game End Detection (A4)",
+      "file": "2026-06/2026-06-13_a4-game-end-detection.md",
+      "duration": {
+        "value": 30,
+        "unit": "minutes",
+        "estimated": true
+      },
+      "aiModel": "Claude Opus 4.7",
+      "tool": "claude.ai",
+      "phase": "Game Logic & Specification",
+      "feature": "A4",
+      "context": "Detección de victoria y derrota, consumo de movimientos",
+      "methodology": "Iterative design review con structured elicitation",
+      "deliverables": [
+        "Diseño arquitectónico de GameSession aggregate (Domain)",
+        "PlayMoveUseCase orchestrator (Application layer)",
+        "Extension de LevelData con campo allowedMoves",
+        "a4-game-end-detection.feature — Gherkin BDD con 12 escenarios + 1 outline + tabla"
+      ],
+      "status": "architecture_defined",
+      "iterationRounds": 2,
+      "keyDecisions": [
+        {
+          "decision": "GameSession como nuevo aggregate root",
+          "details": "Sin contener Board o Arrow[]",
+          "rationale": "Separación de responsabilidades"
+        },
+        {
+          "decision": "PlayMoveUseCase como wrapper",
+          "details": "De AdvanceArrowUseCase",
+          "rationale": "Preserva SRP (Single Responsibility Principle)"
+        },
+        {
+          "decision": "Consumo de movimiento: blocked=SÍ, system_error=NO",
+          "details": "blocked outcome consume move; success=false por error NO consume",
+          "rationale": "Semántica clara de errores vs outcomes"
+        },
+        {
+          "decision": "Victoria tiene precedencia sobre derrota",
+          "details": "En último movimiento (empate)",
+          "rationale": "Lógica determinista, sin ambigüedad"
+        },
+        {
+          "decision": "evaluateStatus() es idempotente",
+          "details": "En estados terminales siempre retorna mismo resultado",
+          "rationale": "Garantiza consistencia en llamadas múltiples"
+        }
+      ],
+      "keywords": [
+        "game-end-detection",
+        "move-consumption",
+        "victory",
+        "defeat",
+        "aggregate-root"
+      ]
+    }
+  ],
+  "summary": {
+    "byDuration": [
+      {
+        "duration": "15 min",
+        "count": 1,
+        "examples": [
+          "Arrow Placement"
+        ]
+      },
+      {
+        "duration": "~20 min",
+        "count": 1,
+        "examples": [
+          "Project Initialization"
+        ]
+      },
+      {
+        "duration": "~30 min",
+        "count": 2,
+        "examples": [
+          "Board Graph",
+          "Game End Detection"
+        ]
+      },
+      {
+        "duration": "~45 min",
+        "count": 2,
+        "examples": [
+          "Arrow Movement",
+          "Game Session Scoring"
+        ]
+      }
+    ],
+    "byAiTool": [
+      {
+        "tool": "Claude.ai",
+        "sessions": 5,
+        "models": [
+          "Sonnet 4.6",
+          "Sonnet 4.5",
+          "Opus 4.7"
+        ]
+      },
+      {
+        "tool": "Gemini AI",
+        "sessions": 1,
+        "models": [
+          "Gemini"
+        ]
+      }
+    ],
+    "byPhase": [
+      {
+        "phase": "Foundation & Architecture",
+        "month": "2026-05",
+        "sessions": 4,
+        "type": "Specs + Refactoring"
+      },
+      {
+        "phase": "Game Logic & Gameplay",
+        "month": "2026-06",
+        "sessions": 2,
+        "type": "Feature Specs"
+      }
+    ],
+    "byFeature": [
+      {
+        "feature": "A1 - Board Graph",
+        "sessions": 1,
+        "status": "completed",
+        "refactored": true
+      },
+      {
+        "feature": "A2 - Arrow Placement",
+        "sessions": 1,
+        "status": "completed",
+        "refactored": false
+      },
+      {
+        "feature": "A3 - Arrow Movement",
+        "sessions": 1,
+        "status": "completed",
+        "refactored": true,
+        "changeIntensity": "high"
+      },
+      {
+        "feature": "A4 - Game End Detection",
+        "sessions": 1,
+        "status": "architecture_defined",
+        "refactored": false
+      },
+      {
+        "feature": "A5 - Game Session Scoring",
+        "sessions": 1,
+        "status": "ready_for_implementation",
+        "refactored": false
+      }
+    ]
+  },
+  "navigation": {
+    "byDate": "Las sesiones están organizadas en carpetas 2026-05/ y 2026-06/",
+    "byFeature": "Buscar por ID A1, A2, A3, A4, A5 en el array 'sessions'",
+    "byArtifact": "Cada sesión lista sus 'deliverables'",
+    "byDecision": "Campo 'keyDecisions' en cada sesión con razonamiento"
+  },
+  "references": {
+    "decisionLog": "FEATURES.md en raíz del proyecto",
+    "bddSpecifications": "features/*.feature (Gherkin en español)",
+    "projectGuide": "CLAUDE.md en raíz del proyecto",
+    "aiUsageReports": "Archivos .md en carpeta ai-usage/"
+  }
+}
