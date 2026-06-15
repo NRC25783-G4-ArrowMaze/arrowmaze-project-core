@@ -4,7 +4,7 @@
     "description": "Registro centralizado de uso de IA en desarrollo de puzzle game",
     "lastUpdated": "2026-06-15",
     "maintainedBy": "Jrgil20",
-    "totalSessions": 10,
+    "totalSessions": 11,
     "dateRange": {
       "start": "2026-05-03",
       "end": "2026-06-15"
@@ -252,6 +252,62 @@
       "id": "2026-05-30-001",
       "date": "2026-05-30",
       "month": "2026-05",
+      "title": "User Registration & Login (E1)",
+      "file": "2026-05/2026-05-30_register-and-login.md",
+      "duration": {
+        "value": 20,
+        "unit": "minutes",
+        "estimated": true
+      },
+      "aiModel": "Gemini 3.1 Pro",
+      "tool": "Gemini AI",
+      "phase": "Foundation & Architecture",
+      "feature": "E1",
+      "context": "Diseño de registro de usuarios e inicio de sesión con validación de credenciales y gestión de tokens JWT",
+      "deliverables": [
+        "register_and_login.feature — Gherkin BDD con 3 bloques y 10 escenarios",
+        "Cobertura de: creación de cuenta, validación de credenciales, login/logout",
+        "Invariantes de seguridad: contraseñas hasheadas, tokens vinculados a cuentas",
+        "Validación de políticas: email RFC 5322, password mínimo 8 chars + 1 número + 1 mayúscula"
+      ],
+      "status": "completed",
+      "methodology": "Spec-Driven Development (SDD) con patrón iterativo-correctivo",
+      "iterationRounds": 1,
+      "keyDecisions": [
+        {
+          "decision": "Registro basado en email (sin username)",
+          "rationale": "Práctica estándar, mecanismo de recuperación, garantía de unicidad"
+        },
+        {
+          "decision": "Política de contraseña: 8 chars + 1 número + 1 mayúscula",
+          "rationale": "Balance entre seguridad y usabilidad"
+        },
+        {
+          "decision": "Rechazo de bloqueo de cuentas tras intentos fallidos",
+          "rationale": "Simplicidad, enfoque en JWT y gestión de sesiones"
+        },
+        {
+          "decision": "Rechazo de límite de sesiones concurrentes",
+          "rationale": "Flexibilidad, permitir múltiples clientes por usuario"
+        }
+      ],
+      "teamContribution": "Rechazo del sistema de bloqueo de cuentas, rechazo de límite de sesiones concurrentes, iteración en políticas de validación",
+      "keywords": [
+        "registration",
+        "login",
+        "authentication",
+        "user-identity",
+        "jwt",
+        "credentials",
+        "password-validation",
+        "email-format",
+        "session-token"
+      ]
+    },
+    {
+      "id": "2026-05-30-003",
+      "date": "2026-05-30",
+      "month": "2026-05",
       "title": "API Users Authentication & Session Management (F1)",
       "file": "2026-05/2026-05-30_api-users-auth.md",
       "duration": {
@@ -306,7 +362,7 @@
       ]
     },
     {
-      "id": "2026-05-30-002",
+      "id": "2026-05-30-004",
       "date": "2026-05-30",
       "month": "2026-05",
       "title": "Active Session Management (E2)",
@@ -636,6 +692,12 @@
       }
     ],
     "byFeature": [
+      {
+        "feature": "E1 - User Registration & Login",
+        "sessions": 1,
+        "status": "completed",
+        "refactored": false
+      },
       {
         "feature": "A1 - Board Graph",
         "sessions": 1,

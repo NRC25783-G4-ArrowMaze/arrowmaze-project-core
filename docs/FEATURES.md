@@ -48,7 +48,7 @@
 
 | # | Feature | Depende de |
 |---|---|---|
-| E1 | Registro e inicio de sesión de usuario | — |
+| [E1](../features/E1-register_and_login.feature) | Registro e inicio de sesión de usuario | — |
 | [E2](../features/E2-active_session_management.feature) | Gestión de sesión activa y renovación de credenciales JWT | E1 |
 
 ---
