@@ -4,10 +4,10 @@
     "description": "Registro centralizado de uso de IA en desarrollo de puzzle game",
     "lastUpdated": "2026-06-15",
     "maintainedBy": "Jrgil20",
-    "totalSessions": 8,
+    "totalSessions": 9,
     "dateRange": {
       "start": "2026-05-03",
-      "end": "2026-06-13"
+      "end": "2026-06-15"
     },
     "aiTools": [
       "Claude (Sonnet 4.5, Sonnet 4.6, Opus 4.7)",
@@ -246,6 +246,63 @@
         "modular-arithmetic",
         "topology",
         "refactoring"
+      ]
+    },
+    {
+      "id": "2026-05-30-001",
+      "date": "2026-05-30",
+      "month": "2026-05",
+      "title": "API Users Authentication & Session Management (F1)",
+      "file": "2026-05/2026-05-30_api-users-auth.md",
+      "duration": {
+        "value": 18,
+        "unit": "minutes",
+        "estimated": true
+      },
+      "aiModel": "Gemini 3.1 Pro",
+      "tool": "Gemini AI",
+      "phase": "Foundation & Architecture",
+      "feature": "F1",
+      "context": "Diseño de API REST para autenticación de usuarios, registro, login y logout con arquitectura JWT de token único (7 días)",
+      "deliverables": [
+        "api_users_auth.feature — Gherkin BDD con 3 bloques y 7 escenarios",
+        "Cobertura de endpoints: POST /register, POST /login, POST /logout",
+        "Validación de errores: validación, conflicto de email, credenciales inválidas",
+        "Especificación de estructura JWT y Bearer token"
+      ],
+      "status": "completed",
+      "methodology": "Spec-Driven Development (SDD) con patrón iterativo-correctivo",
+      "iterationRounds": 1,
+      "keyDecisions": [
+        {
+          "decision": "Token único por sesión con 7 días de expiración",
+          "rationale": "Simplicidad, práctica estándar JWT"
+        },
+        {
+          "decision": "Rechazo de emails duplicados",
+          "rationale": "Integridad de datos, unicidad de usuario"
+        },
+        {
+          "decision": "Error genérico en login fallido",
+          "rationale": "Seguridad, prevención de enumeración de emails"
+        },
+        {
+          "decision": "Blacklist de tokens en logout",
+          "rationale": "Terminación explícita de sesión"
+        }
+      ],
+      "teamContribution": "Rechazo de comportamientos no alineados con requerimientos previos, iteración en redacción de escenarios, eliminación de bloques redundantes con features anteriores",
+      "keywords": [
+        "api",
+        "authentication",
+        "jwt",
+        "session",
+        "user-management",
+        "rest",
+        "bearer-token",
+        "registration",
+        "login",
+        "logout"
       ]
     },
     {
@@ -551,6 +608,12 @@
         "feature": "A5 - Game Session Scoring",
         "sessions": 1,
         "status": "ready_for_implementation",
+        "refactored": false
+      },
+      {
+        "feature": "F1 - API Users Authentication",
+        "sessions": 1,
+        "status": "completed",
         "refactored": false
       }
     ]

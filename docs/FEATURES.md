@@ -57,7 +57,7 @@
 
 | # | Feature | Depende de |
 |---|---|---|
-| F1 | API de autenticación de usuarios (registro, login, refresh) | — |
+| [F1](../features/F1-api_users_auth.feature) | API de autenticación de usuarios (registro, login, logout con JWT) | — |
 | F2 | API de distribución y actualización remota de definiciones de niveles | Contrato C2 |
 | F3 | API de recepción y consulta del progreso del jugador | F1 |
 | F4 | Sistema de clasificación por nivel (leaderboard) | F1, F3 |
