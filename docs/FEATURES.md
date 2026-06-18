@@ -29,7 +29,7 @@
 | # | Feature | Depende de |
 |---|---|---|
 | C1 | Máquina de estados del ciclo de vida de una partida | A4 |
-| C2 | Carga y deserialización de definiciones de niveles desde archivos locales | A1, A2 |
+| [C2](../features/C2-carga-deserializacion-niveles.feature) | Carga y deserialización de definiciones de niveles desde archivos locales | A1, A2 |
 | C3 | Pantalla de selección de niveles con indicador de progreso y control de desbloqueo | C2, D1 |
 | C4 | Pantallas de soporte del juego (inicio, victoria, derrota, pausa, ajustes) | C1 |
 
