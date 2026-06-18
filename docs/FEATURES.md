@@ -20,7 +20,7 @@
 |---|---|---|
 | [B1](../features/B1-board-rendering.feature) | Renderizado visual del tablero y sus entidades sobre el grafo de nodos | A1, A2 |
 | [B2](../features/B2-animation_feedback.feature) | Sistema de animaciones y retroalimentación visual de acciones del motor | A3, B1 |
-| B3 | Captura y enrutamiento de la entrada del jugador hacia el motor de juego | B1 |
+| [B3](../features/B3-input-routing.feature) | Captura y enrutamiento de la entrada del jugador hacia el motor de juego | B1 |
 
 ---
 
@@ -29,7 +29,7 @@
 | # | Feature | Depende de |
 |---|---|---|
 | C1 | Máquina de estados del ciclo de vida de una partida | A4 |
-| C2 | Carga y deserialización de definiciones de niveles desde archivos locales | A1, A2 |
+| [C2](../features/C2-carga-deserializacion-niveles.feature) | Carga y deserialización de definiciones de niveles desde archivos locales | A1, A2 |
 | C3 | Pantalla de selección de niveles con indicador de progreso y control de desbloqueo | C2, D1 |
 | C4 | Pantallas de soporte del juego (inicio, victoria, derrota, pausa, ajustes) | C1 |
 
@@ -58,7 +58,7 @@
 | # | Feature | Depende de |
 |---|---|---|
 | [F1](../features/F1-api_users_auth.feature) | API de autenticación de usuarios (registro, login, logout con JWT) | — |
-| F2 | API de distribución y actualización remota de definiciones de niveles | Contrato C2 |
+| [F2](../features/F2-level-api-distribution.feature) | API de distribución y actualización remota de definiciones de niveles | Contrato C2 |
 | F3 | API de recepción y consulta del progreso del jugador | F1 |
 | F4 | Sistema de clasificación por nivel (leaderboard) | F1, F3 |
 
