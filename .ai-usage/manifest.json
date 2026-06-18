@@ -4,7 +4,7 @@
     "description": "Registro centralizado de uso de IA en desarrollo de puzzle game",
     "lastUpdated": "2026-06-18",
     "maintainedBy": "Jrgil20",
-    "totalSessions": 13,
+    "totalSessions": 14,
     "dateRange": {
       "start": "2026-05-03",
       "end": "2026-06-18"
@@ -757,6 +757,67 @@
         "interaction-model",
         "sdd"
       ]
+    },
+    {
+      "id": "2026-06-18-002",
+      "date": "2026-06-18",
+      "month": "2026-06",
+      "title": "B2 Animation Review & Producer-Contract Refinement (B2)",
+      "file": "2026-06/2026-06-18_B2-animation-review-refinement.md",
+      "duration": {
+        "value": 30,
+        "unit": "minutes",
+        "estimated": true
+      },
+      "aiModel": "Claude Opus 4.8",
+      "tool": "claude-code",
+      "phase": "Rendering & UI Specification",
+      "feature": "B2",
+      "context": "Revisión crítica y reescritura de la spec B2 contra A3 y B1: formalización del contrato Transition requerido al dominio, cierre de la decisión D1 (drop vs buffer) y eliminación de ambigüedades, manteniendo altitud de spec (parámetros afinables delegados al plan de implementación)",
+      "methodology": "Quality-driven review (igual patrón que la revisión de A3)",
+      "deliverables": [
+        "B2-animation_feedback.feature — reescrito (concepto Transition, D1→DROP, tick de salida híbrido, stagger N-flechas, snapshot pre-estado, caso all-blocked)",
+        "Reporte de revisión con matriz de 6 hallazgos (2 🔴, 3 🟡, 1 🟢) y su resolución",
+        "Registro de dependencia abierta: A3 debe exponer el record Transition"
+      ],
+      "status": "completed",
+      "refactored": true,
+      "iterationRounds": 1,
+      "keyDecisions": [
+        {
+          "id": "D1-refined",
+          "decision": "Input mid-window: DROP (no buffer)",
+          "details": "La entrada durante la ventana de animación se descarta y no se reproduce",
+          "rationale": "Determinista y simple para un modelo BLOCKING; elimina ambigüedad 'rejected or buffered'"
+        },
+        {
+          "decision": "Transition {preOccupation, postOccupation, outcome} armada por B2 (sin tocar A3)",
+          "details": "Constructo de presentación: B2 snapshotea pre-ocupación como caller, lee post-ocupación y clasifica el outcome (blocked='ArrowBlocked' ya existente, exited=encogió/se liberó, advanced=cambió con misma longitud)",
+          "rationale": "Clean Architecture: la capa externa se adapta al dominio; A3 queda intacto"
+        },
+        {
+          "decision": "preOccupation es un snapshot pre-mutación",
+          "details": "La animación reproduce desde el snapshot capturado, nunca desde celdas vivas/liberadas",
+          "rationale": "Evita el race de leer celdas ya puestas a null"
+        },
+        {
+          "decision": "Tick de salida híbrido explícito",
+          "details": "En un tick 'exited' los segmentos traseros siguen avanzando una celda mientras la cabeza se desvanece",
+          "rationale": "El enum mutuamente excluyente no podía expresar el caso de flecha larga"
+        }
+      ],
+      "openDependencies": [],
+      "architecturalNotes": "A3 NO se modifica. La Transition es un constructo de presentación que B2 arma por observación del estado que A3 ya expone, respetando la regla de dependencias de Clean Architecture.",
+      "teamContribution": "Autorizó la reescritura manteniendo altitud de spec (parámetros afinables al plan de implementación); validó resolver D1 por la IA con derecho a veto",
+      "keywords": [
+        "review",
+        "refinement",
+        "animation",
+        "producer-contract",
+        "transition-record",
+        "determinism",
+        "sdd"
+      ]
     }
   ],
   "summary": {
@@ -834,7 +895,7 @@
       {
         "phase": "Rendering & UI Specification",
         "month": "2026-06",
-        "sessions": 2,
+        "sessions": 3,
         "type": "UI Feature Specs"
       }
     ],
@@ -902,9 +963,9 @@
       },
       {
         "feature": "B2 - Engine Action Animation and Visual Feedback",
-        "sessions": 1,
+        "sessions": 2,
         "status": "completed",
-        "refactored": false,
+        "refactored": true,
         "decisionsCount": 4
       }
     ]
