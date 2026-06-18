@@ -2,9 +2,9 @@
   "metadata": {
     "project": "Arrow Maze",
     "description": "Registro centralizado de uso de IA en desarrollo de puzzle game",
-    "lastUpdated": "2026-06-18",
+    "lastUpdated": "2026-06-17",
     "maintainedBy": "Jrgil20",
-    "totalSessions": 14,
+    "totalSessions": 15,
     "dateRange": {
       "start": "2026-05-03",
       "end": "2026-06-18"
@@ -759,6 +759,65 @@
       ]
     },
     {
+      "id": "2026-06-17-001",
+      "date": "2026-06-17",
+      "month": "2026-06",
+      "title": "Player Input Capture & Routing (B3)",
+      "file": "2026-06/2026-06-17_b3-input-routing.md",
+      "duration": {
+        "value": 25,
+        "unit": "minutes",
+        "estimated": true
+      },
+      "aiModel": "Claude Opus 4.8",
+      "tool": "claude-code",
+      "phase": "Rendering & UI Specification",
+      "feature": "B3",
+      "context": "Especificación del adaptador de entrada que captura toques/clics sobre flechas y enruta PlayMoveCommand al motor sin contener reglas de juego",
+      "methodology": "Spec-Driven Development (SDD) con Q&A estructurada (4 decisiones cerradas por el equipo)",
+      "deliverables": [
+        "B3-input-routing.feature — Gherkin (inglés) con 7 Rules y 16 Scenarios",
+        "Reporte SDD 2026-06-17_b3-input-routing.md",
+        "Actualización de docs/FEATURES.md con enlace B3",
+        "Entry en manifest.json (esta sesión)"
+      ],
+      "status": "completed",
+      "iterationRounds": 1,
+      "iterationPhases": [
+        "Elicitación (Q&A 4 decisiones)",
+        "Consolidación de spec"
+      ],
+      "keyDecisions": [
+        {
+          "decision": "Idioma del .feature: inglés",
+          "rationale": "Consistencia con B1, su dependencia directa del grupo B"
+        },
+        {
+          "decision": "Selección por toda la flecha (cuerpo + cabeza)",
+          "rationale": "Mayor área táctil para Capacitor/Android"
+        },
+        {
+          "decision": "Un toque = un movimiento (activación inmediata)",
+          "rationale": "Fluido, sin paso de confirmación; adecuado para puzzle de ritmo"
+        },
+        {
+          "decision": "Input-lock propiedad de B3 durante in-flight",
+          "rationale": "Evita doble consumo de movimientos; animación queda en B2"
+        }
+      ],
+      "architecturalNotes": "B3 es presentación pura: InputAdapter traduce coordenada→celda→Arrow y emite PlayMoveCommand{ arrowId }. Cero lógica de reglas. Resolución renderer-agnostic (inverso del layout B1). Mouse y touch unificados como tap abstracto.",
+      "teamContribution": "Cuatro decisiones de diseño cerradas por el equipo aceptando recomendaciones de la IA en Q&A estructurada",
+      "keywords": [
+        "input",
+        "player-interaction",
+        "tap",
+        "routing",
+        "adapter",
+        "presentation-layer",
+        "sdd"
+      ]
+    },
+    {
       "id": "2026-06-18-002",
       "date": "2026-06-18",
       "month": "2026-06",
@@ -966,6 +1025,13 @@
         "sessions": 2,
         "status": "completed",
         "refactored": true,
+        "decisionsCount": 4
+      },
+      {
+        "feature": "B3 - Player Input Capture & Routing",
+        "sessions": 1,
+        "status": "completed",
+        "refactored": false,
         "decisionsCount": 4
       }
     ]
