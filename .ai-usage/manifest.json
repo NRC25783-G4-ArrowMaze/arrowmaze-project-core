@@ -2,15 +2,15 @@
   "metadata": {
     "project": "Arrow Maze",
     "description": "Registro centralizado de uso de IA en desarrollo de puzzle game",
-    "lastUpdated": "2026-06-15",
+    "lastUpdated": "2026-06-18",
     "maintainedBy": "Jrgil20",
-    "totalSessions": 12,
+    "totalSessions": 13,
     "dateRange": {
       "start": "2026-05-03",
-      "end": "2026-06-15"
+      "end": "2026-06-18"
     },
     "aiTools": [
-      "Claude (Sonnet 4.5, Sonnet 4.6, Opus 4.7)",
+      "Claude (Sonnet 4.5, Sonnet 4.6, Opus 4.7, Opus 4.8)",
       "Gemini"
     ]
   },
@@ -690,6 +690,73 @@
         "visualization",
         "ui-specification"
       ]
+    },
+    {
+      "id": "2026-06-18-001",
+      "date": "2026-06-18",
+      "month": "2026-06",
+      "title": "Engine Action Animation and Visual Feedback (B2)",
+      "file": "2026-06/2026-06-18_B2-animation-sdd-session.md",
+      "duration": {
+        "value": 35,
+        "unit": "minutes",
+        "estimated": true
+      },
+      "aiModel": "Claude Opus 4.8",
+      "tool": "claude.ai",
+      "phase": "Rendering & UI Specification",
+      "feature": "B2",
+      "context": "Especificación del sistema de animaciones y retroalimentación visual de acciones del motor (movimiento, colisión, salida/destrucción de flechas)",
+      "methodology": "Spec-Driven Development (SDD) con Q&A estructurado",
+      "deliverables": [
+        "B2-animation_feedback.feature — Gherkin BDD con 5 Rules y 15 Scenarios (212 líneas)",
+        "Actualización de docs/FEATURES.md con enlace B2",
+        "4 decisiones clave documentadas (D1-D4) con traceability"
+      ],
+      "status": "completed",
+      "iterationRounds": 2,
+      "iterationPhases": [
+        "Elicitation",
+        "Refinamiento iterativo"
+      ],
+      "keyDecisions": [
+        {
+          "id": "D1",
+          "decision": "Control Model (Blocking)",
+          "details": "Input y next tick bloqueados durante ventana de animación",
+          "rationale": "Evita race conditions, mantiene sincronía con dominio"
+        },
+        {
+          "id": "D2",
+          "decision": "Collision Feedback (Recoil-only)",
+          "details": "Arrow bloqueada retrocede hacia puerto y vuelve al ancla",
+          "rationale": "Visual feedback claro sin complejidad excesiva (sin flash/shake)"
+        },
+        {
+          "id": "D3",
+          "decision": "Exit/Destruction (Fade at edge, head-first)",
+          "details": "Segmentos se desvanecen cruzando borde, empezando por cabeza",
+          "rationale": "Corrección de suposición inicial (head-first vs tail-first shrink)"
+        },
+        {
+          "id": "D4",
+          "decision": "Multi-arrow Timing (Staggered)",
+          "details": "Offset escalonado por flecha para legibilidad, todas cierran en misma ventana",
+          "rationale": "Mantiene sincronía del dominio mientras mejora legibilidad visual"
+        }
+      ],
+      "teamContribution": "Usuario rechazó aproximaciones genéricas sin Q&A; corrigió suposición de tail-first → head-first; refinamiento iterativo en D1",
+      "architecturalNotes": "B2 es infraestructura pura (solo lectura del dominio, nunca muta). Depende de A3 (outcomes) y B1 (port-to-direction mapping, cellSize). Agnóstico a tecnología rendering (CSS/Canvas/WebGL).",
+      "blockersForOthers": [
+        "NQ4 - Rendering technology (detalla APIs concretas de animación una vez elegida)"
+      ],
+      "keywords": [
+        "animation",
+        "visual-feedback",
+        "rendering",
+        "interaction-model",
+        "sdd"
+      ]
     }
   ],
   "summary": {
@@ -709,11 +776,12 @@
         ]
       },
       {
-        "duration": "~30 min",
-        "count": 2,
+        "duration": "~30-35 min",
+        "count": 3,
         "examples": [
           "Board Graph",
-          "Game End Detection"
+          "Game End Detection",
+          "B2 Animation"
         ]
       },
       {
@@ -728,11 +796,12 @@
     "byAiTool": [
       {
         "tool": "Claude.ai",
-        "sessions": 5,
+        "sessions": 6,
         "models": [
           "Sonnet 4.6",
           "Sonnet 4.5",
-          "Opus 4.7"
+          "Opus 4.7",
+          "Opus 4.8"
         ]
       },
       {
@@ -765,7 +834,7 @@
       {
         "phase": "Rendering & UI Specification",
         "month": "2026-06",
-        "sessions": 1,
+        "sessions": 2,
         "type": "UI Feature Specs"
       }
     ],
@@ -830,6 +899,13 @@
         "sessions": 1,
         "status": "completed",
         "refactored": false
+      },
+      {
+        "feature": "B2 - Engine Action Animation and Visual Feedback",
+        "sessions": 1,
+        "status": "completed",
+        "refactored": false,
+        "decisionsCount": 4
       }
     ]
   },

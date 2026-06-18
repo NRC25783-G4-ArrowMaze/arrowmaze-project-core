@@ -19,7 +19,7 @@
 | # | Feature | Depende de |
 |---|---|---|
 | [B1](../features/B1-board-rendering.feature) | Renderizado visual del tablero y sus entidades sobre el grafo de nodos | A1, A2 |
-| B2 | Sistema de animaciones y retroalimentación visual de acciones del motor | A3, B1 |
+| [B2](../features/B2-animation_feedback.feature) | Sistema de animaciones y retroalimentación visual de acciones del motor | A3, B1 |
 | B3 | Captura y enrutamiento de la entrada del jugador hacia el motor de juego | B1 |
 
 ---
