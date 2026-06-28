@@ -2,12 +2,12 @@
   "metadata": {
     "project": "Arrow Maze",
     "description": "Registro centralizado de uso de IA en desarrollo de puzzle game",
-    "lastUpdated": "2026-06-17",
+    "lastUpdated": "2026-06-28",
     "maintainedBy": "Jrgil20",
-    "totalSessions": 15,
+    "totalSessions": 16,
     "dateRange": {
       "start": "2026-05-03",
-      "end": "2026-06-18"
+      "end": "2026-06-28"
     },
     "aiTools": [
       "Claude (Sonnet 4.5, Sonnet 4.6, Opus 4.7, Opus 4.8)",
@@ -876,6 +876,78 @@
         "transition-record",
         "determinism",
         "sdd"
+      ]
+    },
+    {
+      "id": "2026-06-28-001",
+      "date": "2026-06-28",
+      "month": "2026-06",
+      "title": "Pending Features Draft & Client State Sync",
+      "file": "2026-06/2026-06-28_client-state-sync-borrador.md",
+      "duration": {
+        "value": 40,
+        "unit": "minutes",
+        "estimated": true
+      },
+      "aiModel": "Claude Opus 4.8",
+      "tool": "claude-code",
+      "phase": "Pre-implementation Transition",
+      "feature": null,
+      "context": "Borrador de puntos clave (no .feature) para las features de cliente aun pendientes y reconciliacion del estado real de project-core con el repo arrow-maze-client",
+      "methodology": "Documentation synthesis + state reconciliation (doc-only)",
+      "deliverables": [
+        "docs/BORRADOR-features-pendientes.md — puntos clave por feature cliente pendiente (C3, C4, D1, D2, G1, G2, G3) + apendice backend F3/F4",
+        "docs/FEATURES.md — columna Estado por feature + decisiones resueltas (P15, NQ4) vs abiertas (P20-P24) + enlace al borrador",
+        "CLAUDE.md — Current Phase y Next Steps al estado real; fecha actualizada",
+        "manifest.json — alta de esta sesion + metadata"
+      ],
+      "status": "completed",
+      "iterationRounds": 2,
+      "iterationPhases": [
+        "Ajuste de alcance (backend -> cliente; specs -> puntos clave)",
+        "Sincronizacion de estado y propagacion a project-core"
+      ],
+      "keyDecisions": [
+        {
+          "decision": "Entregable = puntos clave por feature, no .feature completos",
+          "rationale": "Acelerar el arranque de implementacion antes del limite semanal sin saltarse la sesion SDD por feature"
+        },
+        {
+          "decision": "Enfoque cliente/juego (backend F3/F4 como apendice)",
+          "rationale": "Interes real del equipo en arrow-maze-client; F3/F4 solo como contrato consumido por D2/C3"
+        },
+        {
+          "decision": "C1 y C2 marcados como implementados; C4 parcial",
+          "rationale": "Reconciliacion con el README real de arrow-maze-client (228 tests, 20 suites)"
+        },
+        {
+          "decision": "NQ4 resuelto -> SVG; P15 resuelto via C2",
+          "rationale": "B1/B2 ya renderizan en SVG y C2 materializa el esquema LevelData"
+        }
+      ],
+      "openDecisions": [
+        "P20 leaderboard por nivel vs global (F4)",
+        "P21 conflictos de sync (D2) -> conservar mayor score",
+        "P22 origen de assets de audio (G1) -> empaquetados",
+        "P23 timer afecta score (G3) -> solo visual",
+        "P24 alcance i18n (G2) -> solo UI",
+        "Regla de desbloqueo de niveles (C3)",
+        "Alcance de usuario local invitado vs login (D1)",
+        "Estado de flujo PAUSED en presentacion (C4)"
+      ],
+      "productRequirements": [
+        "G2 i18n: boton ES/EN en Ajustes; default = locale del dispositivo con fallback a ingles; preferencia a nivel de usuario persistida; cambio en caliente"
+      ],
+      "teamContribution": "Definio el alcance (cliente), el tipo de entregable (puntos clave) y los requisitos de producto de i18n; aporto el README de arrow-maze-client como fuente de verdad del estado",
+      "notes": "Gap detectado: C2 y F2 tienen .feature pero carecen de reporte .ai-usage/entrada de manifest; se recomienda registrarlos retroactivamente (no se inventan en esta sesion).",
+      "keywords": [
+        "draft",
+        "pending-features",
+        "state-sync",
+        "client",
+        "documentation",
+        "roadmap",
+        "i18n"
       ]
     }
   ],
