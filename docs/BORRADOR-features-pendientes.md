@@ -5,34 +5,35 @@
 > (elicitación → consolidación → `.feature`). Sirve como insumo para no partir de cero.
 > Antes de escribir cada `.feature` hay que **cerrar las decisiones abiertas** marcadas con 🔶.
 >
-> **Enfoque: repo `arrow-maze-client`.** Features del cliente sin archivo `.feature`:
-> **C1, C3, C4, D1, D2, G1, G2, G3**.
-> Orden sugerido (por dependencias / sprint): C1 → C2✅ → C4 → D1 → C3 → D2 → G1 → G2 → G3.
->
-> El backend (F3, F4) queda como **apéndice de referencia** al final, solo porque D2 y C3
-> consumen su contrato.
+> **Enfoque: repo `arrow-maze-client`.** Sincronizado con el README del cliente.
+> Pendientes reales de construir: **C3, C4 (completar), D1, D2, G1, G2, G3**.
+
+---
+
+## Estado actual del cliente (sync con README de `arrow-maze-client`)
+
+| Grupo | Features | Estado |
+|---|---|---|
+| **A — Motor** | A1, A2, A3, A4, A5 | ✅ Completo |
+| **B — Render** | B1, B2, B3 | ✅ Completo (SVG) |
+| **C — Flujo** | C1 ✅ · C2 ✅ · **C3 ❌** · **C4 ⚠️ parcial** | C1/C2 hechos |
+| **D — Persistencia** | **D1 ❌** · **D2 ❌** | Pendiente |
+| **G — Producto** | **G1 ❌** · **G2 ❌** · **G3 ❌** | Pendiente |
+| **Extensiones motor** | Slide · colisión de cola · colisión configurable · preview jugable | ✅ Completo |
+
+**Ya no pendientes (cerrar del borrador):**
+- **C1** — máquina de estados de `GameSession` (IN_PROGRESS / WON / LOST) ✅ implementada. *Nota:* lo que sí puede faltar es el flujo de **UI** de alto nivel (MENU / LOADING / PAUSED); esa parte se aborda junto con C4 (pausa) y G3 (reloj), no como C1.
+- **C2** — carga/deserialización de `LevelData` ✅.
+- **NQ4** (tecnología de render) **resuelto → SVG**. Ya no bloquea B1/B2/G1/G3.
+
+**Orden sugerido para lo pendiente:** D1 → C4 (completar) → C3 → G2 → G1 → G3 → D2.
 
 ---
 
 ## GRUPO C — Flujo y estados del juego
 
-### C1 — Máquina de estados del ciclo de vida de la partida
-**Depende de:** A4 · **Capa:** Application/Domain
-
-Puntos clave:
-- Estados explícitos: `MENU` → `LOADING` → `IN_PROGRESS` → (`PAUSED` ⇄ `IN_PROGRESS`) → `WON` / `LOST`.
-- La FSM **consume** el `GameStatus` que ya emite A4 (WON/LOST/IN_PROGRESS); no recalcula reglas de fin de partida, solo orquesta transiciones de UI/flujo.
-- Transiciones válidas declaradas como tabla; toda transición no listada debe rechazarse (no saltos arbitrarios).
-- Acciones de jugador que disparan transiciones: `start`, `pause`, `resume`, `restart`, `quit`/`abandon`.
-- `PAUSED` debe **congelar** el reloj de juego (ver G3) sin perder estado de tablero/flechas.
-- `restart` reinicia la `GameSession` del mismo nivel desde cero (mismo `LevelData`).
-- Idempotencia de estados terminales: invocar transiciones sobre `WON`/`LOST` no cambia el resultado (coherente con `evaluateStatus()` de A4).
-- Define el contrato que consumen C4 (qué pantalla mostrar) y G3 (cuándo corre el timer).
-
----
-
-### C3 — Selección de niveles con progreso y desbloqueo
-**Depende de:** C2, D1 · **Capa:** Presentation + lectura de persistencia
+### C3 — Selección de niveles con progreso y desbloqueo  ❌ *pendiente*
+**Depende de:** C2 ✅, D1 ❌ · **Capa:** Presentation + lectura de persistencia
 
 Puntos clave:
 - El listado se arma con `LevelMetadata` (mismo contrato de F2: `id`, `name`, `difficulty`, `allowedMoves`) — **no** se descarga `LevelData` completo hasta entrar al nivel.
@@ -41,41 +42,46 @@ Puntos clave:
 - Estado por nivel para la UI: `bloqueado` / `disponible` / `completado`.
 - Comportamiento al tocar un nivel bloqueado (ignorar vs mensaje).
 - Debe funcionar **offline** (lee de D1 local); el refresco de catálogo remoto (F2) es complementario, no bloqueante.
+- **Bloqueada por D1:** sin persistencia no hay progreso real que mostrar (hoy solo hay niveles de ejemplo / preview).
 
 ---
 
-### C4 — Pantallas de soporte (inicio, victoria, derrota, pausa, ajustes)
-**Depende de:** C1 · **Capa:** Presentation
+### C4 — Pantallas de soporte  ⚠️ *parcial — falta completar*
+**Depende de:** C1 ✅ · **Capa:** Presentation
+
+**Ya hecho:** overlay de fin de partida (`GameOverlay`) → cubre **Victoria / Derrota**.
+
+**Falta construir:** pantalla de **Inicio**, **Pausa** y **Ajustes**.
 
 Puntos clave:
-- Pantallas mínimas: **Inicio**, **Victoria**, **Derrota**, **Pausa**, **Ajustes**.
-- Cada pantalla se muestra en función del estado de la FSM de C1 (fuente única de verdad del flujo).
-- **Victoria:** muestra el `Score` (visible solo en WON, según A5) + acciones `Reintentar` / `Siguiente nivel` / `Volver al menú`.
-- **Derrota:** sin score (A5 → null en LOST) + acciones `Reintentar` / `Volver al menú`.
-- **Pausa:** `Reanudar` / `Reiniciar` / `Salir`; coherente con que C1 congela el reloj.
-- **Ajustes:** punto de entrada para idioma (→ **G2**) y audio/volumen (→ **G1**). Es el contenedor que enlaza esas preferencias.
-- Navegación reversible y sin estados huérfanos (toda pantalla debe poder volver al menú).
+- Cada pantalla se muestra según el estado de flujo de UI; hoy `GameSession` cubre IN_PROGRESS/WON/LOST a nivel dominio, pero **falta el estado de flujo `PAUSED`** (y opcionalmente MENU/LOADING) para soportar la pantalla de Pausa.
+- **Victoria** (hecho vía `GameOverlay`): muestra el `Score` (visible solo en WON, A5) + acciones `Reintentar` / `Siguiente nivel` / `Volver al menú` — revisar que estén las 3 acciones.
+- **Derrota** (hecho vía `GameOverlay`): sin score (A5 → null) + `Reintentar` / `Volver al menú`.
+- **Pausa** (falta): `Reanudar` / `Reiniciar` / `Salir`; debe **congelar el reloj** (ver G3) sin perder estado de tablero/flechas.
+- **Ajustes** (falta): contenedor que enlaza idioma (→ **G2**) y audio/volumen (→ **G1**).
+- **Inicio** (falta): entrada al juego / acceso a selección de niveles (→ C3).
+- Navegación reversible y sin estados huérfanos (toda pantalla puede volver al menú).
 
 ---
 
 ## GRUPO D — Persistencia local (cliente)
 
-### D1 — Persistencia local de progreso y puntuaciones (SQLite)
-**Depende de:** A5 · **Capa:** Infrastructure (repositorio) · **Tecnología:** SQLite (vía Capacitor en móvil)
+### D1 — Persistencia local de progreso y puntuaciones (SQLite)  ❌ *pendiente*
+**Depende de:** A5 ✅ · **Capa:** Infrastructure (repositorio) · **Tecnología:** SQLite (vía Capacitor en móvil)
 
 Puntos clave:
 - Qué se persiste por nivel: `bestScore`, estado `completado`, fecha/tick de obtención, y flag de desbloqueo (insumo de C3).
 - **Solo se guarda la mejor marca:** un score nuevo solo sobrescribe si es mayor que el almacenado (no degradar).
-- Modelo de repositorio alineado a Clean Architecture: puerto `ProgressRepository` en Application, adaptador SQLite en Infrastructure.
+- Modelo de repositorio alineado a Clean Architecture: puerto `ProgressRepository` en Application, adaptador SQLite en Infrastructure (hoy ya existe el patrón con `ILevelRepository` / `InMemoryBoardRepository` — seguir ese molde).
 - 🔶 **Alcance de usuario local:** ¿perfil único de dispositivo (invitado) o progreso por `userId` cuando hay login (E1)? Define cómo se asocia el progreso anónimo al iniciar sesión.
 - Versionado/migración del esquema local (campo de versión para futuras migraciones).
 - Idempotencia de escritura y lectura determinista (mismo nivel → mismo registro).
-- Es la **fuente local** que D2 sincroniza con el backend.
+- Es la **fuente local** que D2 sincroniza y la que **desbloquea C3**.
 
 ---
 
-### D2 — Sincronización del progreso local con servidor remoto
-**Depende de:** D1, E2 · **Capa:** Application + Infrastructure (cliente HTTP)
+### D2 — Sincronización del progreso local con servidor remoto  ❌ *pendiente*
+**Depende de:** D1 ❌, E2 · **Capa:** Application + Infrastructure (cliente HTTP)
 
 Puntos clave:
 - Modelo **offline-first**: el juego siempre funciona con D1; la sync es oportunista.
@@ -85,14 +91,14 @@ Puntos clave:
 - Operaciones **idempotentes** (reenviar el mismo progreso no duplica ni corrompe).
 - Sincronización parcial y reanudable ante fallo de red (cola de pendientes + reintentos).
 - Define dirección: push (local→remoto), pull (remoto→local) y reconciliación bidireccional.
-- Consume el contrato de **F3** (ver apéndice backend).
+- Consume el contrato de **F3** (ver apéndice backend). **Último de la lista:** depende de D1 + backend.
 
 ---
 
 ## GRUPO G — Características de producto (cliente)
 
-### G1 — Audio (efectos y música de fondo)
-**Depende de:** B2 · **Capa:** Presentation/Infrastructure
+### G1 — Audio (efectos y música de fondo)  ❌ *pendiente*
+**Depende de:** B2 ✅ · **Capa:** Presentation/Infrastructure
 
 Puntos clave:
 - 🔶 **P22 — Origen de los assets de audio (decisión bloqueante):** empaquetados en la app vs descargados. Define antes del `.feature`.
@@ -100,11 +106,11 @@ Puntos clave:
 - Controles en Ajustes (C4): mute global + volumen separado para SFX y música.
 - La preferencia de audio se **persiste a nivel de usuario** (junto con D1 / preferencias).
 - Restricciones de autoplay en móvil/navegador: el audio arranca tras interacción del usuario.
-- Los SFX se enganchan a los eventos visuales de B2 (sincronía con animaciones, sin acoplarse al dominio).
+- Los SFX se enganchan a los `outcome` de B2 (`advanced`/`blocked`/`destroyed`) sin acoplarse al dominio (mismo patrón "caller" que ya usa la animación).
 
 ---
 
-### G2 — Internacionalización (ES / EN)  ⭐ *requisitos ya indicados por el usuario*
+### G2 — Internacionalización (ES / EN)  ❌ *pendiente* · ⭐ *requisitos ya indicados por el usuario*
 **Depende de:** C4 · **Capa:** Presentation
 
 Puntos clave (confirmados):
@@ -119,30 +125,31 @@ Punto abierto:
 
 ---
 
-### G3 — Temporizador visual por nivel
-**Depende de:** C1 · **Capa:** Presentation (+ posible Domain según P23)
+### G3 — Temporizador visual por nivel  ❌ *pendiente*
+**Depende de:** C1 ✅ · **Capa:** Presentation (+ posible Domain según P23)
 
 Puntos clave:
 - 🔶 **P23 — ¿El timer afecta el score o es solo visual? (decisión bloqueante):** impacta A5 y G3.
   - Si **solo visual** → vive en Presentation y no toca el dominio.
   - Si **afecta score** → debe medirse en **ticks deterministas** (coherente con A5/A3), no en segundos de reloj.
-- El timer se **pausa** cuando C1 entra en `PAUSED` y se **detiene** en `WON`/`LOST`.
+- El timer se **pausa** cuando la UI entra en `PAUSED` (estado de flujo de C4) y se **detiene** en `WON`/`LOST`.
 - Relación con `allowedMoves`: aclarar si es solo informativo o si existe además un límite de tiempo por nivel.
-- Formato de presentación (mm:ss o ticks) y reinicio al hacer `restart` (C1).
+- Formato de presentación (mm:ss o ticks) y reinicio al hacer `restart`.
 
 ---
 
 ## Decisiones bloqueantes a cerrar (cliente)
 
-| Decisión | Bloquea | Recomendación borrador |
+| Decisión | Bloquea | Estado / recomendación |
 |---|---|---|
-| **NQ4** — Tecnología de render (CSS/Canvas/WebGL) | B1/B2 → afecta G1/G3 visualmente | Pendiente; cerrar antes de B1/B2 |
-| **P21** — Conflictos de sincronización | **D2** | **Conservar mayor score** (merge por máximo) |
-| **P22** — Origen de assets de audio | **G1** | Empaquetados en la app inicialmente |
-| **P23** — Timer ¿afecta score? | **G3**, A5 | Empezar **solo visual** (no toca dominio) |
-| **P24** — Alcance de i18n | **G2** | **Solo UI**; niveles fuera de alcance v1 |
-| Regla de desbloqueo de niveles | **C3** | Definir secuencial vs abierto |
-| Alcance de usuario local (invitado vs login) | **D1** | Definir asociación de progreso anónimo |
+| **NQ4** — Tecnología de render | B1/B2 | ✅ **Resuelto → SVG** |
+| **P21** — Conflictos de sincronización | **D2** | 🔶 **Conservar mayor score** (merge por máximo) |
+| **P22** — Origen de assets de audio | **G1** | 🔶 Empaquetados en la app inicialmente |
+| **P23** — Timer ¿afecta score? | **G3**, A5 | 🔶 Empezar **solo visual** (no toca dominio) |
+| **P24** — Alcance de i18n | **G2** | 🔶 **Solo UI**; niveles fuera de alcance v1 |
+| Regla de desbloqueo de niveles | **C3** | 🔶 Definir secuencial vs abierto |
+| Alcance de usuario local (invitado vs login) | **D1** | 🔶 Definir asociación de progreso anónimo |
+| Estado de flujo `PAUSED` (UI) | **C4**, G3 | 🔶 Falta; agregar a la capa de presentación |
 
 ---
 
