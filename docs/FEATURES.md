@@ -68,7 +68,7 @@
 |---|---|---|---|
 | [F1](../features/F1-api_users_auth.feature) | API de autenticación de usuarios (registro, login, logout con JWT) | — | 📝 Spec lista (backend) |
 | [F2](../features/F2-level-api-distribution.feature) | API de distribución y actualización remota de definiciones de niveles | Contrato C2 | 📝 Spec lista (backend) |
-| F3 | API de recepción y consulta del progreso del jugador | F1 | ❌ Pendiente (sin spec) |
+| [F3](../features/F3-recepcion-consulta-progreso.feature) | API de recepción y consulta del progreso del jugador | F1 | 📝 Spec lista (backend) |
 | F4 | Sistema de clasificación por nivel (leaderboard) | F1, F3 | ❌ Pendiente (sin spec) |
 
 ---
@@ -101,7 +101,7 @@ Sprint 4 ── D1 → C3                            ❌ Pendiente (foco actual)
 Sprint 5 ── E1 → E2 → F1 → F2                  📝 Specs listas (backend pendiente)
             Autenticación + backend + distribución de niveles
 
-Sprint 6 ── F3 → F4 → D2                       ❌ Pendiente
+Sprint 6 ── F3 → F4 → D2                       📝 Spec F3 lista; F4/D2 pendientes
             Progreso remoto + leaderboard + sincronización
 
 Sprint 7 ── G1 → G2 → G3                       ❌ Pendiente
