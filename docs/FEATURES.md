@@ -16,7 +16,7 @@
 | [A2](../features/A2-arrow_placement.feature) | Definición y colocación de entidades como listas enlazadas sobre el grafo | A1 | ✅ Implementado |
 | [A3](../features/A3-arrow_movement.feature) | Resolución y desplazamiento de entidades direccionales | A1, A2 | ✅ Implementado |
 | [A4](../features/A4-game_end_detection.feature) | Detección de victoria por vaciado del tablero y de derrota por agotamiento de movimientos disponibles | A3 | ✅ Implementado |
-| [A5](../features/A5-game_session_scoring.feature) | Cálculo y composición de la puntuación por sesión de juego | A4 | ✅ Implementado |
+| [A5](../features/A5-game_session_scoring.feature) | Cálculo y composición de la puntuación por sesión de juego | A4 | ✅ Implementado — 🔶 enmienda futura pendiente de P23 (penalización por tiempo, ver G3) |
 
 > **Extensiones del motor (posteriores al roadmap):** slide de flecha (1 gesto = 1 movimiento),
 > colisión de cola (fix), colisión configurable (`return`/`stay`) y preview jugable — ✅ implementadas en el cliente.
@@ -77,9 +77,9 @@
 
 | # | Feature | Depende de | Estado |
 |---|---|---|---|
-| G1 | Sistema de reproducción de audio, efectos sonoros y música de fondo | B2 | ❌ Pendiente |
-| G2 | Soporte de internacionalización y cambio de idioma (ES/EN) | C4 | ❌ Pendiente |
-| G3 | Sistema de temporizador visual por nivel | C1 | ❌ Pendiente |
+| [G1](../features/G1-audio-sfx-musica.feature) | Sistema de reproducción de audio, efectos sonoros y música de fondo | B2 | 📝 Spec lista |
+| [G2](../features/G2-internacionalizacion.feature) | Soporte de internacionalización y cambio de idioma (ES/EN) | C4 | 📝 Spec lista |
+| [G3](../features/G3-temporizador-nivel.feature) | Temporizador visual por nivel (mm:ss, pausa, IClock) | C1 | 📝 Spec lista (solo Presentation; integración con score pendiente de P23) |
 
 ---
 
@@ -104,8 +104,8 @@ Sprint 5 ── E1 → E2 → F1 → F2                  📝 Specs listas (back
 Sprint 6 ── F3 → F4 → D2                       📝 Spec F3 lista; F4/D2 pendientes
             Progreso remoto + leaderboard + sincronización
 
-Sprint 7 ── G1 → G2 → G3                       ❌ Pendiente
-            Audio + i18n + temporizador
+Sprint 7 ── G1 → G2 → G3                       📝 Specs listas (implementación pendiente)
+            Audio + i18n + temporizador visual (integración tiempo→score espera P23)
 ```
 
 > **Foco de trabajo del cliente (orden sugerido):** D1 → C4 (completar) → C3 → G2 → G1 → G3 → D2.
@@ -118,11 +118,11 @@ Sprint 7 ── G1 → G2 → G3                       ❌ Pendiente
 |---|---|---|
 | **P15** — Formato JSON del nivel (esquema de nodos y piezas) | C2, F2 | ✅ Resuelto (materializado en C2 / `LevelData`) |
 | **NQ4** — Tecnología de renderizado (CSS / Canvas / WebGL) | B1, B2 | ✅ Resuelto → **SVG** |
-| **P23** — ¿El temporizador afecta el score o es solo visual? | A5, G3 | 🟡 Abierto — borrador: solo visual |
+| **P23** — ¿El temporizador afecta el score o es solo visual? | A5 (enmienda) | 🟡 **Parcial** — decidido que **SÍ debe afectar el score** (2026-07-04); queda por decidir **cómo** (candidatos: término `segundos × TIME_DECAY` [favorito], conversión a ticks, o bonus por rapidez). G3 v1 es solo visual; la enmienda de A5 se hará en su propia sesión SDD |
 | **P20** — ¿Leaderboard solo por nivel o también global? | F4 | 🟡 Abierto — borrador: por nivel primero |
 | **P21** — Resolución de conflictos en sincronización | D2 | 🟡 Abierto — borrador: conservar mayor score |
-| **P22** — Origen de los assets de audio | G1 | 🟢 Abierto — borrador: empaquetados en la app |
-| **P24** — Alcance de i18n (solo UI o también niveles) | G2 | 🟢 Abierto — borrador: solo UI |
+| **P22** — Origen de los assets de audio | G1 | ✅ Resuelto → **empaquetados en la app**, royalty-free (NEFFEX/NCS), pool por dificultad, atribución en Ajustes |
+| **P24** — Alcance de i18n (solo UI o también niveles) | G2 | ✅ Resuelto → **solo UI**; fallback de claves a inglés |
 
 > Decisiones de cliente adicionales abiertas (detalle en el borrador): regla de desbloqueo de niveles (C3),
 > alcance de usuario local invitado vs login (D1), estado de flujo `PAUSED` en presentación (C4).

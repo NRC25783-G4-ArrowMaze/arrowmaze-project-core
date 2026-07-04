@@ -18,7 +18,7 @@
 | **B — Render** | B1, B2, B3 | ✅ Completo (SVG) |
 | **C — Flujo** | C1 ✅ · C2 ✅ · **C3 ❌** · **C4 ⚠️ parcial** | C1/C2 hechos |
 | **D — Persistencia** | **D1 ❌** · **D2 ❌** | Pendiente |
-| **G — Producto** | **G1 ❌** · **G2 ❌** · **G3 ❌** | Pendiente |
+| **G — Producto** | G1 📝 · G2 📝 · G3 📝 | Specs listas (SDD 2026-07-04); implementación pendiente |
 | **Extensiones motor** | Slide · colisión de cola · colisión configurable · preview jugable | ✅ Completo |
 
 **Ya no pendientes (cerrar del borrador):**
@@ -97,7 +97,16 @@ Puntos clave:
 
 ## GRUPO G — Características de producto (cliente)
 
-### G1 — Audio (efectos y música de fondo)  ❌ *pendiente*
+> ✅ **Grupo G ya tiene specs** (sesión SDD 2026-07-04). Las secciones siguientes quedan
+> como contexto histórico; la fuente de verdad son los `.feature`:
+> [`G1`](../features/G1-audio-sfx-musica.feature) · [`G2`](../features/G2-internacionalizacion.feature) · [`G3`](../features/G3-temporizador-nivel.feature).
+> Decisiones cerradas: P22 (empaquetados, royalty-free NEFFEX/NCS, pool por dificultad,
+> atribución en Ajustes) y P24 (solo UI, fallback EN). **P23 quedó parcial:** se decidió
+> que el timer **SÍ debe afectar el score** (revierte este borrador), pero el **cómo**
+> (mecanismo de integración con A5) es una decisión pendiente con su propia sesión SDD;
+> G3 v1 es solo visual y no toca Dominio ni Aplicación.
+
+### G1 — Audio (efectos y música de fondo)  📝 *spec lista*
 **Depende de:** B2 ✅ · **Capa:** Presentation/Infrastructure
 
 Puntos clave:
@@ -110,7 +119,7 @@ Puntos clave:
 
 ---
 
-### G2 — Internacionalización (ES / EN)  ❌ *pendiente* · ⭐ *requisitos ya indicados por el usuario*
+### G2 — Internacionalización (ES / EN)  📝 *spec lista* · ⭐ *requisitos ya indicados por el usuario*
 **Depende de:** C4 · **Capa:** Presentation
 
 Puntos clave (confirmados):
@@ -125,7 +134,7 @@ Punto abierto:
 
 ---
 
-### G3 — Temporizador visual por nivel  ❌ *pendiente*
+### G3 — Temporizador por nivel  📝 *spec lista (solo visual)* · ⚠️ P23 parcial: SÍ debe afectar el score, el *cómo* queda por decidir
 **Depende de:** C1 ✅ · **Capa:** Presentation (+ posible Domain según P23)
 
 Puntos clave:
@@ -144,9 +153,9 @@ Puntos clave:
 |---|---|---|
 | **NQ4** — Tecnología de render | B1/B2 | ✅ **Resuelto → SVG** |
 | **P21** — Conflictos de sincronización | **D2** | 🔶 **Conservar mayor score** (merge por máximo) |
-| **P22** — Origen de assets de audio | **G1** | 🔶 Empaquetados en la app inicialmente |
-| **P23** — Timer ¿afecta score? | **G3**, A5 | 🔶 Empezar **solo visual** (no toca dominio) |
-| **P24** — Alcance de i18n | **G2** | 🔶 **Solo UI**; niveles fuera de alcance v1 |
+| **P22** — Origen de assets de audio | **G1** | ✅ **Resuelto → empaquetados**, royalty-free (NEFFEX/NCS), pool por dificultad |
+| **P23** — Timer ¿afecta score? | A5 (enmienda) | 🟡 **Parcial** — SÍ debe afectar (decidido); el **cómo** implementarlo queda por decidir (favorito: `segundos × TIME_DECAY`) |
+| **P24** — Alcance de i18n | **G2** | ✅ **Resuelto → solo UI**; fallback de claves a EN |
 | Regla de desbloqueo de niveles | **C3** | 🔶 Definir secuencial vs abierto |
 | Alcance de usuario local (invitado vs login) | **D1** | 🔶 Definir asociación de progreso anónimo |
 | Estado de flujo `PAUSED` (UI) | **C4**, G3 | 🔶 Falta; agregar a la capa de presentación |
