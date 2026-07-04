@@ -1,6 +1,7 @@
 ## Features — Versión definitiva
 
-> **Estado de implementación** sincronizado con el repo `arrow-maze-client` (2026-06-28).
+> **Estado de implementación** sincronizado con el repo `arrow-maze-client` (2026-07-04).
+> Specs del grupo G (audio, i18n, temporizador) listas desde la sesión SDD 2026-07-04.
 > Para los puntos clave de las features aún pendientes del cliente, ver
 > [`BORRADOR-features-pendientes.md`](./BORRADOR-features-pendientes.md).
 >
