@@ -157,5 +157,5 @@ Puntos clave:
 
 Solo se listan porque **D2** y **C3** consumen su contrato. Detalle completo cuando se aborde el repo `arrow-maze-backend`.
 
-- **F3 — API de progreso del jugador** (`/api/v1/progress`, JWT, aislamiento por `userId`, persiste solo la mejor marca). Es el espejo remoto de D1 y lo que sincroniza D2.
+- **F3 — API de progreso del jugador** (`/api/progress`, JWT, aislamiento por `userId`, persiste solo la mejor marca). Es el espejo remoto de D1 y lo que sincroniza D2. 📝 Spec lista: [`features/F3-recepcion-consulta-progreso.feature`](../features/F3-recepcion-consulta-progreso.feature).
 - **F4 — Leaderboard por nivel** (`/api/v1/leaderboard/:levelId`, ranking por score, top-N + posición propia). 🔶 P20: por nivel vs global.
