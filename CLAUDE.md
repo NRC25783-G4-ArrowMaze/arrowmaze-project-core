@@ -8,7 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **Arrow Maze** is a puzzle game engine implemented using **Specification-Driven Development (SDD)** with Clean Architecture and Domain-Driven Design (DDD).
 
-**Current Phase:** Specification authority + active client implementation. In `arrow-maze-client`: A1–A5 (motor), B1–B3 (render/input) and C1–C2 (flow/levels) are **implemented**; C4 is **partial** (game-over overlay). Pending client work: C3, C4 (finish), D1, D2, G1–G3 — key points captured in [`docs/BORRADOR-features-pendientes.md`](docs/BORRADOR-features-pendientes.md). Backend (E1–E2, F1–F3 specs ready; F4 not yet specced) lives in `arrow-maze-backend`. This repo remains the single source of truth for specs and architecture decisions.
+**Current Phase:** Specification authority + active client implementation. In `arrow-maze-client`: A1–A5 (motor), B1–B3 (render/input) and C1–C2 (flow/levels) are **implemented**; C4 is **partial** (game-over overlay). **G1–G3 specs are ready** (SDD 2026-07-04: audio, i18n, visual timer — all Presentation/Infrastructure only; P23 remains partially open: time WILL affect score, but the integration mechanism into A5 is a pending decision with its own SDD session). Pending client work: C3, C4 (finish), D1, D2, G1–G3 implementation — key points in [`docs/BORRADOR-features-pendientes.md`](docs/BORRADOR-features-pendientes.md). Backend (E1–E2, F1–F3 specs ready; F4 not yet specced) lives in `arrow-maze-backend`. This repo remains the single source of truth for specs and architecture decisions.
 
 **Key Characteristics:**
 - **Methodology:** SDD with structured Q&A using Claude + Gherkin BDD
@@ -346,7 +346,8 @@ See **`docs/STACK.md`** for the complete folder structures and sprint-level impl
 1. ✅ **P15 resolved** — JSON level schema materialized in C2 (`LevelData`)
 2. ✅ **NQ4 resolved** — Rendering technology = **SVG** (B1/B2 implemented)
 3. **Continue client implementation** — pending order: D1 → C4 (finish) → C3 → G2 → G1 → G3 → D2 (see `docs/BORRADOR-features-pendientes.md`)
-4. **Close open decisions** — P20–P24 + level-unlock rule (C3), local-user scope (D1), UI `PAUSED` state (C4)
+4. ✅ **P22/P24 resolved, P23 partial** (SDD 2026-07-04) — G1/G2/G3 specs ready (Presentation only); P23: time WILL affect score, the *how* (A5 amendment mechanism) is still open
+5. **Close remaining decisions** — P23 (how time enters A5), P20 (F4), P21 (D2), level-unlock rule (C3), local-user scope (D1), UI `PAUSED` state (C4)
 
 ### Implementation Phase (After approval)
 1. **Clone template structure** — Use `docs/STACK.md` folder structure exactly for both repos
@@ -357,7 +358,7 @@ See **`docs/STACK.md`** for the complete folder structures and sprint-level impl
 
 ---
 
-**Last updated:** 2026-07-03  
+**Last updated:** 2026-07-04  
 **Maintained by:** Jrgil20  
 **Reference:** 
 - Complete design history: `.ai-usage/manifest.json` (hidden folder)

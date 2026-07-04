@@ -2,15 +2,15 @@
   "metadata": {
     "project": "Arrow Maze",
     "description": "Registro centralizado de uso de IA en desarrollo de puzzle game",
-    "lastUpdated": "2026-06-28",
+    "lastUpdated": "2026-07-04",
     "maintainedBy": "Jrgil20",
-    "totalSessions": 16,
+    "totalSessions": 17,
     "dateRange": {
       "start": "2026-05-03",
-      "end": "2026-06-28"
+      "end": "2026-07-04"
     },
     "aiTools": [
-      "Claude (Sonnet 4.5, Sonnet 4.6, Opus 4.7, Opus 4.8)",
+      "Claude (Sonnet 4.5, Sonnet 4.6, Opus 4.7, Opus 4.8, Fable 5)",
       "Gemini"
     ]
   },
@@ -948,6 +948,84 @@
         "documentation",
         "roadmap",
         "i18n"
+      ]
+    },
+    {
+      "id": "2026-07-04-001",
+      "date": "2026-07-04",
+      "month": "2026-07",
+      "title": "Product Features Group G — Audio, i18n, Visual Timer (G1/G2/G3)",
+      "file": "2026-07/2026-07-04_g1-g2-g3-product-features-sdd.md",
+      "duration": {
+        "value": 45,
+        "unit": "minutes",
+        "estimated": true
+      },
+      "aiModel": "Claude Fable 5",
+      "tool": "claude-code",
+      "phase": "Product Features Specification",
+      "feature": "G1, G2, G3",
+      "context": "Sesión SDD secuencial (una feature a la vez) para cerrar el grupo G del cliente: audio, internacionalización y temporizador visual. Cierra P22 y P24; P23 queda PARCIAL: decidido que el tiempo SÍ debe afectar el score (contra el borrador), pero el mecanismo de integración en A5 queda como decisión abierta con su propia sesión SDD. Todas las specs del PR son de Presentation/Infrastructure (no tocan Dominio ni Aplicación)",
+      "methodology": "Spec-Driven Development (SDD) con Q&A estructurada por feature (elicitación → consolidación → .feature)",
+      "deliverables": [
+        "G1-audio-sfx-musica.feature — 6 Rules, 20 escenarios (SFX por outcome, música por dificultad, controles, autoplay, licencia)",
+        "G2-internacionalizacion.feature — 4 Rules, 12 escenarios + outline (default por locale, cambio en caliente, fallback EN, niveles fuera de alcance)",
+        "G3-temporizador-nivel.feature — 5 Rules, ~13 escenarios + outline (cuenta ascendente, pausa, IClock, formato mm:ss; solo Presentation)",
+        "docs/FEATURES.md y docs/BORRADOR-features-pendientes.md sincronizados (P22/P24 resueltas, P23 parcial)"
+      ],
+      "status": "completed",
+      "iterationRounds": 3,
+      "iterationPhases": [
+        "Elicitación G1 (4 decisiones + 2 añadidas a mitad de sesión)",
+        "Elicitación G2 (2 decisiones)",
+        "Elicitación G3 (5 decisiones + enmienda A5)"
+      ],
+      "keyDecisions": [
+        {
+          "id": "P22",
+          "decision": "Assets de audio empaquetados en la app, royalty-free (NEFFEX/NCS)",
+          "details": "Pool pequeño de música por dificultad (easy/medium/hard) para no sobrecargar el bundle; atribución visible en créditos de Ajustes",
+          "rationale": "Offline total; requisito de usuario: música libre de copyright y variada por nivel sin inflar la app"
+        },
+        {
+          "id": "P24",
+          "decision": "i18n solo UI, fallback de claves a inglés",
+          "rationale": "Evita reabrir el esquema de niveles (P15/C2/F2); claves faltantes muestran el texto EN"
+        },
+        {
+          "id": "P23",
+          "decision": "PARCIAL: el temporizador SÍ debe afectar el score (revierte el borrador); el CÓMO queda abierto",
+          "details": "Candidatos: término aditivo segundos × TIME_DECAY (favorito), conversión segundos→ticks, o bonus por rapidez. La enmienda de A5 se hará en su propia sesión SDD; en este PR A5 queda intacta y G3 v1 es solo visual",
+          "rationale": "Decisión explícita del usuario: la necesidad está decidida, pero el mecanismo toca Dominio/Aplicación (A5 ya implementada) y merece decisión separada"
+        },
+        {
+          "id": "G3-D3",
+          "decision": "Reloj inyectable (puerto IClock)",
+          "details": "Reloj real en Infrastructure, falso en tests; nadie lee el reloj del sistema directamente; el tiempo en PAUSED no cuenta como activo. Prerequisito técnico para la futura integración con el score",
+          "rationale": "Preserva la invariante de determinismo/reproducibilidad"
+        },
+        {
+          "id": "G3-D1",
+          "decision": "Timer cuenta hacia arriba sin límite (nunca causa derrota)",
+          "rationale": "La derrota sigue siendo solo por agotamiento de movimientos (A4); formato mm:ss"
+        }
+      ],
+      "openDependencies": [
+        "Cerrar P23-mecanismo (cómo entra el tiempo en A5) en sesión SDD dedicada → enmienda de A5",
+        "Implementar G1/G2/G3 en arrow-maze-client"
+      ],
+      "teamContribution": "Cerró P22/P24 vía Q&A; en P23 revirtió la recomendación (sí debe afectar el score) pero dejó el mecanismo como decisión abierta para no tocar Dominio/Aplicación en este PR; añadió a mitad de sesión los requisitos de licencia royalty-free y música variable por nivel sin sobrecargar el bundle",
+      "keywords": [
+        "audio",
+        "sfx",
+        "music",
+        "royalty-free",
+        "i18n",
+        "localization",
+        "timer",
+        "iclock",
+        "p23-open",
+        "sdd"
       ]
     }
   ],
