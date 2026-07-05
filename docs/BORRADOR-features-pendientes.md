@@ -32,15 +32,23 @@
 
 ## GRUPO C — Flujo y estados del juego
 
-### C3 — Selección de niveles con progreso y desbloqueo  ❌ *pendiente*
+### C3 — Selección de niveles con progreso y desbloqueo  📝 *spec lista*
 **Depende de:** C2 ✅, D1 ❌ · **Capa:** Presentation + lectura de persistencia
+
+> ✅ **Spec lista** (sesión SDD 2026-07-05). Fuente de verdad:
+> [`features/C3-seleccion-niveles-progreso.feature`](../features/C3-seleccion-niveles-progreso.feature).
+> Esta sección queda como contexto histórico. La **regla de desbloqueo** se resolvió →
+> **grafo de prerequisitos (DAG)**: un nodo se desbloquea cuando todos sus prerequisitos
+> están completados (AND) y la raíz siempre está disponible; subsume progresión lineal y
+> ramificada. **Sigue bloqueada por D1** para implementación (sin persistencia no hay
+> progreso real que mostrar).
 
 Puntos clave:
 - El listado se arma con `LevelMetadata` (mismo contrato de F2: `id`, `name`, `difficulty`, `allowedMoves`) — **no** se descarga `LevelData` completo hasta entrar al nivel.
 - Indicador de progreso por nivel leído de D1: mejor score, estado (no jugado / completado), y posible representación en estrellas.
-- 🔶 **Regla de desbloqueo a definir:** ¿secuencial (completar N desbloquea N+1), por dificultad, o todos abiertos? Define el primer nivel siempre disponible.
-- Estado por nivel para la UI: `bloqueado` / `disponible` / `completado`.
-- Comportamiento al tocar un nivel bloqueado (ignorar vs mensaje).
+- ✅ **Regla de desbloqueo (resuelta):** por **grafo de prerequisitos** (aristas = dependencias); raíz sin prerequisitos siempre disponible. Subsume "secuencial" (cadena) y soporta rutas ramificadas. Sub-decisiones **cerradas** (elicitación 2026-07-05): `starThresholds` autorados en el `LevelMap` (aditivo, sin tocar F2/C2), curva de dos umbrales absolutos `[twoStar, threeStar]`, y **AND** en nodos de unión.
+- Estado por nivel para la UI: `bloqueado` / `disponible` / `completado` (+ `actual`/focal como énfasis visual, no estado persistido).
+- Comportamiento al tocar un nivel bloqueado: **no** navega ni descarga `LevelData`; muestra aviso breve (clave i18n) + candado.
 - Debe funcionar **offline** (lee de D1 local); el refresco de catálogo remoto (F2) es complementario, no bloqueante.
 - **Bloqueada por D1:** sin persistencia no hay progreso real que mostrar (hoy solo hay niveles de ejemplo / preview).
 
@@ -156,7 +164,7 @@ Puntos clave:
 | **P22** — Origen de assets de audio | **G1** | ✅ **Resuelto → empaquetados**, royalty-free (NEFFEX/NCS), pool por dificultad |
 | **P23** — Timer ¿afecta score? | A5 (enmienda) | 🟡 **Parcial** — SÍ debe afectar (decidido); el **cómo** implementarlo queda por decidir (favorito: `segundos × TIME_DECAY`) |
 | **P24** — Alcance de i18n | **G2** | ✅ **Resuelto → solo UI**; fallback de claves a EN |
-| Regla de desbloqueo de niveles | **C3** | 🔶 Definir secuencial vs abierto |
+| Regla de desbloqueo de niveles | **C3** | ✅ **Resuelto → grafo de prerequisitos (DAG)**, raíz siempre disponible, **AND** en uniones (SDD 2026-07-05). `starThresholds` autorados en el `LevelMap` (aditivo), curva de dos umbrales absolutos |
 | Alcance de usuario local (invitado vs login) | **D1** | 🔶 Definir asociación de progreso anónimo |
 | Estado de flujo `PAUSED` (UI) | **C4**, G3 | 🔶 Falta; agregar a la capa de presentación |
 

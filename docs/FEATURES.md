@@ -2,6 +2,7 @@
 
 > **Estado de implementación** sincronizado con el repo `arrow-maze-client` (2026-07-04).
 > Specs del grupo G (audio, i18n, temporizador) listas desde la sesión SDD 2026-07-04.
+> Spec de **C3** (selección de niveles con mapa de progreso) lista desde la sesión SDD 2026-07-05.
 > Para los puntos clave de las features aún pendientes del cliente, ver
 > [`BORRADOR-features-pendientes.md`](./BORRADOR-features-pendientes.md).
 >
@@ -40,7 +41,7 @@
 |---|---|---|---|
 | C1 | Máquina de estados del ciclo de vida de una partida | A4 | ✅ Implementado (falta flujo UI PAUSED/MENU, ver C4) |
 | [C2](../features/C2-carga-deserializacion-niveles.feature) | Carga y deserialización de definiciones de niveles desde archivos locales | A1, A2 | ✅ Implementado |
-| C3 | Pantalla de selección de niveles con indicador de progreso y control de desbloqueo | C2, D1 | ❌ Pendiente |
+| [C3](../features/C3-seleccion-niveles-progreso.feature) | Pantalla de selección de niveles con indicador de progreso y control de desbloqueo | C2, D1 | 📝 Spec lista (Presentation; desbloqueo por grafo, lee D1) |
 | C4 | Pantallas de soporte del juego (inicio, victoria, derrota, pausa, ajustes) | C1 | ⚠️ Parcial (`GameOverlay` de fin de partida) |
 
 ---
@@ -96,7 +97,7 @@ Sprint 2 ── A4 → A5 → B1 → B3                  ✅ Completado
 Sprint 3 ── C2 → B2 → C1 → C4                  ⚠️ En curso (C2/B2/C1 ✅, C4 parcial)
             Niveles reales desde JSON + animaciones + pantallas
 
-Sprint 4 ── D1 → C3                            ❌ Pendiente (foco actual)
+Sprint 4 ── D1 → C3                            ⚠️ D1 ❌ · C3 📝 spec lista (foco actual)
             Persistencia local + selección de niveles
 
 Sprint 5 ── E1 → E2 → F1 → F2                  📝 Specs listas (backend pendiente)
@@ -125,5 +126,10 @@ Sprint 7 ── G1 → G2 → G3                       📝 Specs listas (implem
 | **P22** — Origen de los assets de audio | G1 | ✅ Resuelto → **empaquetados en la app**, royalty-free (NEFFEX/NCS), pool por dificultad, atribución en Ajustes |
 | **P24** — Alcance de i18n (solo UI o también niveles) | G2 | ✅ Resuelto → **solo UI**; fallback de claves a inglés |
 
-> Decisiones de cliente adicionales abiertas (detalle en el borrador): regla de desbloqueo de niveles (C3),
+> La **regla de desbloqueo de niveles (C3)** quedó resuelta → **grafo de prerequisitos (DAG)**, un nodo
+> se desbloquea cuando todos sus prerequisitos están completados (AND, confirmado) y la raíz siempre está
+> disponible (SDD 2026-07-05). Sub-decisiones cerradas en la elicitación 2026-07-05: `starThresholds`
+> autorados en el `LevelMap` (aditivo, sin tocar F2/C2) y curva de dos umbrales absolutos [twoStar, threeStar].
+>
+> Decisiones de cliente adicionales abiertas (detalle en el borrador):
 > alcance de usuario local invitado vs login (D1), estado de flujo `PAUSED` en presentación (C4).

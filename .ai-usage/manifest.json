@@ -4,7 +4,7 @@
     "description": "Registro centralizado de uso de IA en desarrollo de puzzle game",
     "lastUpdated": "2026-07-05",
     "maintainedBy": "Jrgil20",
-    "totalSessions": 18,
+    "totalSessions": 19,
     "dateRange": {
       "start": "2026-05-03",
       "end": "2026-07-05"
@@ -1089,6 +1089,86 @@
         "self-contained",
         "github-pages",
         "communication"
+      ]
+    },
+    {
+      "id": "2026-07-05-002",
+      "date": "2026-07-05",
+      "month": "2026-07",
+      "title": "Level Select C3 — Progress Map with Graph-based Unlock",
+      "file": "2026-07/2026-07-05_c3-level-select-sdd.md",
+      "duration": {
+        "value": 30,
+        "unit": "minutes",
+        "estimated": true
+      },
+      "aiModel": "Claude Opus 4.8",
+      "tool": "claude-code",
+      "phase": "Client Flow Specification",
+      "feature": "C3",
+      "context": "Sesión SDD para la pantalla de selección de niveles (C3). A partir de una descripción de diseño del usuario (grafo de nodos/aristas, jerarquía de estado por escala e iconografía, flujo espacial) se formalizó el desbloqueo como GRAFO de prerequisitos (DAG): un nodo se desbloquea cuando todos sus prerequisitos están completados (AND) y la raíz siempre está disponible. Feature de Presentation, solo lee el progreso local (puerto de D1); no toca Dominio ni Aplicación ni el contrato LevelData/LevelMetadata (F2/C2). Sub-decisiones cerradas en mini-elicitación 2026-07-05: starThresholds autorados en el LevelMap (aditivo, sin tocar F2/C2), curva de dos umbrales absolutos [twoStar, threeStar], y AND en nodos de unión. Spec de C3 completamente cerrada",
+      "methodology": "Spec-Driven Development (SDD) con Q&A estructurada (elicitación → consolidación → .feature)",
+      "deliverables": [
+        "C3-seleccion-niveles-progreso.feature — 7 Rules, 24 escenarios + outline (desbloqueo por grafo, nodo focal, métricas/estrellas, interacción por estado, offline-first + refresco F2 complementario, presentación pura/i18n/determinismo, representación visual del grafo)",
+        "docs/FEATURES.md — C3 → Spec lista; regla de desbloqueo resuelta (grafo DAG) con sub-decisiones abiertas",
+        "docs/BORRADOR-features-pendientes.md — sección C3 marcada spec lista (histórico) + tabla de decisiones actualizada"
+      ],
+      "status": "completed",
+      "iterationRounds": 1,
+      "keyDecisions": [
+        {
+          "id": "C3-D1",
+          "decision": "Desbloqueo por GRAFO de prerequisitos (DAG); AND de todos los prerequisitos; raíz siempre disponible",
+          "details": "Formaliza la descripción del usuario (nodos + aristas, lineal o ramificado). Subsume la progresión secuencial (cadena) y soporta rutas ramificadas y uniones. El desbloqueo es derivado (grafo + completado), no un flag primario; el grafo es autoritativo",
+          "rationale": "El modelo natural de la descripción de diseño; más general que secuencial simple o todo-abierto"
+        },
+        {
+          "id": "C3-D2",
+          "decision": "Completado = haber ganado (WON) una vez; sin umbral para desbloquear; monótono",
+          "rationale": "Coherente con A5 (score solo en WON) y D1 (conserva solo la mejor marca)"
+        },
+        {
+          "id": "C3-D3",
+          "decision": "Nodo focal (actual) = primer disponible sin completar en el orden del LevelMap",
+          "rationale": "La descripción pide un único punto focal (siguiente acción lógica); regla determinista con varias ramas"
+        },
+        {
+          "id": "C3-D4",
+          "decision": "Métricas del nodo completado: bestScore + check siempre; estrellas 1-3 opcionales por starThresholds",
+          "details": "1 estrella por superar, 2 en starThresholds[0], 3 en starThresholds[1]; A5 no tiene cota superior, así que sin umbrales autorados se muestra solo score numérico + check",
+          "rationale": "El usuario listó estrellas/check/score como métricas típicas del nodo completado"
+        },
+        {
+          "id": "C3-D6",
+          "decision": "Offline-first: se arma del catálogo + progreso locales; el refresco remoto (F2) es complementario y no bloquea",
+          "rationale": "Requisito del borrador: C3 debe funcionar sin red; F2 es oportunista"
+        },
+        {
+          "id": "C3-D4b",
+          "decision": "starThresholds autorados en el LevelMap (aditivo); curva de dos umbrales absolutos; AND en uniones",
+          "details": "Elicitación 2026-07-05: origen de estrellas = catálogo aditivo (no extiende LevelMetadata); curva [twoStar, threeStar] (1★ ganar, 2★≥U1, 3★≥U2); uniones = AND (todos los prerequisitos). OR queda como variante futura",
+          "rationale": "Las tres elecciones confirman los defaults de la spec sin reabrir el contrato fijo F2/C2; cierran C3 por completo"
+        }
+      ],
+      "openDependencies": [
+        "Implementar D1 (persistencia local) — desbloquea la implementación de C3",
+        "Implementar C3 en arrow-maze-client (orden: D1 → C4 → C3 → G2 → G1 → G3 → D2)",
+        "Al implementar el catálogo/F2, materializar el transporte aditivo de prerequisites, pathHint y starThresholds del LevelMap"
+      ],
+      "teamContribution": "Aportó la descripción de diseño (grafo de nodos/aristas, jerarquía de estado por escala e iconografía, flujo espacial) que resolvió la regla de desbloqueo hacia un grafo de prerequisitos; definió el énfasis en el punto focal y las métricas por nodo",
+      "keywords": [
+        "level-select",
+        "progress-map",
+        "unlock",
+        "graph",
+        "dag",
+        "prerequisites",
+        "stars",
+        "offline-first",
+        "presentation",
+        "sdd",
+        "star-thresholds",
+        "closed"
       ]
     }
   ],
