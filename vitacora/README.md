@@ -1,11 +1,12 @@
 # 📓 Bitácora de IA — Arrow Maze
 
-Página web autocontenida que reconstruye **cómo se usó la inteligencia artificial** en el
-desarrollo de Arrow Maze mediante *Desarrollo Dirigido por Especificación* (SDD).
+Página web autocontenida que reconstruye **cómo se usó la inteligencia artificial** en todo
+el proyecto Arrow Maze: especificación (SDD en `arrowmaze-project-core`), cliente
+(`arrowmaze-game`) e implementación de API (`arrowmaze-backend`).
 
-Toma cada sesión registrada en [`.ai-usage/manifest.json`](../.ai-usage/manifest.json) y la
-presenta como una línea de tiempo filtrable: fase, grupo de feature y modelo, con sus
-decisiones clave, entregables y el aporte del equipo humano.
+Unifica las sesiones de los tres repos en **una sola línea de tiempo** filtrable por
+repositorio, fase, grupo de feature y modelo, con decisiones clave, entregables, autor y
+aporte del equipo humano por sesión.
 
 ## Ver la página
 
@@ -19,19 +20,36 @@ decisiones clave, entregables y el aporte del equipo humano.
 `index.html` es **un solo archivo** compuesto por tres partes concatenadas:
 
 1. cabecera + estilos,
-2. el contenido de `.ai-usage/manifest.json` embebido en un `<script type="application/json">`,
-3. el renderizador (JS vanilla) que dibuja las tarjetas.
+2. un array unificado `sessions` embebido en un `<script id="manifest-data" type="application/json">`,
+3. el renderizador (JS vanilla) que dibuja las tarjetas y filtros (incluye filtro por
+   repositorio, además de fase y modelo).
 
 Los datos van inline a propósito: así la página es portable y no depende de que Pages sirva
-la carpeta oculta `.ai-usage/`.
+las carpetas ocultas `.ai-usage/` de cada repo.
 
-### Regenerar tras actualizar el manifest
+### Fuente de los datos por repositorio
 
-Cuando cambie `manifest.json`, vuelve a inyectar el bloque JSON entre las etiquetas
-`<script id="manifest-data" type="application/json">` … `</script>` de `index.html`.
+Cada sesión del array `sessions` trae un campo `repository` (`project-core`,
+`arrowmaze-game` o `arrowmaze-backend`) y, cuando está documentado, `author`. La fuente
+autoritativa de cada historial sigue viviendo en el repo correspondiente:
 
-## Fase siguiente (pendiente)
+- `arrowmaze-project-core/.ai-usage/manifest.json` — sesiones SDD (specs), ya en el
+  esquema nativo del renderer (duración, fase, decisiones detalladas, etc.).
+- `arrowmaze-game/.ai-usage/manifest.json` — sesiones de implementación del cliente.
+- `arrowmaze-backend/.ai-usage/manifest.json` — sesiones de implementación de la API.
 
-El repo `arrowmaze-game` (cliente) tiene su propio `.ai-usage/` y `doc/ai-usage-report.md`,
-y `arrowmaze-backend` sumará el suyo. La idea es **consolidar esos registros aquí** para que
-la bitácora cubra los tres repos (core + cliente + backend) en una sola vista.
+### Regenerar tras actualizar cualquier manifest
+
+Cuando cambie alguno de los tres `manifest.json`, hay que reconstruir el array `sessions`
+unificado y reinyectarlo en el `<script id="manifest-data">` de `index.html`:
+
+1. Tomar las entradas de `project-core` tal cual (ya están en el esquema del renderer).
+2. Normalizar las entradas de `arrowmaze-game` y `arrowmaze-backend` al mismo esquema
+   (`id, date, month, title, aiModel, tool, author, phase, feature, context, deliverables,
+   keyDecisions, status, repository, keywords, validationNotes`), agregando
+   `"repository": "arrowmaze-game"` / `"arrowmaze-backend"` a cada una.
+3. Concatenar los tres arrays, ordenar por `date`, y reemplazar el contenido del bloque
+   `<script id="manifest-data" type="application/json">…</script>`.
+
+No hace falta mantener un bloque `linkedRepositories` aparte — las sesiones de los tres
+repos conviven en el mismo array y se distinguen por `repository`.
