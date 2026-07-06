@@ -137,7 +137,10 @@
   .chip:hover{border-color:var(--amber);color:var(--ink)}
   .chip[aria-pressed="true"]{background:var(--amber);border-color:var(--amber);color:#1a1406;font-weight:600}
   .chip.teal[aria-pressed="true"]{background:var(--teal);border-color:var(--teal);color:#04120f}
+  .chip.violet[aria-pressed="true"]{background:#8b6fd6;border-color:#8b6fd6;color:#fff}
   .chip:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+  .repo-badge{font-family:var(--mono);font-size:11px;padding:3px 9px;border-radius:6px;border:1px solid #8b6fd6;color:#8b6fd6;display:inline-flex;gap:6px;align-items:center;white-space:nowrap}
+  .author-badge{font-family:var(--mono);font-size:11.5px;color:var(--ink-soft)}
   .count{color:var(--ink-faint);font-size:13px;font-family:var(--mono);margin-left:auto}
 
   /* ============ Timeline ============ */
@@ -237,18 +240,19 @@
 
 <main>
 <section class="hero"><div class="grid-bg"></div><div class="wrap">
-  <div class="eyebrow">Registro de uso de IA · SDD</div>
-  <h1 class="title">Cómo la <em>IA</em> ayudó a diseñar un puzzle de flechas.</h1>
-  <p class="lede">Arrow Maze se construyó con <b>Desarrollo Dirigido por Especificación</b>: cada regla del juego nació de una sesión de Q&amp;A estructurada con IA, se consolidó en Gherkin y se registró antes de escribir código. Esta bitácora reconstruye ese rastro — sesión por sesión, decisión por decisión — desde <code>.ai-usage/manifest.json</code>.</p>
+  <div class="eyebrow">Registro de uso de IA · SDD + implementación</div>
+  <h1 class="title">Cómo la <em>IA</em> ayudó a construir Arrow Maze.</h1>
+  <p class="lede">Arrow Maze se construyó con <b>Desarrollo Dirigido por Especificación</b>: cada regla del juego nació de una sesión de Q&amp;A estructurada con IA, se consolidó en Gherkin y se registró antes de escribir código. Esta bitácora unifica esa historia completa — specs en <code>arrowmaze-project-core</code>, cliente en <code>arrowmaze-game</code> y API en <code>arrowmaze-backend</code> — en una sola línea de tiempo, sesión por sesión.</p>
   <div class="stats" id="stats"></div>
 </div></section>
 
 <section class="wrap">
   <div class="sec-head"><h2>Línea de tiempo de sesiones</h2><span class="rule"></span></div>
-  <p class="sec-note">Cada nodo es una sesión de IA por la que avanzó el proyecto. Filtra por fase, grupo de feature o modelo; despliega cada tarjeta para ver decisiones y aporte humano.</p>
+  <p class="sec-note">Cada nodo es una sesión de IA por la que avanzó el proyecto, en cualquiera de los tres repositorios. Filtra por repositorio, fase o modelo; despliega cada tarjeta para ver decisiones, entregables y autor.</p>
 
   <div class="filters">
-    <div class="filter-row" id="fPhase"></div>
+    <div class="filter-row" id="fRepo"></div>
+    <div class="filter-row" id="fPhase" style="margin-top:8px"></div>
     <div class="filter-row" id="fModel" style="margin-top:8px"></div>
     <div class="filter-row" style="margin-top:8px">
       <span class="lab">Vista</span>
@@ -257,12 +261,6 @@
   </div>
 
   <div class="timeline" id="timeline"></div>
-</section>
-
-<section class="wrap" id="linkedSection" style="margin-top:14px">
-  <div class="sec-head"><h2>Repositorios enlazados</h2><span class="rule"></span></div>
-  <p class="sec-note">Sesiones de IA registradas en los repositorios de implementación. La fuente autoritativa de cada historial vive en el <code>.ai-usage/manifest.json</code> del repositorio correspondiente; aquí se consolida por referencia.</p>
-  <div id="linked"></div>
 </section>
 </main>
 
@@ -278,15 +276,22 @@
     "description": "Registro centralizado de uso de IA en desarrollo de puzzle game",
     "lastUpdated": "2026-07-06",
     "maintainedBy": "Jrgil20",
-    "totalSessions": 19,
+    "totalSessions": 56,
     "dateRange": {
       "start": "2026-05-03",
       "end": "2026-07-06"
     },
     "aiTools": [
       "Claude (Sonnet 4.5, Sonnet 4.6, Opus 4.7, Opus 4.8, Fable 5)",
-      "Gemini"
-    ]
+      "Gemini",
+      "Cursor (Cloud Agent)"
+    ],
+    "note": "Vista unificada: cada sesion incluye su repositorio de origen (repository) y, cuando esta documentado, el autor humano responsable (author). Las specs SDD (project-core) y las sesiones de implementacion (arrowmaze-game, arrowmaze-backend) conviven en la misma linea de tiempo; filtra por repositorio para aislar una historia.",
+    "repositoryCounts": {
+      "project-core": 19,
+      "arrowmaze-backend": 6,
+      "arrowmaze-game": 31
+    }
   },
   "sessions": [
     {
@@ -360,7 +365,9 @@
         "capacitor",
         "clean-architecture",
         "n95-optimization"
-      ]
+      ],
+      "repository": "project-core",
+      "author": null
     },
     {
       "id": "2026-05-04-001",
@@ -391,136 +398,48 @@
         "git-strategy",
         "conventional-commits",
         "branching"
-      ]
+      ],
+      "repository": "project-core",
+      "author": null
     },
     {
-      "id": "2026-05-31-001",
-      "date": "2026-05-31",
+      "id": "2026-05-07-001",
+      "date": "2026-05-07",
       "month": "2026-05",
-      "title": "Arrow Placement Feature (A1)",
-      "file": "2026-05/2026-05-31_arrow-placement.md",
-      "duration": {
-        "value": 15,
-        "unit": "minutes",
-        "estimated": true
-      },
-      "aiModel": "Claude Sonnet 4.6",
-      "tool": "claude.ai",
-      "phase": "Foundation & Architecture",
-      "feature": "A2",
-      "context": "Definición y colocación de flechas como listas enlazadas sobre el grafo",
+      "title": "Bootstrap de las reglas del repositorio",
+      "file": "2026-05-07-bootstrap-reglas-repositorio.md",
+      "aiModel": "Claude Opus 4.7",
+      "tool": "Cursor (Cloud Agent)",
+      "author": "Equipo Arrow Maze",
+      "phase": "Governance & Tooling",
+      "feature": "repo-rules-bootstrap",
+      "context": "Entrada recuperada del historial git (commit 6bf868a). Había sido eliminada de AI_USAGE.md en el commit 71e99d8 (2026-06-06) al reformatear el archivo; restaurada en la migración al registro modular (2026-07-06).",
       "deliverables": [
-        "arrow_placement.feature — Gherkin BDD con 4 bloques temáticos y 22 escenarios",
-        "Validación de colocación incremental y dirección de salida explícita"
+        "9 archivos creados"
       ],
-      "status": "completed",
-      "modifications": "none",
       "keyDecisions": [
         {
-          "decision": "Flecha mínima válida = solo cabeza",
-          "rationale": "Simplifica validación de estructura"
+          "decision": "Estructura normativa en .cursor/rules/ (00–60) con CONTRIBUTING.md como versión legible"
         },
         {
-          "decision": "Colocación incremental restringida",
-          "rationale": "Garantiza integridad de lista enlazada"
+          "decision": "Registro obligatorio de uso de IA en el repositorio"
         }
       ],
-      "keywords": [
-        "arrow",
-        "placement",
-        "linked-list",
-        "validation"
-      ]
-    },
-    {
-      "id": "2026-05-31-002",
-      "date": "2026-05-31",
-      "month": "2026-05",
-      "title": "Arrow Movement Refactoring & Review (A3)",
-      "file": "2026-05/2026-05-31_arrow-movement-review.md",
-      "duration": {
-        "value": 45,
-        "unit": "minutes",
-        "estimated": true
-      },
-      "aiModel": "Claude Sonnet 4.6",
-      "tool": "claude.ai",
-      "phase": "Foundation & Architecture",
-      "feature": "A3",
-      "context": "Revisión crítica y reescritura de especificación de movimiento simultáneo de flechas",
-      "deliverables": [
-        "Reescritura 90% de especificación Gherkin",
-        "23 cambios en ~15 escenarios",
-        "Validación exhaustiva de tablas de ticks y topología"
-      ],
       "status": "completed",
-      "pattern": "Quality-driven iteration (mejor resultado, no más rápido)",
-      "changes": {
-        "eliminated": 5,
-        "corrected": 10,
-        "rewritten": 3,
-        "expanded": 2,
-        "total": 23
-      },
-      "changeDetails": [
-        "Eliminados: 5 escenarios (duplicados y malformados)",
-        "Corregidos: 10 escenarios (tick tables, topología, nomenclatura)",
-        "Reescritos: 3 escenarios (orientación visual, estado de colisión, flecha curva)",
-        "Expandidos: 2 escenarios (tablas tick-by-tick explícitas)"
-      ],
+      "repository": "arrowmaze-backend",
       "keywords": [
-        "arrow-movement",
-        "simultaneous-movement",
-        "tick-tables",
-        "topology",
-        "collision"
-      ]
-    },
-    {
-      "id": "2026-05-31-003",
-      "date": "2026-05-31",
-      "month": "2026-05",
-      "title": "Board Graph Refactoring (A1)",
-      "file": "2026-05/2026-05-31_board-graph-feature.md",
-      "duration": {
-        "value": 30,
-        "unit": "minutes",
-        "estimated": true
-      },
-      "aiModel": "Gemini",
-      "tool": "Gemini AI",
-      "phase": "Foundation & Architecture",
-      "feature": "A1",
-      "context": "Refactorización topológica y matemática del grafo de tablero",
-      "deliverables": [
-        "Fórmula de aritmética modular: (puertoEntrada + Math.floor(P / 2)) % P",
-        "Refactorización de entidad Cell: de Map<String, Side> a arrays indexados",
-        "board_graph.feature — archivo Gherkin completamente refactorizado"
+        "governance",
+        "cursor-rules",
+        "clean-architecture",
+        "ddd",
+        "testing-standards",
+        "documentation"
       ],
-      "status": "completed",
-      "modifications": "none",
-      "keyDecisions": [
-        {
-          "decision": "Eliminación de Magic Strings (cardinales)",
-          "rationale": "Scalabilidad y consistencia"
-        },
-        {
-          "decision": "Adopción de aritmética modular",
-          "rationale": "Complejidad O(1)"
-        },
-        {
-          "decision": "Desacoplamiento geométrico",
-          "rationale": "Agnóstico a forma visual (cuadrado, hexágono, etc.)"
-        }
+      "validationNotes": [
+        "cross review: passed — reglas contrastadas contra el enunciado original del proyecto",
+        "lint tests: n/a — el repositorio aún no contenía código fuente"
       ],
-      "formula": "(puertoEntrada + Math.floor(P / 2)) % P",
-      "formulaExplanation": "Calcula puerto opuesto en O(1)",
-      "keywords": [
-        "board-graph",
-        "modular-arithmetic",
-        "topology",
-        "refactoring"
-      ]
+      "linkedSession": null
     },
     {
       "id": "2026-05-30-001",
@@ -576,7 +495,9 @@
         "password-validation",
         "email-format",
         "session-token"
-      ]
+      ],
+      "repository": "project-core",
+      "author": null
     },
     {
       "id": "2026-05-30-003",
@@ -633,7 +554,9 @@
         "registration",
         "login",
         "logout"
-      ]
+      ],
+      "repository": "project-core",
+      "author": null
     },
     {
       "id": "2026-05-30-004",
@@ -690,7 +613,883 @@
         "protected-resources",
         "authentication",
         "security"
+      ],
+      "repository": "project-core",
+      "author": null
+    },
+    {
+      "id": "2026-05-31-001",
+      "date": "2026-05-31",
+      "month": "2026-05",
+      "title": "Arrow Placement Feature (A1)",
+      "file": "2026-05/2026-05-31_arrow-placement.md",
+      "duration": {
+        "value": 15,
+        "unit": "minutes",
+        "estimated": true
+      },
+      "aiModel": "Claude Sonnet 4.6",
+      "tool": "claude.ai",
+      "phase": "Foundation & Architecture",
+      "feature": "A2",
+      "context": "Definición y colocación de flechas como listas enlazadas sobre el grafo",
+      "deliverables": [
+        "arrow_placement.feature — Gherkin BDD con 4 bloques temáticos y 22 escenarios",
+        "Validación de colocación incremental y dirección de salida explícita"
+      ],
+      "status": "completed",
+      "modifications": "none",
+      "keyDecisions": [
+        {
+          "decision": "Flecha mínima válida = solo cabeza",
+          "rationale": "Simplifica validación de estructura"
+        },
+        {
+          "decision": "Colocación incremental restringida",
+          "rationale": "Garantiza integridad de lista enlazada"
+        }
+      ],
+      "keywords": [
+        "arrow",
+        "placement",
+        "linked-list",
+        "validation"
+      ],
+      "repository": "project-core",
+      "author": null
+    },
+    {
+      "id": "2026-05-31-002",
+      "date": "2026-05-31",
+      "month": "2026-05",
+      "title": "Arrow Movement Refactoring & Review (A3)",
+      "file": "2026-05/2026-05-31_arrow-movement-review.md",
+      "duration": {
+        "value": 45,
+        "unit": "minutes",
+        "estimated": true
+      },
+      "aiModel": "Claude Sonnet 4.6",
+      "tool": "claude.ai",
+      "phase": "Foundation & Architecture",
+      "feature": "A3",
+      "context": "Revisión crítica y reescritura de especificación de movimiento simultáneo de flechas",
+      "deliverables": [
+        "Reescritura 90% de especificación Gherkin",
+        "23 cambios en ~15 escenarios",
+        "Validación exhaustiva de tablas de ticks y topología"
+      ],
+      "status": "completed",
+      "pattern": "Quality-driven iteration (mejor resultado, no más rápido)",
+      "changes": {
+        "eliminated": 5,
+        "corrected": 10,
+        "rewritten": 3,
+        "expanded": 2,
+        "total": 23
+      },
+      "changeDetails": [
+        "Eliminados: 5 escenarios (duplicados y malformados)",
+        "Corregidos: 10 escenarios (tick tables, topología, nomenclatura)",
+        "Reescritos: 3 escenarios (orientación visual, estado de colisión, flecha curva)",
+        "Expandidos: 2 escenarios (tablas tick-by-tick explícitas)"
+      ],
+      "keywords": [
+        "arrow-movement",
+        "simultaneous-movement",
+        "tick-tables",
+        "topology",
+        "collision"
+      ],
+      "repository": "project-core",
+      "author": null
+    },
+    {
+      "id": "2026-05-31-003",
+      "date": "2026-05-31",
+      "month": "2026-05",
+      "title": "Board Graph Refactoring (A1)",
+      "file": "2026-05/2026-05-31_board-graph-feature.md",
+      "duration": {
+        "value": 30,
+        "unit": "minutes",
+        "estimated": true
+      },
+      "aiModel": "Gemini",
+      "tool": "Gemini AI",
+      "phase": "Foundation & Architecture",
+      "feature": "A1",
+      "context": "Refactorización topológica y matemática del grafo de tablero",
+      "deliverables": [
+        "Fórmula de aritmética modular: (puertoEntrada + Math.floor(P / 2)) % P",
+        "Refactorización de entidad Cell: de Map<String, Side> a arrays indexados",
+        "board_graph.feature — archivo Gherkin completamente refactorizado"
+      ],
+      "status": "completed",
+      "modifications": "none",
+      "keyDecisions": [
+        {
+          "decision": "Eliminación de Magic Strings (cardinales)",
+          "rationale": "Scalabilidad y consistencia"
+        },
+        {
+          "decision": "Adopción de aritmética modular",
+          "rationale": "Complejidad O(1)"
+        },
+        {
+          "decision": "Desacoplamiento geométrico",
+          "rationale": "Agnóstico a forma visual (cuadrado, hexágono, etc.)"
+        }
+      ],
+      "formula": "(puertoEntrada + Math.floor(P / 2)) % P",
+      "formulaExplanation": "Calcula puerto opuesto en O(1)",
+      "keywords": [
+        "board-graph",
+        "modular-arithmetic",
+        "topology",
+        "refactoring"
+      ],
+      "repository": "project-core",
+      "author": null
+    },
+    {
+      "id": "2026-06-01-001",
+      "date": "2026-06-01",
+      "month": "2026-06",
+      "title": "Initial Scaffold: Vite + React + TypeScript + Capacitor",
+      "file": "2026-06-01-initial-scaffold.md",
+      "aiModel": "Claude Haiku 4.5",
+      "tool": "GitHub Copilot",
+      "author": "@Jrgil20",
+      "phase": "Client Implementation",
+      "feature": null,
+      "context": "Scaffold completo con estructura DDD y Clean Architecture parcialmente implementada. Listo para fase de desarrollo de componentes React.",
+      "deliverables": [
+        "1200 líneas de código",
+        "35 archivos creados",
+        "10 archivos modificados",
+        "1 commits"
+      ],
+      "keyDecisions": [],
+      "status": "completed",
+      "repository": "arrowmaze-game",
+      "keywords": [
+        "scaffolding",
+        "architecture",
+        "ddd",
+        "clean-architecture",
+        "testing-config",
+        "git-lfs",
+        "capacitor"
+      ],
+      "validationNotes": [
+        "build: not_run",
+        "lint: not_run",
+        "tests: not_run",
+        "git checks: passed",
+        "structure: passed"
+      ],
+      "linkedSession": null
+    },
+    {
+      "id": "2026-06-01-002",
+      "date": "2026-06-01",
+      "month": "2026-06",
+      "title": "Domain Layer port-based + Infrastructure & Application Layer (It.1 + It.2)",
+      "file": "2026-06-01-domain-infra-application-layer.md",
+      "aiModel": "Claude Sonnet 4.6 (Thinking)",
+      "tool": "Antigravity (Gemini / Claude)",
+      "author": "@Jrgil20",
+      "phase": "Backend Implementation",
+      "feature": null,
+      "context": "Migración completa del modelo Direction-grid al modelo port-based. 91 tests pasando. Infrastructure layer con InMemory repos listos para tests sin red. HttpBoardRepository pendiente para It.3.",
+      "deliverables": [
+        "1850 líneas de código",
+        "14 archivos creados",
+        "6 archivos modificados",
+        "91 tests pasando",
+        "5 suites de test"
+      ],
+      "keyDecisions": [
+        {
+          "decision": "Topología port-based: Cell(P puertos pares) sin Direction/Position — grafo genérico"
+        },
+        {
+          "decision": "Ports & Adapters (opción C): InMemoryRepository para tests, HttpRepository para producción"
+        },
+        {
+          "decision": "LevelData schema mínimo y extensible — sin definición final del formato de nivel"
+        }
+      ],
+      "status": "completed",
+      "repository": "arrowmaze-game",
+      "keywords": [
+        "domain-layer",
+        "port-based-topology",
+        "tdd",
+        "bdd",
+        "clean-architecture",
+        "ports-and-adapters",
+        "infrastructure",
+        "application-use-cases"
+      ],
+      "validationNotes": [
+        "build: not_run",
+        "lint: not_run",
+        "tests: 91/91 passed — 0 failures, 0 regressions",
+        "git checks: not_run",
+        "structure: passed"
+      ],
+      "linkedSession": null
+    },
+    {
+      "id": "2026-06-02-001",
+      "date": "2026-06-02",
+      "month": "2026-06",
+      "title": "PlantUML Setup & Class Diagram Generation",
+      "file": "2026-06-02-plantuml-setup.md",
+      "aiModel": "Gemini 3.5 Flash (Medium)",
+      "tool": "Antigravity (Gemini)",
+      "author": "@Jrgil20",
+      "phase": "Documentation & Communication",
+      "feature": null,
+      "context": "Configurada la generación automatizada de UML con pnpm run gen-uml. Creado el documento doc/plantuml-generation.md con instrucciones completas.",
+      "deliverables": [
+        "25 líneas de código",
+        "3 archivos creados",
+        "2 archivos modificados",
+        "1 scripts added"
+      ],
+      "keyDecisions": [
+        {
+          "decision": "Usar tplant como extractor de UML a partir de clases TypeScript"
+        },
+        {
+          "decision": "Escribir postprocess-uml.js en NodeJS para sanear la salida y arreglar las firmas de funciones top-level que rompen PlantUML"
+        },
+        {
+          "decision": "Usar pnpm como gestor de paquetes para agregar la devDependency"
+        }
+      ],
+      "status": "completed",
+      "repository": "arrowmaze-game",
+      "keywords": [
+        "uml-modeling",
+        "plantuml",
+        "tooling",
+        "post-processing",
+        "documentation"
+      ],
+      "validationNotes": [
+        "build: passed",
+        "lint: passed",
+        "tests: passed",
+        "structure: passed"
+      ],
+      "linkedSession": null
+    },
+    {
+      "id": "2026-06-02-002",
+      "date": "2026-06-02",
+      "month": "2026-06",
+      "title": "Board Graph Engine — Architecture by Layer Documentation",
+      "file": "2026-06-02-board-graph-architecture.md",
+      "aiModel": "Claude Haiku 4.5",
+      "tool": "Claude (web.claude.ai)",
+      "author": "@Jrgil20",
+      "phase": "Client Implementation",
+      "feature": null,
+      "context": "Documento README exhaustivo (ARCHITECTURE.md) que mapea la topología port-based BDD a una arquitectura limpia de 4 capas. Incluye diagramas ASCII y justificación de cada decisión. Acompañado de AI_USAGE_REPORT.md para trazabilidad auditable.",
+      "deliverables": [
+        "1 documentation pages",
+        "5 markdown sections",
+        "31 class definitions documented",
+        "2 archivos creados"
+      ],
+      "keyDecisions": [
+        {
+          "decision": "ConnectionService en Capa 1 (Domain) en lugar de Capa 2: bidireccionalidad es regla de negocio, no orquestación"
+        },
+        {
+          "decision": "Port como Value Object embebido vs Entity: identidad relativa a su Cell padre, no autónoma"
+        },
+        {
+          "decision": "Validación de ArrowSegment en Cell.placeSegment(): invariante del dominio, no responsabilidad del caso de uso"
+        }
+      ],
+      "status": "completed",
+      "repository": "arrowmaze-game",
+      "keywords": [
+        "architecture-documentation",
+        "clean-architecture",
+        "domain-driven-design",
+        "class-design",
+        "design-decisions"
+      ],
+      "validationNotes": [
+        "bdd coverage: 100% — todos los escenarios Gherkin mapeados a clases",
+        "dependency direction: passed — respeta las 4 capas de Clean Architecture",
+        "completeness: passed — 31 clases/conceptos documentados",
+        "design decisions: traced — 3 decisiones de diseño explicadas y justificadas"
+      ],
+      "linkedSession": null
+    },
+    {
+      "id": "2026-06-02-003",
+      "date": "2026-06-02",
+      "month": "2026-06",
+      "title": "Auditoría, limpieza y refactorización — alineación con feature BDD",
+      "file": "2026-06-02-cleanup-and-refactor-feature1.md",
+      "aiModel": "Claude Sonnet 4.6 (Thinking)",
+      "tool": "Antigravity (Claude)",
+      "author": "@Jrgil20",
+      "phase": "Client Implementation",
+      "feature": null,
+      "context": "Sesión de auditoría: Direction.ts identificado como primer artefacto huérfano, desencadenando limpieza en cascada de 12 archivos. Restauración de LoadLevelUseCase/ILevelRepository derivó en refactorización limpia orientada a LevelData como fuente de verdad de topología.",
+      "deliverables": [
+        "12 archivos eliminados",
+        "4 archivos modificados",
+        "1 dtos removed",
+        "-800 lines of code net"
+      ],
+      "keyDecisions": [
+        {
+          "decision": "Eliminar todo código sin cobertura BDD en lugar de mantenerlo como infraestructura futura"
+        },
+        {
+          "decision": "Reinterpretar ILevelRepository como contrato de LevelData (topología) en vez de entidad Level"
+        },
+        {
+          "decision": "InMemoryBoardRepository implementa ambos contratos (IBoardRepository + ILevelRepository) sin duplicación"
+        }
+      ],
+      "status": "completed",
+      "repository": "arrowmaze-game",
+      "keywords": [
+        "code-audit",
+        "dead-code-removal",
+        "refactoring",
+        "domain-alignment",
+        "ports-and-adapters",
+        "clean-architecture"
+      ],
+      "validationNotes": [
+        "build: not_run",
+        "lint: not_run",
+        "tests: not_run — pendiente verificar LoadLevelUseCase.spec.ts tras refactorización",
+        "import check: passed — 0 referencias rotas post-limpieza",
+        "structure: passed — 13 archivos alineados con doc/feature1.md"
+      ],
+      "linkedSession": null
+    },
+    {
+      "id": "2026-06-02-004",
+      "date": "2026-06-02",
+      "month": "2026-06",
+      "title": "Feature 1 Documentation: Board as Node Graph",
+      "file": "2026-06-02-feature1.md",
+      "aiModel": "Gemini 3.5 Flash (Medium)",
+      "tool": "Antigravity (Gemini)",
+      "author": "@Jrgil20",
+      "phase": "Documentation & Communication",
+      "feature": null,
+      "context": "Redactada especificación completa y diagrama de clases de Feature 1.",
+      "deliverables": [
+        "1 documentation pages",
+        "1 archivos creados",
+        "2 archivos modificados"
+      ],
+      "keyDecisions": [
+        {
+          "decision": "Escribir especificación técnica detallada en español para Feature 1"
+        },
+        {
+          "decision": "Utilizar diagramas de clase Mermaid incrustados en Markdown para mayor claridad"
+        }
+      ],
+      "status": "completed",
+      "repository": "arrowmaze-game",
+      "keywords": [
+        "documentation",
+        "technical-spec",
+        "uml-modeling",
+        "mermaid"
+      ],
+      "validationNotes": [
+        "build: not_run",
+        "lint: not_run",
+        "tests: passed"
+      ],
+      "linkedSession": null
+    },
+    {
+      "id": "2026-06-02-005",
+      "date": "2026-06-02",
+      "month": "2026-06",
+      "title": "TypeScript Strict Compilation & Vite Env Fixes",
+      "file": "2026-06-02-fix-typescript-compilation.md",
+      "aiModel": "Gemini 3.5 Flash (Low)",
+      "tool": "Antigravity (Gemini)",
+      "author": "@Jrgil20",
+      "phase": "Implementation",
+      "feature": null,
+      "context": "Corregidos 12 errores de compilación TypeScript. Build de Vite verificado con éxito.",
+      "deliverables": [
+        "6 archivos modificados"
+      ],
+      "keyDecisions": [
+        {
+          "decision": "Migrar a imports explícitos 'import type' / 'type' inline para verbatimModuleSyntax"
+        },
+        {
+          "decision": "Eliminar parameter properties en constructor en favor de asignaciones de campo explícitas por erasableSyntaxOnly"
+        },
+        {
+          "decision": "Migrar de process.env a import.meta.env en api-config.ts para corregir tipos en Vite"
+        }
+      ],
+      "status": "completed",
+      "repository": "arrowmaze-game",
+      "keywords": [
+        "typescript",
+        "compiler-fixes",
+        "verbatimModuleSyntax",
+        "erasableSyntaxOnly",
+        "vite-env"
+      ],
+      "validationNotes": [
+        "build: passed",
+        "lint: passed",
+        "tests: passed"
+      ],
+      "linkedSession": null
+    },
+    {
+      "id": "2026-06-03-001",
+      "date": "2026-06-03",
+      "month": "2026-06",
+      "title": "Arrow Placement Feature Implementation",
+      "file": "2026-06-03-arrow-placement-feature.md",
+      "aiModel": "Gemini 3.5 Flash (Low)",
+      "tool": "Antigravity (Gemini)",
+      "author": "@Jrgil20",
+      "phase": "Client Implementation",
+      "feature": null,
+      "context": "Funcionalidad de Arrow Placement completamente implementada y probada bajo Clean Architecture con 112 tests pasando en total (17 nuevos de Arrow).",
+      "deliverables": [
+        "625 líneas de código",
+        "8 archivos creados",
+        "2 archivos modificados",
+        "112 tests pasando",
+        "6 suites de test"
+      ],
+      "keyDecisions": [
+        {
+          "decision": "DTO delgado en Cell para desacoplar ArrowSegment rico y evitar loops circulares."
+        },
+        {
+          "decision": "Arrow como Rich Domain Entity responsable de la topología y validez estructural."
+        },
+        {
+          "decision": "Relajar validaciones estáticas en Cell.ts para delegarlas en la lógica de camino/conectores de Arrow."
+        }
+      ],
+      "status": "completed",
+      "repository": "arrowmaze-game",
+      "keywords": [
+        "domain-layer",
+        "clean-architecture",
+        "arrow-placement",
+        "linked-list-topology",
+        "validation-rules",
+        "application-use-cases"
+      ],
+      "validationNotes": [
+        "build: passed",
+        "lint: passed",
+        "tests: 112/112 passed — 0 failures, 0 regressions",
+        "git checks: not_run",
+        "structure: passed"
+      ],
+      "linkedSession": null
+    },
+    {
+      "id": "2026-06-03-002",
+      "date": "2026-06-03",
+      "month": "2026-06",
+      "title": "ArrowSegment Domain Entity Redesign",
+      "file": "2026-06-03-arrow-segment-redesign.md",
+      "aiModel": "Claude Sonnet 4.6 (Thinking)",
+      "tool": "Antigravity (Gemini / Claude)",
+      "author": "@Jrgil20",
+      "phase": "Client Implementation",
+      "feature": null,
+      "context": "Se corrigieron las inconsistencias de diseño conceptual en el modelo de flechas. Las pruebas pasaron completamente tras adaptar las aserciones a la nueva interfaz limpia.",
+      "deliverables": [
+        "70 líneas de código",
+        "1 archivos creados",
+        "5 archivos modificados",
+        "112 tests pasando",
+        "6 suites de test"
+      ],
+      "keyDecisions": [
+        {
+          "decision": "Simplificar ArrowSegment para quitarle del todo fromPort, toPort y abstract exitPort."
+        },
+        {
+          "decision": "Asignar entryPort a Segment solo al nacer de manera de lectura únicamente (readonly)."
+        },
+        {
+          "decision": "La cabeza no hereda entryPort y mantiene exitPort de manera única."
+        }
+      ],
+      "status": "completed",
+      "repository": "arrowmaze-game",
+      "keywords": [
+        "domain-layer",
+        "clean-architecture",
+        "refactoring",
+        "design-inconsistencies",
+        "arrow-segment"
+      ],
+      "validationNotes": [
+        "build: passed",
+        "lint: passed",
+        "tests: 112/112 passed — 0 failures, 0 regressions",
+        "structure: passed"
+      ],
+      "linkedSession": null
+    },
+    {
+      "id": "2026-06-04-001",
+      "date": "2026-06-04",
+      "month": "2026-06",
+      "title": "Propagación de refactor del dominio de ArrowSegment a aplicación e infra",
+      "file": "2026-06-04-refactor-arrow-propagation.md",
+      "aiModel": "Claude Sonnet 4.6 (Thinking)",
+      "tool": "Antigravity (Gemini / Claude)",
+      "author": "@Jrgil20",
+      "phase": "Client Implementation",
+      "feature": null,
+      "context": "Se propagó el diseño limpio del dominio a las capas externas, corrigiendo errores de compilación TypeScript y actualizando el diagrama de clases UML.",
+      "deliverables": [
+        "30 líneas de código",
+        "1 archivos creados",
+        "3 archivos modificados",
+        "1 archivos eliminados"
+      ],
+      "keyDecisions": [
+        {
+          "decision": "Reflejar entryPort y exitPort en ArrowSegmentDTO"
+        },
+        {
+          "decision": "Usar instanceof Head / casting a Segment en PlaceArrowUseCase._projectChain"
+        }
+      ],
+      "status": "completed",
+      "repository": "arrowmaze-game",
+      "keywords": [
+        "application-layer",
+        "dtos",
+        "use-cases",
+        "refactoring",
+        "uml-modeling",
+        "clean-architecture"
+      ],
+      "validationNotes": [
+        "build: passed",
+        "tests: 112/112 passed"
+      ],
+      "linkedSession": null
+    },
+    {
+      "id": "2026-06-04-001",
+      "date": "2026-06-04",
+      "month": "2026-06",
+      "title": "Diseño de Arquitectura Base e Implementación del Módulo de Autenticación",
+      "file": "2026-06-04-arquitectura-base-modulo-autenticacion.md",
+      "aiModel": "Gemini 3.1 pro",
+      "tool": "Gemini",
+      "author": "@SantiagoChirinos",
+      "phase": "Implementation",
+      "feature": "E1/F1 — auth module",
+      "context": "Entrada recuperada del historial git (commit 393e18a). Superseded: su contenido fue consolidado y reformateado en la entrada 2026-06-06-001, perdiendo fecha y modelo originales. Se restaura por trazabilidad; NO contar sus deliverables en agregados (duplican los de 2026-06-06-001).",
+      "deliverables": [
+        "5 archivos creados"
+      ],
+      "keyDecisions": [
+        {
+          "decision": "Factory Pattern en capa main para DI manual escalable"
+        },
+        {
+          "decision": "Tipado estricto con import type para interfaces y contratos"
+        }
+      ],
+      "status": "superseded",
+      "repository": "arrowmaze-backend",
+      "keywords": [
+        "presentation",
+        "composition-root",
+        "factory-pattern",
+        "dependency-injection",
+        "security"
+      ],
+      "validationNotes": [
+        "human review: passed — pureza de Clean Architecture",
+        "static analysis: passed — SonarQube (S5689 resuelto con helmet)"
+      ],
+      "linkedSession": "2026-06-06-001"
+    },
+    {
+      "id": "2026-06-04-002",
+      "date": "2026-06-04",
+      "month": "2026-06",
+      "title": "Configuración de Suite de Pruebas y Tests Unitarios (Patrón AAA)",
+      "file": "2026-06-04-suite-pruebas-unitarias-aaa.md",
+      "aiModel": "Gemini 3.1 pro",
+      "tool": "Gemini",
+      "author": "@SantiagoChirinos",
+      "phase": "Implementation",
+      "feature": "E1/F1 — auth tests",
+      "context": "Entrada recuperada del historial git (commit 393e18a). Superseded: consolidada en 2026-06-06-001. Se restaura por trazabilidad; NO contar sus deliverables en agregados.",
+      "deliverables": [
+        "3 archivos creados"
+      ],
+      "keyDecisions": [
+        {
+          "decision": "Tests de caja negra sobre comportamiento observable, no implementación"
+        },
+        {
+          "decision": "Nomenclatura should_[resultado]_when_[condicion]"
+        },
+        {
+          "decision": "moduleResolution Bundler + ajustes ESM/verbatimModuleSyntax"
+        }
+      ],
+      "status": "superseded",
+      "repository": "arrowmaze-backend",
+      "keywords": [
+        "testing",
+        "jest",
+        "aaa-pattern",
+        "mocking",
+        "typescript-config"
+      ],
+      "validationNotes": [
+        "tests: passed — suite completa en verde",
+        "static analysis: passed — S4325 resuelto con entidades reales en mocks"
+      ],
+      "linkedSession": "2026-06-06-001"
+    },
+    {
+      "id": "2026-06-06-001",
+      "date": "2026-06-06",
+      "month": "2026-06",
+      "title": "Implementación de Capa de Presentación (Auth) y Suite de Pruebas (Jest)",
+      "file": "2026-06-06-consolidado-presentacion-auth-tests.md",
+      "aiModel": "Gemini (versión no especificada; originalmente Gemini 3.1 pro según entradas 2026-06-04)",
+      "tool": "Gemini",
+      "author": "@SantiagoChirinos",
+      "phase": "Implementation",
+      "feature": "E1/F1 — auth module + tests",
+      "context": "Versión canónica del trabajo del 2026-06-04 (commits 393e18a + 71e99d8): consolidación reformateada al formato del front de las entradas 2026-06-04-001 y 2026-06-04-002. El trabajo real se hizo el 2026-06-04.",
+      "deliverables": [
+        "7 archivos creados",
+        "1 archivos modificados"
+      ],
+      "keyDecisions": [
+        {
+          "decision": "Inyección Modular (Factory Pattern) en main/factories"
+        },
+        {
+          "decision": "Detroit TDD: probar impacto real sobre entidades in-memory"
+        },
+        {
+          "decision": "Manejo de errores con cause en vez de I/O en capa de Aplicación"
+        }
+      ],
+      "status": "completed",
+      "repository": "arrowmaze-backend",
+      "keywords": [
+        "presentation",
+        "composition-root",
+        "factory-pattern",
+        "testing",
+        "jest",
+        "security"
+      ],
+      "validationNotes": [
+        "tests: passed — suite completa en Jest",
+        "static analysis: passed — sin advertencias en linter ni SonarQube (S5689, S4325 resueltos)"
+      ],
+      "linkedSession": [
+        "2026-06-04-001",
+        "2026-06-04-002"
       ]
+    },
+    {
+      "id": "2026-06-09-001",
+      "date": "2026-06-09",
+      "month": "2026-06",
+      "title": "Arrow Movement Engine (Domain & Application)",
+      "file": "2026-06-09-arrow-movement-engine.md",
+      "aiModel": "Claude Sonnet 4.6 (Thinking)",
+      "tool": "Antigravity (Claude)",
+      "author": "@Jrgil20",
+      "phase": "Client Implementation",
+      "feature": null,
+      "context": "Motor de avance cinemático implementado en dominio y application layer. Todos los tests BDD en verde (131/131 total tests passing).",
+      "deliverables": [
+        "400 líneas de código",
+        "4 archivos creados",
+        "3 archivos modificados",
+        "131 tests pasando",
+        "9 suites de test"
+      ],
+      "keyDecisions": [
+        {
+          "decision": "AdvanceResult es Value Object, DTO en Capa 2"
+        },
+        {
+          "decision": "La flecha gestiona in-flight nativamente con flag privado"
+        },
+        {
+          "decision": "Algoritmo matemático predecible Head-push sin mutar la topología activa por error"
+        },
+        {
+          "decision": "Prioridad de rollback inmutable si se encuentra el destino bloqueado"
+        }
+      ],
+      "status": "completed",
+      "repository": "arrowmaze-game",
+      "keywords": [
+        "domain-layer",
+        "application-layer",
+        "clean-architecture",
+        "arrow-movement",
+        "cinematic-engine",
+        "unit-testing"
+      ],
+      "validationNotes": [
+        "build: passed",
+        "lint: passed",
+        "tests: 131/131 passed — 0 failures, 0 regressions",
+        "structure: passed"
+      ],
+      "linkedSession": null
+    },
+    {
+      "id": "2026-06-12-001",
+      "date": "2026-06-12",
+      "month": "2026-06",
+      "title": "Complementar carpeta .claude con CLAUDE.md y comandos personalizados",
+      "file": "2026-06-12-claude-folder-rules-complement.md",
+      "aiModel": "Claude Sonnet 4.6",
+      "tool": "Claude Code (claude.ai/code)",
+      "author": "@Jrgil20",
+      "phase": "Documentation & Communication",
+      "feature": null,
+      "context": "Consolidación de reglas dispersas del repositorio en CLAUDE.md. Sin modificación de código fuente ni tests.",
+      "deliverables": [
+        "134 líneas de código",
+        "3 archivos creados",
+        "1 commits"
+      ],
+      "keyDecisions": [
+        {
+          "decision": "CLAUDE.md en la raíz del repositorio (no dentro de .claude/) para detección automática por Claude Code"
+        },
+        {
+          "decision": "Incluir protocolo de AI usage dentro de CLAUDE.md con referencia al skill existente"
+        },
+        {
+          "decision": "Dos comandos personalizados: /run-tests y /new-feature para las operaciones más frecuentes"
+        }
+      ],
+      "status": "completed",
+      "repository": "arrowmaze-game",
+      "keywords": [
+        "documentation",
+        "claude-code-config",
+        "project-conventions",
+        "custom-commands",
+        "ai-usage-protocol"
+      ],
+      "validationNotes": [
+        "build: not_run",
+        "lint: not_run",
+        "tests: not_run",
+        "structure: passed — revisión manual contra doc/, features/, .ai-usage/"
+      ],
+      "linkedSession": null
+    },
+    {
+      "id": "2026-06-12-002",
+      "date": "2026-06-12",
+      "month": "2026-06",
+      "title": "Planning del Roadmap Maestro — Análisis de 13 features (A1–A5, B1–B3, C1–C4, D1–D2)",
+      "file": "2026-06-12-master-roadmap-planning.md",
+      "aiModel": "Claude Sonnet 4.6 (Thinking)",
+      "tool": "Antigravity (Claude)",
+      "author": "@Jrgil20",
+      "phase": "Implementation",
+      "feature": "master-roadmap",
+      "context": "Plan maestro generado tras analisis de 131 tests pasando, 9 suites, 13 features. Pendiente aprobacion del plan y respuesta a 7 open questions antes de iniciar Fase 1 (A4).",
+      "deliverables": [
+        "2 archivos creados",
+        "2 archivos modificados",
+        "5 plan sections",
+        "7 open questions"
+      ],
+      "keyDecisions": [],
+      "status": "in-progress",
+      "repository": "arrowmaze-game",
+      "keywords": [
+        "roadmap",
+        "planning",
+        "architecture-analysis",
+        "feature-mapping",
+        "dependency-graph"
+      ],
+      "validationNotes": [
+        "build: not_run",
+        "lint: not_run",
+        "tests: not_run — sesion de planning, sin cambios de codigo",
+        "structure: passed — analysis against real code"
+      ],
+      "linkedSession": null
+    },
+    {
+      "id": "2026-06-12-003",
+      "date": "2026-06-12",
+      "month": "2026-06",
+      "title": "README.md del proyecto Arrow Maze — documentación real del repositorio",
+      "file": "2026-06-12-master-roadmap-planning.md",
+      "aiModel": "Claude Sonnet 4.6 (Thinking)",
+      "tool": "Antigravity (Claude)",
+      "author": "@Jrgil20",
+      "phase": "Documentation & Communication",
+      "feature": "documentation",
+      "context": "README.md reemplazado: template Vite eliminado, reemplazado por documentacion real del proyecto con arquitectura, features, conceptos de dominio, comandos y links a docs tecnicos.",
+      "deliverables": [
+        "1 archivos creados",
+        "1 documentation pages"
+      ],
+      "keyDecisions": [],
+      "status": "completed",
+      "repository": "arrowmaze-game",
+      "keywords": [
+        "documentation",
+        "readme",
+        "project-overview"
+      ],
+      "validationNotes": [
+        "build: not_run",
+        "lint: not_run",
+        "tests: not_run — cambio de documentacion",
+        "structure: passed"
+      ],
+      "linkedSession": "2026-06-12-002"
     },
     {
       "id": "2026-06-13-001",
@@ -771,7 +1570,9 @@
         "formula",
         "sdd",
         "decision-matrix"
-      ]
+      ],
+      "repository": "project-core",
+      "author": null
     },
     {
       "id": "2026-06-13-002",
@@ -831,7 +1632,199 @@
         "victory",
         "defeat",
         "aggregate-root"
-      ]
+      ],
+      "repository": "project-core",
+      "author": null
+    },
+    {
+      "id": "2026-06-13-001",
+      "date": "2026-06-13",
+      "month": "2026-06",
+      "title": "A4 — Game End Detection: GameSession + PlayMoveUseCase",
+      "file": "2026-06-13-game-end-detection-a4.md",
+      "aiModel": "Claude Sonnet 4.6",
+      "tool": "Claude Code (claude.ai/code)",
+      "author": "@Jrgil20",
+      "phase": "Implementation",
+      "feature": "A4",
+      "context": "Implementación literal del plan feature4_plan.md. TDD estricto: errores → entidad → tests dominio → DTOs → tests aplicación → use case. 154 tests en verde. Branch: feature4/game-end-detection.",
+      "deliverables": [
+        "420 líneas de código",
+        "6 archivos creados",
+        "4 archivos modificados",
+        "23 tests new",
+        "154 tests pasando",
+        "11 suites de test"
+      ],
+      "keyDecisions": [
+        {
+          "decision": "allowedMoves como campo obligatorio (no opcional) en LevelData — consistente con el plan pre-aprobado"
+        },
+        {
+          "decision": "Técnica de corrupción de cadena para probar success=false sin mocks — ArrowCinematicError inducida desconectando puerto post-extend"
+        },
+        {
+          "decision": "WON check antes de LOST en evaluateStatus — garantiza precedencia cuando movesRemaining=0 y board vacío simultaneamente"
+        }
+      ],
+      "status": "completed",
+      "repository": "arrowmaze-game",
+      "keywords": [
+        "domain-layer",
+        "application-layer",
+        "clean-architecture",
+        "game-session",
+        "game-end-detection",
+        "tdd",
+        "bdd"
+      ],
+      "validationNotes": [
+        "build: not_run",
+        "lint: passed — archivos nuevos sin errores",
+        "tests: 154/154 passed — 23 nuevos, 0 regresiones",
+        "gen uml: passed — classes.puml actualizado",
+        "structure: passed — separación de capas respetada"
+      ],
+      "linkedSession": null
+    },
+    {
+      "id": "2026-06-13-001",
+      "date": "2026-06-13",
+      "month": "2026-06",
+      "title": "Gestión de Sesión Activa, Blacklist y Persistencia basada en JSON",
+      "file": "2026-06-13-sesion-activa-blacklist-persistencia-json.md",
+      "aiModel": "Gemini (versión no especificada)",
+      "tool": "Gemini",
+      "author": "@SantiagoChirinos",
+      "phase": "Implementation",
+      "feature": "E2 — active session management",
+      "context": "Implementación de E2 (PR #8, feature16-manejo-sesion-activa). Token único JWT de 7 días sin fingerprinting.",
+      "deliverables": [
+        "5 archivos creados",
+        "2 archivos modificados"
+      ],
+      "keyDecisions": [
+        {
+          "decision": "Persistencia pragmática en JSON en lugar de base de datos pesada"
+        },
+        {
+          "decision": "Blacklist por jti (JWT ID) con Cron Job de purga automática"
+        },
+        {
+          "decision": "Aislamiento de I/O en pruebas interceptando fs/promises"
+        }
+      ],
+      "status": "completed",
+      "repository": "arrowmaze-backend",
+      "keywords": [
+        "infrastructure",
+        "persistence-json",
+        "jwt-blacklist",
+        "cron-jobs",
+        "testing",
+        "middleware"
+      ],
+      "validationNotes": [
+        "tests: passed — suite completa en Jest con fs/promises mockeado",
+        "bdd alignment: passed — códigos 401/403 exactos según el Gherkin E2"
+      ],
+      "linkedSession": null
+    },
+    {
+      "id": "2026-06-14-001",
+      "date": "2026-06-14",
+      "month": "2026-06",
+      "title": "A5 — Game Session Scoring: Planning",
+      "file": "2026-06-14-game-session-scoring-a5-planning.md",
+      "aiModel": "Claude Sonnet 4.6 (Thinking)",
+      "tool": "Antigravity (Claude)",
+      "author": "@Jrgil20",
+      "phase": "Client Implementation",
+      "feature": "A5",
+      "context": "Sesión de planning para A5. 8 preguntas de diseño resueltas, plan de 16 pasos TDD generado en doc/game-session-scoring_implementation_plan.md. Pendiente implementación por Claude Code (Haiku).",
+      "deliverables": [
+        "1 archivos creados",
+        "8 plan sections",
+        "8 open questions resolved"
+      ],
+      "keyDecisions": [],
+      "status": "completed",
+      "repository": "arrowmaze-game",
+      "keywords": [
+        "planning",
+        "scoring-system",
+        "domain-layer",
+        "value-objects",
+        "game-session",
+        "clean-architecture",
+        "tdd",
+        "bdd"
+      ],
+      "validationNotes": [
+        "build: not_run — planning only",
+        "lint: not_run — planning only",
+        "tests: not_run — planning only",
+        "structure: passed — plan validated against checklist pre-handoff"
+      ],
+      "linkedSession": null
+    },
+    {
+      "id": "2026-06-14-002",
+      "date": "2026-06-14",
+      "month": "2026-06",
+      "title": "A5 — Game Session Scoring: Evaluation & Implementation",
+      "file": "2026-06-14-game-session-scoring-evaluation-implementation.md",
+      "aiModel": "Claude Opus 4.8 (evaluation) + Sonnet 4.6 (impl init) + Haiku 4.5 (impl final)",
+      "tool": "Claude Code (claude.ai/code)",
+      "author": "@Jrgil20",
+      "phase": "Implementation",
+      "feature": "A5",
+      "context": "Implementación literalTDD: evaluación del plan (hallazgos B-1, B-2) → addendum con correcciones → implementación según plan + correcciones → validación exhaustiva. 214 tests en verde, requisito crítico (RAM-resident) confirmado. Branch: feature5/game-session-scoring.",
+      "deliverables": [
+        "1240 líneas de código",
+        "7 archivos creados",
+        "3 archivos modificados",
+        "71 tests new",
+        "214 tests pasando",
+        "15 suites de test",
+        "1 commits"
+      ],
+      "keyDecisions": [
+        {
+          "decision": "Mantener scoring 100% RAM-resident (sin persistencia, repos ni infrastructure)"
+        },
+        {
+          "decision": "Aplicar correcciones bloqueantes del addendum B-1 (aritmética) y B-2 (testabilidad)"
+        },
+        {
+          "decision": "Object.freeze en Score + expect().toThrow(TypeError) para test de immutabilidad en strict mode"
+        },
+        {
+          "decision": "Tests de 'registro de outcomes' asertan sobre finalScore observable (no contadores internos)"
+        }
+      ],
+      "status": "completed",
+      "repository": "arrowmaze-game",
+      "keywords": [
+        "domain-layer",
+        "application-layer",
+        "value-objects",
+        "aggregate-composition",
+        "scoring-system",
+        "clean-architecture",
+        "tdd",
+        "bdd",
+        "plan-evaluation",
+        "addendum-generation"
+      ],
+      "validationNotes": [
+        "build: passed",
+        "lint: passed — 0 errores en archivos nuevos/modificados",
+        "tests: 214/214 passed — 71 nuevos, 0 regresiones",
+        "gen uml: passed — classes.puml actualizado",
+        "structure: passed — separación de capas respetada"
+      ],
+      "linkedSession": "2026-06-14-001"
     },
     {
       "id": "2026-06-15-001",
@@ -897,7 +1890,9 @@
         "documentation",
         "pre-implementation",
         "source-of-truth"
-      ]
+      ],
+      "repository": "project-core",
+      "author": null
     },
     {
       "id": "2026-06-15-002",
@@ -963,7 +1958,104 @@
         "svg",
         "visualization",
         "ui-specification"
-      ]
+      ],
+      "repository": "project-core",
+      "author": null
+    },
+    {
+      "id": "2026-06-15-001",
+      "date": "2026-06-15",
+      "month": "2026-06",
+      "title": "Motor de Juego: Constructores de Tablero y Flechas (Frontend)",
+      "file": "2026-06-15-level-load.md",
+      "aiModel": "Gemini (versión no especificada)",
+      "tool": "Gemini",
+      "author": "@SantiagoChirinos",
+      "phase": "Implementation",
+      "feature": "level-load",
+      "context": "Separación de Agregados (SRP) en constructores. Contratos compartidos (LevelDataDTO) para monorepo. Validación geométrica defensiva. NOTA: el spec __tests__/application/LevelDataBoardBuilder.spec.ts introducido con esta feature no compilaba en dev (un \"});\" sobrante); corregido en la sesión 2026-06-22-001.",
+      "deliverables": [
+        "4 archivos creados",
+        "3 archivos modificados"
+      ],
+      "keyDecisions": [],
+      "status": "completed",
+      "repository": "arrowmaze-game",
+      "keywords": [
+        "game-engine",
+        "frontend",
+        "board-builder",
+        "arrow-builder",
+        "level-loader"
+      ],
+      "validationNotes": [
+        "build: not_run",
+        "lint: passed",
+        "tests: passed",
+        "structure: passed"
+      ],
+      "linkedSession": null
+    },
+    {
+      "id": "2026-06-17-001",
+      "date": "2026-06-17",
+      "month": "2026-06",
+      "title": "Player Input Capture & Routing (B3)",
+      "file": "2026-06/2026-06-17_b3-input-routing.md",
+      "duration": {
+        "value": 25,
+        "unit": "minutes",
+        "estimated": true
+      },
+      "aiModel": "Claude Opus 4.8",
+      "tool": "claude-code",
+      "phase": "Rendering & UI Specification",
+      "feature": "B3",
+      "context": "Especificación del adaptador de entrada que captura toques/clics sobre flechas y enruta PlayMoveCommand al motor sin contener reglas de juego",
+      "methodology": "Spec-Driven Development (SDD) con Q&A estructurada (4 decisiones cerradas por el equipo)",
+      "deliverables": [
+        "B3-input-routing.feature — Gherkin (inglés) con 7 Rules y 16 Scenarios",
+        "Reporte SDD 2026-06-17_b3-input-routing.md",
+        "Actualización de docs/FEATURES.md con enlace B3",
+        "Entry en manifest.json (esta sesión)"
+      ],
+      "status": "completed",
+      "iterationRounds": 1,
+      "iterationPhases": [
+        "Elicitación (Q&A 4 decisiones)",
+        "Consolidación de spec"
+      ],
+      "keyDecisions": [
+        {
+          "decision": "Idioma del .feature: inglés",
+          "rationale": "Consistencia con B1, su dependencia directa del grupo B"
+        },
+        {
+          "decision": "Selección por toda la flecha (cuerpo + cabeza)",
+          "rationale": "Mayor área táctil para Capacitor/Android"
+        },
+        {
+          "decision": "Un toque = un movimiento (activación inmediata)",
+          "rationale": "Fluido, sin paso de confirmación; adecuado para puzzle de ritmo"
+        },
+        {
+          "decision": "Input-lock propiedad de B3 durante in-flight",
+          "rationale": "Evita doble consumo de movimientos; animación queda en B2"
+        }
+      ],
+      "architecturalNotes": "B3 es presentación pura: InputAdapter traduce coordenada→celda→Arrow y emite PlayMoveCommand{ arrowId }. Cero lógica de reglas. Resolución renderer-agnostic (inverso del layout B1). Mouse y touch unificados como tap abstracto.",
+      "teamContribution": "Cuatro decisiones de diseño cerradas por el equipo aceptando recomendaciones de la IA en Q&A estructurada",
+      "keywords": [
+        "input",
+        "player-interaction",
+        "tap",
+        "routing",
+        "adapter",
+        "presentation-layer",
+        "sdd"
+      ],
+      "repository": "project-core",
+      "author": null
     },
     {
       "id": "2026-06-18-001",
@@ -1030,66 +2122,9 @@
         "rendering",
         "interaction-model",
         "sdd"
-      ]
-    },
-    {
-      "id": "2026-06-17-001",
-      "date": "2026-06-17",
-      "month": "2026-06",
-      "title": "Player Input Capture & Routing (B3)",
-      "file": "2026-06/2026-06-17_b3-input-routing.md",
-      "duration": {
-        "value": 25,
-        "unit": "minutes",
-        "estimated": true
-      },
-      "aiModel": "Claude Opus 4.8",
-      "tool": "claude-code",
-      "phase": "Rendering & UI Specification",
-      "feature": "B3",
-      "context": "Especificación del adaptador de entrada que captura toques/clics sobre flechas y enruta PlayMoveCommand al motor sin contener reglas de juego",
-      "methodology": "Spec-Driven Development (SDD) con Q&A estructurada (4 decisiones cerradas por el equipo)",
-      "deliverables": [
-        "B3-input-routing.feature — Gherkin (inglés) con 7 Rules y 16 Scenarios",
-        "Reporte SDD 2026-06-17_b3-input-routing.md",
-        "Actualización de docs/FEATURES.md con enlace B3",
-        "Entry en manifest.json (esta sesión)"
       ],
-      "status": "completed",
-      "iterationRounds": 1,
-      "iterationPhases": [
-        "Elicitación (Q&A 4 decisiones)",
-        "Consolidación de spec"
-      ],
-      "keyDecisions": [
-        {
-          "decision": "Idioma del .feature: inglés",
-          "rationale": "Consistencia con B1, su dependencia directa del grupo B"
-        },
-        {
-          "decision": "Selección por toda la flecha (cuerpo + cabeza)",
-          "rationale": "Mayor área táctil para Capacitor/Android"
-        },
-        {
-          "decision": "Un toque = un movimiento (activación inmediata)",
-          "rationale": "Fluido, sin paso de confirmación; adecuado para puzzle de ritmo"
-        },
-        {
-          "decision": "Input-lock propiedad de B3 durante in-flight",
-          "rationale": "Evita doble consumo de movimientos; animación queda en B2"
-        }
-      ],
-      "architecturalNotes": "B3 es presentación pura: InputAdapter traduce coordenada→celda→Arrow y emite PlayMoveCommand{ arrowId }. Cero lógica de reglas. Resolución renderer-agnostic (inverso del layout B1). Mouse y touch unificados como tap abstracto.",
-      "teamContribution": "Cuatro decisiones de diseño cerradas por el equipo aceptando recomendaciones de la IA en Q&A estructurada",
-      "keywords": [
-        "input",
-        "player-interaction",
-        "tap",
-        "routing",
-        "adapter",
-        "presentation-layer",
-        "sdd"
-      ]
+      "repository": "project-core",
+      "author": null
     },
     {
       "id": "2026-06-18-002",
@@ -1150,7 +2185,400 @@
         "transition-record",
         "determinism",
         "sdd"
-      ]
+      ],
+      "repository": "project-core",
+      "author": null
+    },
+    {
+      "id": "2026-06-22-001",
+      "date": "2026-06-22",
+      "month": "2026-06",
+      "title": "Validación PR #10 + saneo registro AI usage + spec movimiento continuo",
+      "file": "2026-06-22-pr10-validation-ai-usage-cleanup.md",
+      "aiModel": "Claude Opus 4.8",
+      "tool": "Claude Code (claude.ai/code)",
+      "author": "@Jrgil20",
+      "phase": "Documentation & Communication",
+      "feature": "pr10-review / ai-usage-cleanup",
+      "context": "Validación del PR #10 (presentación B1–B4). Fix de compilación en LevelDataBoardBuilder.spec.ts (\"});\" sobrante línea 108). Reparación del manifest.json (JSON inválido por doble bloque statistics + entradas A5 huérfanas) restaurando la base a1b7e6e y reinsertando limpio. Spec de movimiento continuo documentada sin implementar.",
+      "deliverables": [
+        "3 archivos creados",
+        "4 archivos modificados"
+      ],
+      "keyDecisions": [],
+      "status": "completed",
+      "repository": "arrowmaze-game",
+      "keywords": [
+        "pr-review",
+        "ai-usage-registry",
+        "test-fix",
+        "spec-driven",
+        "continuous-movement-spec"
+      ],
+      "validationNotes": [
+        "build: pending",
+        "lint: pending",
+        "tests: passed — 197/197 tras corregir LevelDataBoardBuilder.spec.ts",
+        "structure: passed"
+      ],
+      "linkedSession": "2026-06-15-001"
+    },
+    {
+      "id": "2026-06-26-001",
+      "date": "2026-06-26",
+      "month": "2026-06",
+      "title": "Planning de fixes de movimiento — FIX-1 (slide, aplicación) + FIX-2 (colisión de cola, dominio)",
+      "file": "2026-06-26-movement-fixes-planning.md",
+      "aiModel": "Claude Opus 4.8",
+      "tool": "Claude Code (claude.ai/code)",
+      "author": "@Jrgil20",
+      "phase": "Implementation",
+      "feature": "slide-arrow-movement + tail-collision-detection",
+      "context": "Sesión de planning de dos fixes. FIX-1 (aplicación): SlideArrowUseCase encadena advance() hasta terminal (1 click = ticks). FIX-2 (dominio): cierra el hueco de colisión en la cola (advance solo validaba la cabeza; Cell.placeArrowSegment sobre-escribía en silencio). Entregados 2 Gherkin + 2 planes. Implementación pendiente en las sub-ramas.",
+      "deliverables": [
+        "5 archivos creados"
+      ],
+      "keyDecisions": [
+        {
+          "decision": "Slide (FIX-1): 1 click = 1 movimiento; 1 registro de scoring por slide; no toca dominio ni PlayMoveUseCase"
+        },
+        {
+          "decision": "Colisión de cola (FIX-2): único cambio de dominio — validar el destino de la cola en Arrow.advance() fase 3"
+        },
+        {
+          "decision": "Modelo head-push confirmado: cabeza atrás (empuja), cola adelante (frente que entra a celdas nuevas)"
+        },
+        {
+          "decision": "Estructura de ramas: fix/movement/base (planes + AI-usage) -> sub-ramas fix/movement/slide y fix/movement/tail"
+        }
+      ],
+      "status": "completed",
+      "repository": "arrowmaze-game",
+      "keywords": [
+        "planning",
+        "spec-driven",
+        "bdd",
+        "application-layer",
+        "domain-layer",
+        "arrow-movement",
+        "collision-detection"
+      ],
+      "validationNotes": [
+        "build: not_run — planning only",
+        "lint: not_run — planning only",
+        "tests: not_run — planning only",
+        "structure: passed — specs validados contra el código del dominio"
+      ],
+      "linkedSession": "2026-06-22-001"
+    },
+    {
+      "id": "2026-06-26-002",
+      "date": "2026-06-26",
+      "month": "2026-06",
+      "title": "FIX-1 slide-arrow-movement — implementación de SlideArrowUseCase",
+      "file": "2026-06-26-slide-arrow-movement-impl.md",
+      "aiModel": "Claude Opus 4.8",
+      "tool": "Claude Code (claude.ai/code)",
+      "author": "@Jrgil20",
+      "phase": "Implementation",
+      "feature": "slide-arrow-movement",
+      "context": "Implementación TDD del plan FIX-1 en rama fix/movement/slide. SlideArrowUseCase encadena advance() hasta terminal y consolida la jugada (1 movimiento, 1 registro de scoring). Colisión de serpientes pendiente de FIX-2. Pendiente cableado de animación en el preview (solo presentación).",
+      "deliverables": [
+        "265 líneas de código",
+        "3 archivos creados",
+        "1 archivos modificados",
+        "9 tests new",
+        "225 tests pasando",
+        "20 suites de test"
+      ],
+      "keyDecisions": [
+        {
+          "decision": "1 click = 1 movimiento: el bucle hace N ticks pero consumeMove()/recordMoveOutcome() se llaman una vez"
+        },
+        {
+          "decision": "Slide se detiene en blocked/destroyed; fallo de infra no consume movimiento"
+        },
+        {
+          "decision": "Cota defensiva maxTicks = nº celdas + 1 (el dominio ya garantiza terminación)"
+        },
+        {
+          "decision": "Reutiliza AdvanceArrowUseCase; no reimplementa trayectoria ni colisión"
+        }
+      ],
+      "status": "completed",
+      "repository": "arrowmaze-game",
+      "keywords": [
+        "application-layer",
+        "use-cases",
+        "dtos",
+        "arrow-movement",
+        "tdd",
+        "bdd"
+      ],
+      "validationNotes": [
+        "build: not_run",
+        "lint: passed — exit 0",
+        "tests: 225/225 passed — 9 nuevos, 0 regresiones",
+        "gen uml: passed — classes.puml actualizado",
+        "structure: passed — sin tocar dominio ni PlayMoveUseCase"
+      ],
+      "linkedSession": "2026-06-26-001"
+    },
+    {
+      "id": "2026-06-26-003",
+      "date": "2026-06-26",
+      "month": "2026-06",
+      "title": "FIX-2 tail-collision-detection — validación del destino de la cola en Arrow.advance (dominio)",
+      "file": "2026-06-26-tail-collision-detection-impl.md",
+      "aiModel": "Claude Opus 4.8",
+      "tool": "Claude Code (claude.ai/code)",
+      "author": "@Jrgil20",
+      "phase": "Implementation",
+      "feature": "tail-collision-detection",
+      "context": "Implementación TDD del plan FIX-2 en rama fix/movement/tail. Cierra el hueco de colisión en la cola: advance() solo validaba la cabeza (self en flechas multi-celda) y Cell.placeArrowSegment sobre-escribía en silencio. Fase 3.5 valida el destino de la cola contra ocupación ajena. Scenario 7 'Lazy checking' verificado intacto. Con FIX-2 el slide de FIX-1 ya se detiene ante serpientes sin tocar SlideArrowUseCase.",
+      "deliverables": [
+        "11 líneas de código",
+        "2 archivos creados",
+        "3 archivos modificados",
+        "8 tests new",
+        "233 tests pasando",
+        "21 suites de test"
+      ],
+      "keyDecisions": [
+        {
+          "decision": "Alcance cola-only: en head-push la cola es el único segmento que entra a celda nueva"
+        },
+        {
+          "decision": "Sumidero (targetCell null) no bloquea: la cola se purga en el commit"
+        },
+        {
+          "decision": "self nunca bloquea (reutiliza _cellBelongsToSelf)"
+        },
+        {
+          "decision": "Rollback = no hacer nada: el chequeo es pre-commit, ningún contenedor fue mutado"
+        },
+        {
+          "decision": "No se tocó _calculateTargets, _commitAdvance, Cell ni ningún use case"
+        }
+      ],
+      "status": "completed",
+      "repository": "arrowmaze-game",
+      "keywords": [
+        "domain-layer",
+        "entities",
+        "arrow-movement",
+        "collision-detection",
+        "cinematic-engine",
+        "tdd",
+        "bdd"
+      ],
+      "validationNotes": [
+        "build: not_run",
+        "lint: passed — exit 0",
+        "tests: 233/233 passed — 8 nuevos, 0 regresiones",
+        "gen uml: passed — classes.puml sin cambios de contenido (API pública intacta)",
+        "structure: passed — único cambio de dominio, sin tocar use cases ni Cell"
+      ],
+      "linkedSession": "2026-06-26-001"
+    },
+    {
+      "id": "2026-06-27-001",
+      "date": "2026-06-27",
+      "month": "2026-06",
+      "title": "Animación de slide tick-a-tick + recoil de colisión (presentación)",
+      "file": "2026-06-27-slide-animation-recoil-presentation.md",
+      "aiModel": "Claude Sonnet 4.6 (slide tick-a-tick) + Claude Opus 4.8 (recoil + cierre)",
+      "tool": "Claude Code (claude.ai/code)",
+      "author": "@Jrgil20",
+      "phase": "Implementation",
+      "feature": "presentation-slide-animation",
+      "context": "Seguimiento de FIX-1: cablea el slide en el preview con animación tick-a-tick reusando el motor (sin translate). Reintroduce el rebote de colisión que se había eliminado con la maquinaria. Verificación en runtime (navegador) además de tests/typecheck. Rama feature/animaciones.",
+      "deliverables": [
+        "180 líneas de código",
+        "6 archivos modificados",
+        "3 archivos eliminados",
+        "228 tests pasando",
+        "20 suites de test"
+      ],
+      "keyDecisions": [
+        {
+          "decision": "Animar el slide simulando clicks: encadenar AdvanceArrowUseCase espaciado en el tiempo (TICK_MS=90) y reproyectar la forma real del dominio en cada tick — resuelve las figuras curvas"
+        },
+        {
+          "decision": "Eliminar la maquinaria de translate/stepOffset/keyframes (motion.ts, useTickAnimation.ts) por innecesaria"
+        },
+        {
+          "decision": "Recoil de colisión como transform efímero disparado por collideNonce cuando el slide termina en blocked"
+        },
+        {
+          "decision": "1 click = 1 jugada: commitSlide consolida al final, espejando SlideArrowUseCase"
+        },
+        {
+          "decision": "Dominio y SlideArrowUseCase intactos (revertido un intento de cambio de dominio a petición del autor)"
+        }
+      ],
+      "status": "completed",
+      "repository": "arrowmaze-game",
+      "keywords": [
+        "presentation-layer",
+        "react-hooks",
+        "animation",
+        "slide-animation",
+        "collision-recoil",
+        "web-animations-api",
+        "dead-code-removal"
+      ],
+      "validationNotes": [
+        "build: not_run",
+        "typecheck: passed — tsc --noEmit exit 0",
+        "lint: not_run",
+        "tests: 228/228 passed — 0 regresiones (−7 del animation.spec.ts B2 eliminado)",
+        "runtime: verificado en preview neón: cian curva 6 formas distintas tick-a-tick; recoil amarillo transform 0→43.2px→none; 0 errores de consola en fresh mount",
+        "structure: passed — dominio y SlideArrowUseCase intactos"
+      ],
+      "linkedSession": "2026-06-26-002"
+    },
+    {
+      "id": "2026-06-27-003",
+      "date": "2026-06-27",
+      "month": "2026-06",
+      "title": "Animaciones desaparición, deformación colisión, UI mejorado",
+      "file": "2026-06-27-animaciones-desaparicion-deformacion-ui.md",
+      "aiModel": "Claude Haiku 4.5 + Claude Opus 4.8",
+      "tool": "Claude Code (claude.ai/code)",
+      "author": "@Jrgil20",
+      "phase": "Implementation",
+      "feature": "presentation-animations-ui",
+      "context": "Sesión de 4 animaciones visuales + mejora de UI principal. Puro código de presentación. ArrowBurst y ArrowHeadDisintegrate nuevos componentes SVG. ArrowComponent mejorado con deformación. Timing de desintegración (150ms) antes de burst (350ms) crea efecto visual cohesivo. Ambos tableros (claro + neón con glow) funcionales. Verificación visual en screenshot + DOM.",
+      "deliverables": [
+        "520 líneas de código",
+        "2 archivos creados",
+        "5 archivos modificados",
+        "228 tests pasando",
+        "20 suites de test"
+      ],
+      "keyDecisions": [
+        {
+          "decision": "Estallido + desintegración en secuencia (150ms + 350ms) para transición visual clara"
+        },
+        {
+          "decision": "Deformación de colisión: factor² para pico en impacto, easing suave"
+        },
+        {
+          "decision": "Timing sincronizado: headDisintegrating inicia al mismo tiempo que vanishing"
+        },
+        {
+          "decision": "UI: BOARD_SIZE aumentado, número de movimientos en 36px azul con label arriba"
+        }
+      ],
+      "status": "completed",
+      "repository": "arrowmaze-game",
+      "keywords": [
+        "presentation-layer",
+        "react-components",
+        "animation",
+        "svg",
+        "ui-design",
+        "css",
+        "visual-effects"
+      ],
+      "validationNotes": [
+        "build: passed — Vite 57 módulos",
+        "lint: passed — ESLint exit 0",
+        "tests: 228/228 passed — 0 regresiones",
+        "visual: screenshot verificado: tablero 560px, número 30 azul prominente",
+        "dom: verificado: 9 chispas + 4 grietas en DOM durante desaparición",
+        "runtime: ambos tableros (claro + neón) funcionales sin errores"
+      ],
+      "linkedSession": "2026-06-27-001"
+    },
+    {
+      "id": "2026-06-27-002",
+      "date": "2026-06-27",
+      "month": "2026-06",
+      "title": "Mapa de preview 'corazón': tablero-grafo esquemático y resoluble",
+      "file": "2026-06-27-heart-preview-map.md",
+      "aiModel": "Claude Opus 4.8",
+      "tool": "Claude Code (claude.ai/code)",
+      "author": "@Jrgil20",
+      "phase": "Implementation",
+      "feature": "heart-preview-map",
+      "context": "Mapa de preview con forma de corazón. El autor corrigió el enfoque (matriz -> grafo) y la coherencia de direcciones, y fijó el alcance (jugable/resoluble + esquemático) vía preguntas. Verificación headless (solver) + runtime (WON).",
+      "deliverables": [
+        "140 líneas de código",
+        "1 archivos creados",
+        "1 archivos modificados"
+      ],
+      "keyDecisions": [
+        {
+          "decision": "Tablero-GRAFO, no matriz: solo los nodos del corazón conectados a sus vecinos existentes"
+        },
+        {
+          "decision": "Flechas apuntando hacia afuera (lóbulos N, centro S) para garantizar resolubilidad"
+        },
+        {
+          "decision": "Solver DFS headless (memoizado por firma de estado) para confirmar resolubilidad antes del navegador"
+        },
+        {
+          "decision": "Corazón esquemático (5 flechas, colores del icono), no réplica fiel"
+        }
+      ],
+      "status": "completed",
+      "repository": "arrowmaze-game",
+      "keywords": [
+        "presentation-layer",
+        "preview",
+        "scene-design",
+        "graph-topology",
+        "puzzle-solvability",
+        "headless-verification"
+      ],
+      "validationNotes": [
+        "build: not_run",
+        "typecheck: passed — tsc --noEmit exit 0",
+        "lint: not_run",
+        "tests: no afecta la suite (código solo de preview)",
+        "solver: SOLVABLE en 5 slides (yellow->green->white->magenta->orange); 26 nodos, 5 flechas",
+        "runtime: verificado en preview: la secuencia vacía el tablero (5->0) y el estado llega a WON (99->94); sin errores de consola"
+      ],
+      "linkedSession": "2026-06-27-001"
+    },
+    {
+      "id": "2026-06-27-004",
+      "date": "2026-06-27",
+      "month": "2026-06",
+      "title": "Persistencia local del progreso (Offline-First) + sincronización bidireccional",
+      "file": "2026-06-27-progreso-local.md",
+      "aiModel": "Gemini (versión no especificada)",
+      "tool": "Gemini",
+      "author": "@SantiagoChirinos",
+      "phase": "Implementation",
+      "feature": "feature13-persistencia-local",
+      "context": "Entrada registrada retroactivamente durante la resolución de conflictos del PR #16: el reporte .md existía en la rama pero nunca se indexó en README/manifest. Deuda pendiente declarada: falta features/*.feature y doc/<feature>_plan.md; timeElapsedSeconds provisional (45s) en App.tsx; puertos por mover a application/ports.",
+      "deliverables": [
+        "1200 líneas de código",
+        "21 archivos creados",
+        "2 archivos modificados"
+      ],
+      "keyDecisions": [],
+      "status": "completed",
+      "repository": "arrowmaze-game",
+      "keywords": [
+        "domain-layer",
+        "application-layer",
+        "infrastructure-layer",
+        "sqlite",
+        "capacitor",
+        "offline-first",
+        "sync"
+      ],
+      "validationNotes": [
+        "build: passed — tsc -b exit 0",
+        "lint: pending — 1 error preserve-caught-error en LocalProgressModuleFactory.ts",
+        "tests: passed — 3 suites nuevas (LevelProgress, SaveLocalProgress, SyncProgress)",
+        "structure: pending — puertos en domain/repositories/ en lugar de application/ports/ (convención del repo)"
+      ],
+      "linkedSession": null
     },
     {
       "id": "2026-06-28-001",
@@ -1222,7 +2650,158 @@
         "documentation",
         "roadmap",
         "i18n"
-      ]
+      ],
+      "repository": "project-core",
+      "author": null
+    },
+    {
+      "id": "2026-06-28-001",
+      "date": "2026-06-28",
+      "month": "2026-06",
+      "title": "Colisión configurable (return por defecto) + mapa decorado 6×6",
+      "file": "2026-06-28-colision-return-y-mapa-decorado.md",
+      "aiModel": "Claude Opus 4.8",
+      "tool": "Claude Code (Cursor)",
+      "author": "@Jrgil20",
+      "phase": "Implementation",
+      "feature": "collision-behavior-return + sample-level-2",
+      "context": "Entrada reconstruida el 2026-07-03: el reporte y el índice existían pero faltaba en el manifest. Colisión configurable return/stay con glide de regreso tick-a-tick + nivel 6×6 decorado.",
+      "deliverables": [
+        "400 líneas de código",
+        "1 archivos creados",
+        "4 archivos modificados",
+        "228 tests pasando",
+        "20 suites de test"
+      ],
+      "keyDecisions": [
+        {
+          "decision": "return como DEFAULT (no opt-in) — solo escenas excepcionales usan stay"
+        },
+        {
+          "decision": "Lógica 100% en presentación — reconstrucción con API pública del motor"
+        },
+        {
+          "decision": "sampleLevel2.ts separado para no afectar los 228 tests existentes"
+        }
+      ],
+      "status": "completed",
+      "repository": "arrowmaze-game",
+      "keywords": [
+        "presentation-layer",
+        "collision-behavior",
+        "render-override",
+        "glide-back-animation",
+        "level-design"
+      ],
+      "validationNotes": [
+        "build: passed",
+        "lint: passed",
+        "tests: 228/228 passed — 0 regresiones",
+        "runtime: verificado en preview: colisión return funciona, mapa 6×6 lleno (36 nodos, 8 flechas), amber apunta al Este"
+      ],
+      "linkedSession": "2026-06-27-003"
+    },
+    {
+      "id": "2026-07-03-001",
+      "date": "2026-07-03",
+      "month": "2026-07",
+      "title": "Pulido visual de animaciones: glide entre ticks, recoil asimétrico, burst orgánico, fractura de punta",
+      "file": "2026-07-03-pulido-visual-animaciones.md",
+      "aiModel": "Claude Fable 5",
+      "tool": "Claude Code (claude.ai/code)",
+      "author": "@Jrgil20",
+      "phase": "Implementation",
+      "feature": "presentation-animation-polish",
+      "context": "Sesión corta de pulido puramente visual en src/presentation/components/. El slide ahora se lee continuo (glide 85ms < TICK_MS 90ms), el impacto de colisión pica rápido y se recupera lento, el burst es orgánico (2 anillos + onda) y la punta se fractura en fragmentos que derivan y rotan.",
+      "deliverables": [
+        "250 líneas de código",
+        "3 archivos modificados",
+        "228 tests pasando",
+        "20 suites de test"
+      ],
+      "keyDecisions": [
+        {
+          "decision": "Detección previa de 4 puntos débiles (slide a saltos, recoil simétrico, burst mecánico, desintegración plana) antes de implementar — libertad creativa delegada por el humano"
+        },
+        {
+          "decision": "Interpolación desde la última posición DIBUJADA (drawnRef) con arranque síncrono pre-paint para evitar parpadeo"
+        },
+        {
+          "decision": "Determinismo preservado en todas las animaciones (sin aleatoriedad) para tests y replays"
+        }
+      ],
+      "status": "completed",
+      "repository": "arrowmaze-game",
+      "keywords": [
+        "presentation-layer",
+        "animation",
+        "svg",
+        "react-hooks",
+        "visual-effects"
+      ],
+      "validationNotes": [
+        "build: passed — tsc strict + Vite",
+        "lint: passed — ESLint exit 0 (fix react-hooks/refs durante la sesión)",
+        "tests: 228/228 passed — 0 regresiones",
+        "structure: passed — domain y application intactos; testids, duraciones espejadas (150/350 ms) y fallback sin rAF preservados"
+      ],
+      "linkedSession": "2026-06-28-001"
+    },
+    {
+      "id": "2026-07-03-002",
+      "date": "2026-07-03",
+      "month": "2026-07",
+      "title": "Auditoría del repo: reglas sincronizadas y tooling corregido",
+      "file": "2026-07-03-analisis-repo-sync-reglas-tooling.md",
+      "aiModel": "claude-fable-5",
+      "tool": "Claude Code (claude.ai/code)",
+      "author": "@Jrgil20",
+      "phase": "Client Implementation",
+      "feature": "repo-audit-rules-sync",
+      "context": "Auditoría general: 228/228 tests y lint limpios de partida, pero deriva severa docs↔código. Se detectó y documentó código muerto (application/dtos/LevelData.ts) y la violación de capas type-only de LevelDataDTOs (6 imports). main sigue en el commit inicial (higiene de repo, sin acción). También se reinsertó en este manifest la entrada faltante 2026-06-28-001.",
+      "deliverables": [
+        "1 archivos creados",
+        "8 archivos modificados",
+        "1 archivos renombrados",
+        "228 tests pasando",
+        "20 suites de test"
+      ],
+      "keyDecisions": [
+        {
+          "decision": "Fronteras de capas verificadas en pnpm lint via no-restricted-imports (antes solo documentación)"
+        },
+        {
+          "decision": "Desviación application → infrastructure/shared/contracts resuelta: LevelDataDTOs movido a application/dtos (15 imports), huérfano LevelData.ts eliminado, carve-out del lint retirado"
+        },
+        {
+          "decision": "Rename InMemoryBoardRepository.ts → InMemoryLevelRepository.ts (archivo = clase exportada)"
+        },
+        {
+          "decision": "Flag de Jest 30 corregido en docs: --testPathPatterns (plural)"
+        },
+        {
+          "decision": "CLAUDE.md, README.md y .agents/rules/arrow-game.md sincronizados con la estructura real de src/"
+        }
+      ],
+      "status": "completed",
+      "repository": "arrowmaze-game",
+      "keywords": [
+        "repo-audit",
+        "documentation-sync",
+        "work-rules",
+        "lint-enforcement",
+        "clean-architecture",
+        "tooling",
+        "jest-config",
+        "eslint-config"
+      ],
+      "validationNotes": [
+        "build: passed — tsc + Vite sin errores",
+        "lint: passed — regla de fronteras de capas probada con archivo sonda",
+        "tests: 228/228 passed — sin warnings de ts-jest tras migración a transform",
+        "gen uml: passed — classes.puml regenerado"
+      ],
+      "linkedSession": null
     },
     {
       "id": "2026-07-04-001",
@@ -1300,7 +2879,62 @@
         "iclock",
         "p23-open",
         "sdd"
-      ]
+      ],
+      "repository": "project-core",
+      "author": null
+    },
+    {
+      "id": "2026-07-04-001",
+      "date": "2026-07-04",
+      "month": "2026-07",
+      "title": "Resolución de conflictos PR #16 + matriz de decisiones",
+      "file": "2026-07-04-resolucion-conflictos-pr16.md",
+      "aiModel": "Claude Fable 5 + Haiku 4.5",
+      "tool": "Claude Code (claude.ai/code)",
+      "author": "@Jrgil20",
+      "phase": "Documentation & Communication",
+      "feature": "feature13-merge-resolution",
+      "context": "Sesión de resolución exhaustiva con matriz de decisiones explícita. Todos los conflictos eran resolubles sin pérdida de lógica. Segunda fase de la misma sesión: deuda de revisión saldada — puertos movidos a application/ports/ (12 imports), InvalidLevelProgressError tipado (+2 tests), renombres archivo=clase con git mv, timer de presentación real en App.tsx (reemplaza 45s hardcodeado), classes.puml regenerado. Pendiente de Santiago: Gherkin y plan en doc/.",
+      "deliverables": [
+        "2 archivos creados",
+        "17 archivos modificados",
+        "3 archivos eliminados",
+        "6 archivos renombrados",
+        "249 tests pasando",
+        "24 suites de test"
+      ],
+      "keyDecisions": [
+        {
+          "decision": "Presentación: CONSERVAR dev (7 archivos add/add eran idénticos byte-a-byte con PR#10 squasheado; dev evolucionó con #12/#14)"
+        },
+        {
+          "decision": "App.tsx: COMBINAR (base dev de B1-B3 + reinserción de persistencia sin casts; score !== null para evitar pérdida de 0)"
+        },
+        {
+          "decision": "AI usage: COMBINAR (base dev + retroactiva 2026-06-27-004 con metadatos completados)"
+        },
+        {
+          "decision": "DTOs / dirs: ELIMINAR (LeaderboardDTO, ProgressDTO muertos; src/infrastructure/shared/contracts/ violaba fronteras de #14)"
+        }
+      ],
+      "status": "completed",
+      "repository": "arrowmaze-game",
+      "keywords": [
+        "git-merge",
+        "conflict-resolution",
+        "clean-architecture",
+        "ai-usage-registry",
+        "documentation",
+        "integration-testing"
+      ],
+      "validationNotes": [
+        "build: passed — tsc -b exit 0",
+        "lint: passed — ESLint exit 0 (including preserve-caught-error fix)",
+        "tests: passed — 247/247 (dev base 228 + feature13 nouvelles 19)",
+        "merge: tested with local worktree — cero regresiones",
+        "runtime: verified — navegador: 13 movimientos, input habilitado, tablero renderiza"
+      ],
+      "linkedSession": null
     },
     {
       "id": "2026-07-05-001",
@@ -1363,7 +2997,9 @@
         "self-contained",
         "github-pages",
         "communication"
-      ]
+      ],
+      "repository": "project-core",
+      "author": null
     },
     {
       "id": "2026-07-05-002",
@@ -1443,7 +3079,111 @@
         "sdd",
         "star-thresholds",
         "closed"
-      ]
+      ],
+      "repository": "project-core",
+      "author": null
+    },
+    {
+      "id": "2026-07-06-001",
+      "date": "2026-07-06",
+      "month": "2026-07",
+      "title": "Sincronización de especificaciones con arrowmaze-project-core",
+      "file": "2026-07-06-sincronizar-specs-con-project-core.md",
+      "aiModel": "claude-haiku-4-5-20251001",
+      "tool": "Claude Code (claude.ai/code)",
+      "author": "@Jrgil20",
+      "phase": "Documentation & Communication",
+      "feature": "spec-sync-project-core",
+      "context": "Sesión de alineación de documentación entre arrowmaze-game y arrowmaze-project-core. El objetivo fue establecer project-core como único repositorio de especificaciones (Gherkin, decisiones arquitectónicas, SDD historial). Todos los feature files ahora tienen versión única, sincronizados desde project-core.",
+      "deliverables": [
+        "1 archivos creados",
+        "2 archivos modificados",
+        "11 archivos eliminados",
+        "18 archivos .feature sincronizados"
+      ],
+      "keyDecisions": [
+        {
+          "decision": "Copiar ALL feature files (A1-G3) aunque no estén implementados en arrowmaze-game"
+        },
+        {
+          "decision": "Usar patrón de nomenclatura estándar de project-core (A1-*, A2-*, etc.) para todos los features"
+        },
+        {
+          "decision": "Establecer project-core como fuente única de especificaciones en documentación"
+        },
+        {
+          "decision": "Eliminar 11 archivos duplicados con nombres antiguos para evitar confusión"
+        }
+      ],
+      "status": "completed",
+      "repository": "arrowmaze-game",
+      "keywords": [
+        "documentation",
+        "specification-sync",
+        "clean-architecture",
+        "feature-files",
+        "gherkin-bdd",
+        "architecture-alignment"
+      ],
+      "validationNotes": [
+        "feature files sync: passed — 18 files de project-core copiados a arrowmaze-game",
+        "git status: passed — working tree clean",
+        "documentation consistency: passed — README y CLAUDE.md actualizados con referencias a project-core"
+      ],
+      "linkedSession": null
+    },
+    {
+      "id": "2026-07-06-001",
+      "date": "2026-07-06",
+      "month": "2026-07",
+      "title": "Reestructuración documental: docs/, registro modular de IA y README",
+      "file": "2026-07-06-reestructuracion-documental-registro-modular.md",
+      "aiModel": "Claude Opus 4.8 + Claude Fable 5",
+      "tool": "Claude Code (claude.ai/code)",
+      "author": "@Jrgil20",
+      "phase": "Documentation & Communication",
+      "feature": "docs-restructure + ai-usage-registry",
+      "context": "Primera sesión del registro modular. Rama docs/documentacion-modular con 7 commits modulares. project-core establecido como fuente única de specs para el backend.",
+      "deliverables": [
+        "14 archivos creados",
+        "5 archivos modificados",
+        "1 archivos eliminados",
+        "2 archivos renombrados",
+        "5 archivos .feature sincronizados",
+        "3 sesiones recuperadas del historial git",
+        "7 commits"
+      ],
+      "keyDecisions": [
+        {
+          "decision": "Recuperar del historial git las 3 sesiones borradas y marcarlas superseded con linked_session"
+        },
+        {
+          "decision": "Codificar la inmutabilidad de reportes en la normativa (.cursor/rules + CONTRIBUTING)"
+        },
+        {
+          "decision": "Centralizar documentación en docs/ (specs, CONTRIBUTING, diagramas UML)"
+        },
+        {
+          "decision": "pnpm como gestor de paquetes obligatorio (corrección tras uso indebido de npm)"
+        }
+      ],
+      "status": "completed",
+      "repository": "arrowmaze-backend",
+      "keywords": [
+        "documentation",
+        "specification-sync",
+        "ai-usage-registry",
+        "governance",
+        "readme",
+        "tooling"
+      ],
+      "validationNotes": [
+        "tests: passed — 19/19 en 5 suites con pnpm test",
+        "spec sync: passed — diff byte a byte contra project-core",
+        "manifest json: passed — JSON válido",
+        "orphan references: passed — cero referencias a AI_USAGE.md o enlaces rotos"
+      ],
+      "linkedSession": null
     }
   ],
   "summary": {
@@ -1615,326 +3355,21 @@
     "projectGuide": "CLAUDE.md en raíz del proyecto",
     "aiUsageReports": "Archivos .md en carpeta ai-usage/"
   },
-  "linkedRepositories": {
+  "repositories": {
+    "project-core": {
+      "label": "arrowmaze-project-core",
+      "url": "https://github.com/NRC25783-G4-ArrowMaze/arrowmaze-project-core",
+      "sessions": 19
+    },
     "arrowmaze-game": {
-      "name": "arrowmaze-game (Cliente)",
+      "label": "arrowmaze-game (Cliente)",
       "url": "https://github.com/NRC25783-G4-ArrowMaze/arrowmaze-game",
-      "description": "Implementación del cliente (React + TypeScript + Vite + Capacitor)",
-      "lastUpdated": "2026-07-06",
-      "totalReports": 31,
-      "sessions": [
-        {
-          "id": "2026-06-01-001",
-          "date": "2026-06-01",
-          "title": "Initial Scaffold: Vite + React + TypeScript + Capacitor",
-          "file": "2026-06-01-initial-scaffold.md",
-          "tool": "GitHub Copilot",
-          "model": "Claude Haiku 4.5",
-          "status": "completed",
-          "repository": "arrowmaze-game"
-        },
-        {
-          "id": "2026-06-01-002",
-          "date": "2026-06-01",
-          "title": "Domain Layer port-based + Infrastructure & Application Layer (It.1 + It.2)",
-          "file": "2026-06-01-domain-infra-application-layer.md",
-          "tool": "Antigravity (Gemini / Claude)",
-          "model": "Claude Sonnet 4.6 (Thinking)",
-          "status": "completed",
-          "repository": "arrowmaze-game"
-        },
-        {
-          "id": "2026-06-02-001",
-          "date": "2026-06-02",
-          "title": "PlantUML Setup & Class Diagram Generation",
-          "file": "2026-06-02-plantuml-setup.md",
-          "tool": "Antigravity (Gemini)",
-          "model": "Gemini 3.5 Flash (Medium)",
-          "status": "completed",
-          "repository": "arrowmaze-game"
-        },
-        {
-          "id": "2026-06-02-002",
-          "date": "2026-06-02",
-          "title": "Board Graph Engine — Architecture by Layer Documentation",
-          "file": "2026-06-02-board-graph-architecture.md",
-          "tool": "Claude (web.claude.ai)",
-          "model": "Claude Haiku 4.5",
-          "status": "completed",
-          "repository": "arrowmaze-game"
-        },
-        {
-          "id": "2026-06-02-003",
-          "date": "2026-06-02",
-          "title": "Auditoría, limpieza y refactorización — alineación con feature BDD",
-          "file": "2026-06-02-cleanup-and-refactor-feature1.md",
-          "tool": "Antigravity (Claude)",
-          "model": "Claude Sonnet 4.6 (Thinking)",
-          "status": "completed",
-          "repository": "arrowmaze-game"
-        },
-        {
-          "id": "2026-06-02-004",
-          "date": "2026-06-02",
-          "title": "Feature 1 Documentation: Board as Node Graph",
-          "file": "2026-06-02-feature1.md",
-          "tool": "Antigravity (Gemini)",
-          "model": "Gemini 3.5 Flash (Medium)",
-          "status": "completed",
-          "repository": "arrowmaze-game"
-        },
-        {
-          "id": "2026-06-02-005",
-          "date": "2026-06-02",
-          "title": "TypeScript Strict Compilation & Vite Env Fixes",
-          "file": "2026-06-02-fix-typescript-compilation.md",
-          "tool": "Antigravity (Gemini)",
-          "model": "Gemini 3.5 Flash (Low)",
-          "status": "completed",
-          "repository": "arrowmaze-game"
-        },
-        {
-          "id": "2026-06-03-001",
-          "date": "2026-06-03",
-          "title": "Arrow Placement Feature Implementation",
-          "file": "2026-06-03-arrow-placement-feature.md",
-          "tool": "Antigravity (Gemini)",
-          "model": "Gemini 3.5 Flash (Low)",
-          "status": "completed",
-          "repository": "arrowmaze-game"
-        },
-        {
-          "id": "2026-06-03-002",
-          "date": "2026-06-03",
-          "title": "ArrowSegment Domain Entity Redesign",
-          "file": "2026-06-03-arrow-segment-redesign.md",
-          "tool": "Antigravity (Gemini / Claude)",
-          "model": "Claude Sonnet 4.6 (Thinking)",
-          "status": "completed",
-          "repository": "arrowmaze-game"
-        },
-        {
-          "id": "2026-06-04-001",
-          "date": "2026-06-04",
-          "title": "Propagación de refactor del dominio de ArrowSegment a aplicación e infra",
-          "file": "2026-06-04-refactor-arrow-propagation.md",
-          "tool": "Antigravity (Gemini / Claude)",
-          "model": "Claude Sonnet 4.6 (Thinking)",
-          "status": "completed",
-          "repository": "arrowmaze-game"
-        },
-        {
-          "id": "2026-06-09-001",
-          "date": "2026-06-09",
-          "title": "Arrow Movement Engine (Domain & Application)",
-          "file": "2026-06-09-arrow-movement-engine.md",
-          "tool": "Antigravity (Claude)",
-          "model": "Claude Sonnet 4.6 (Thinking)",
-          "status": "completed",
-          "repository": "arrowmaze-game"
-        },
-        {
-          "id": "2026-06-12-001",
-          "date": "2026-06-12",
-          "title": "Complementar carpeta .claude con CLAUDE.md y comandos personalizados",
-          "file": "2026-06-12-claude-folder-rules-complement.md",
-          "tool": "Claude Code (claude.ai/code)",
-          "model": "Claude Sonnet 4.6",
-          "status": "completed",
-          "repository": "arrowmaze-game"
-        },
-        {
-          "id": "2026-06-12-002",
-          "date": "2026-06-12",
-          "title": "Planning del Roadmap Maestro — Análisis de 13 features (A1–A5, B1–B3, C1–C4, D1–D2)",
-          "file": "2026-06-12-master-roadmap-planning.md",
-          "tool": "Antigravity (Claude)",
-          "model": "Claude Sonnet 4.6 (Thinking)",
-          "status": "in-progress",
-          "repository": "arrowmaze-game"
-        },
-        {
-          "id": "2026-06-12-003",
-          "date": "2026-06-12",
-          "title": "README.md del proyecto Arrow Maze — documentación real del repositorio",
-          "file": "2026-06-12-master-roadmap-planning.md",
-          "tool": "Antigravity (Claude)",
-          "model": "Claude Sonnet 4.6 (Thinking)",
-          "status": "completed",
-          "repository": "arrowmaze-game"
-        },
-        {
-          "id": "2026-06-13-001",
-          "date": "2026-06-13",
-          "title": "A4 — Game End Detection: GameSession + PlayMoveUseCase",
-          "file": "2026-06-13-game-end-detection-a4.md",
-          "tool": "Claude Code (claude.ai/code)",
-          "model": "Claude Sonnet 4.6",
-          "status": "completed",
-          "repository": "arrowmaze-game"
-        },
-        {
-          "id": "2026-06-14-001",
-          "date": "2026-06-14",
-          "title": "A5 — Game Session Scoring: Planning",
-          "file": "2026-06-14-game-session-scoring-a5-planning.md",
-          "tool": "Antigravity (Claude)",
-          "model": "Claude Sonnet 4.6 (Thinking)",
-          "status": "completed",
-          "repository": "arrowmaze-game"
-        },
-        {
-          "id": "2026-06-14-002",
-          "date": "2026-06-14",
-          "title": "A5 — Game Session Scoring: Evaluation & Implementation",
-          "file": "2026-06-14-game-session-scoring-evaluation-implementation.md",
-          "tool": "Claude Code (claude.ai/code)",
-          "model": "Claude Opus 4.8 (evaluation) + Sonnet 4.6 (impl init) + Haiku 4.5 (impl final)",
-          "status": "completed",
-          "repository": "arrowmaze-game"
-        },
-        {
-          "id": "2026-06-15-001",
-          "date": "2026-06-15",
-          "title": "Motor de Juego: Constructores de Tablero y Flechas (Frontend)",
-          "file": "2026-06-15-level-load.md",
-          "tool": "Gemini",
-          "model": "Gemini (versión no especificada)",
-          "status": "completed",
-          "repository": "arrowmaze-game"
-        },
-        {
-          "id": "2026-06-22-001",
-          "date": "2026-06-22",
-          "title": "Validación PR #10 + saneo registro AI usage + spec movimiento continuo",
-          "file": "2026-06-22-pr10-validation-ai-usage-cleanup.md",
-          "tool": "Claude Code (claude.ai/code)",
-          "model": "Claude Opus 4.8",
-          "status": "completed",
-          "repository": "arrowmaze-game"
-        },
-        {
-          "id": "2026-06-26-001",
-          "date": "2026-06-26",
-          "title": "Planning de fixes de movimiento — FIX-1 (slide, aplicación) + FIX-2 (colisión de cola, dominio)",
-          "file": "2026-06-26-movement-fixes-planning.md",
-          "tool": "Claude Code (claude.ai/code)",
-          "model": "Claude Opus 4.8",
-          "status": "completed",
-          "repository": "arrowmaze-game"
-        },
-        {
-          "id": "2026-06-26-002",
-          "date": "2026-06-26",
-          "title": "FIX-1 slide-arrow-movement — implementación de SlideArrowUseCase",
-          "file": "2026-06-26-slide-arrow-movement-impl.md",
-          "tool": "Claude Code (claude.ai/code)",
-          "model": "Claude Opus 4.8",
-          "status": "completed",
-          "repository": "arrowmaze-game"
-        },
-        {
-          "id": "2026-06-26-003",
-          "date": "2026-06-26",
-          "title": "FIX-2 tail-collision-detection — validación del destino de la cola en Arrow.advance (dominio)",
-          "file": "2026-06-26-tail-collision-detection-impl.md",
-          "tool": "Claude Code (claude.ai/code)",
-          "model": "Claude Opus 4.8",
-          "status": "completed",
-          "repository": "arrowmaze-game"
-        },
-        {
-          "id": "2026-06-27-001",
-          "date": "2026-06-27",
-          "title": "Animación de slide tick-a-tick + recoil de colisión (presentación)",
-          "file": "2026-06-27-slide-animation-recoil-presentation.md",
-          "tool": "Claude Code (claude.ai/code)",
-          "model": "Claude Sonnet 4.6 (slide tick-a-tick) + Claude Opus 4.8 (recoil + cierre)",
-          "status": "completed",
-          "repository": "arrowmaze-game"
-        },
-        {
-          "id": "2026-06-27-002",
-          "date": "2026-06-27",
-          "title": "Mapa de preview 'corazón': tablero-grafo esquemático y resoluble",
-          "file": "2026-06-27-heart-preview-map.md",
-          "tool": "Claude Code (claude.ai/code)",
-          "model": "Claude Opus 4.8",
-          "status": "completed",
-          "repository": "arrowmaze-game"
-        },
-        {
-          "id": "2026-06-27-003",
-          "date": "2026-06-27",
-          "title": "Animaciones desaparición, deformación colisión, UI mejorado",
-          "file": "2026-06-27-animaciones-desaparicion-deformacion-ui.md",
-          "tool": "Claude Code (claude.ai/code)",
-          "model": "Claude Haiku 4.5 + Claude Opus 4.8",
-          "status": "completed",
-          "repository": "arrowmaze-game"
-        },
-        {
-          "id": "2026-06-27-004",
-          "date": "2026-06-27",
-          "title": "Persistencia local del progreso (Offline-First) + sincronización bidireccional",
-          "file": "2026-06-27-progreso-local.md",
-          "tool": "Gemini",
-          "model": "Gemini (versión no especificada)",
-          "status": "completed",
-          "repository": "arrowmaze-game"
-        },
-        {
-          "id": "2026-06-28-001",
-          "date": "2026-06-28",
-          "title": "Colisión configurable (return por defecto) + mapa decorado 6×6",
-          "file": "2026-06-28-colision-return-y-mapa-decorado.md",
-          "tool": "Claude Code (Cursor)",
-          "model": "Claude Opus 4.8",
-          "status": "completed",
-          "repository": "arrowmaze-game"
-        },
-        {
-          "id": "2026-07-03-001",
-          "date": "2026-07-03",
-          "title": "Pulido visual de animaciones: glide entre ticks, recoil asimétrico, burst orgánico, fractura de punta",
-          "file": "2026-07-03-pulido-visual-animaciones.md",
-          "tool": "Claude Code (claude.ai/code)",
-          "model": "Claude Fable 5",
-          "status": "completed",
-          "repository": "arrowmaze-game"
-        },
-        {
-          "id": "2026-07-03-002",
-          "date": "2026-07-03",
-          "title": "Auditoría del repo: reglas sincronizadas y tooling corregido",
-          "file": "2026-07-03-analisis-repo-sync-reglas-tooling.md",
-          "tool": "Claude Code (claude.ai/code)",
-          "model": "claude-fable-5",
-          "status": "completed",
-          "repository": "arrowmaze-game"
-        },
-        {
-          "id": "2026-07-04-001",
-          "date": "2026-07-04",
-          "title": "Resolución de conflictos PR #16 + matriz de decisiones",
-          "file": "2026-07-04-resolucion-conflictos-pr16.md",
-          "tool": "Claude Code (claude.ai/code)",
-          "model": "Claude Fable 5 + Haiku 4.5",
-          "status": "completed",
-          "repository": "arrowmaze-game"
-        },
-        {
-          "id": "2026-07-06-001",
-          "date": "2026-07-06",
-          "title": "Sincronización de especificaciones con arrowmaze-project-core",
-          "file": "2026-07-06-sincronizar-specs-con-project-core.md",
-          "tool": "Claude Code (claude.ai/code)",
-          "model": "claude-haiku-4-5-20251001",
-          "status": "completed",
-          "repository": "arrowmaze-game"
-        }
-      ],
-      "note": "Historial completo de sesiones de IA referenciado desde arrowmaze-game/.ai-usage/manifest.json (fuente autoritativa en su repositorio)."
+      "sessions": 31
+    },
+    "arrowmaze-backend": {
+      "label": "arrowmaze-backend (API)",
+      "url": "https://github.com/NRC25783-G4-ArrowMaze/arrowmaze-backend",
+      "sessions": 6
     }
   }
 }
@@ -1953,8 +3388,22 @@
     "Rendering & UI Specification":    "#1f8f86",
     "Pre-implementation Transition":   "#6f7c96",
     "Product Features Specification":  "#c0453b",
+    "Client Flow Specification":       "#2f8f5b",
+    "Documentation & Communication":   "#6f7c96",
+    "Governance & Tooling":            "#b7791f",
+    "Implementation":                  "#3f8fd0",
+    "Client Implementation":           "#3f8fd0",
+    "Backend Implementation":          "#c0453b",
   };
   const phaseColor = p => PHASE_COLOR[p] || "#c8871a";
+
+  // -------- repository label/short-name mapping --------
+  const REPO_LABEL = {
+    "project-core":       "project-core",
+    "arrowmaze-game":      "game",
+    "arrowmaze-backend":   "backend",
+  };
+  const repoLabel = r => REPO_LABEL[r] || r || "—";
 
   const MONTHS = {"2026-05":"Mayo 2026","2026-06":"Junio 2026","2026-07":"Julio 2026"};
   const monthName = m => MONTHS[m] || m;
@@ -1976,9 +3425,10 @@
   const feats = new Set(); sessions.forEach(s=>{ if(s.feature) String(s.feature).split(",").forEach(f=>feats.add(f.trim())); });
   const decisions = sessions.reduce((a,s)=>a+((s.keyDecisions&&s.keyDecisions.length)||0),0);
   const models = new Set(sessions.map(s=>modelFamily(s.aiModel)));
+  const repos = [...new Set(sessions.map(s=>s.repository).filter(Boolean))];
   const statHTML = [
     [sessions.length, "Sesiones de IA", ""],
-    [(totalMin/60).toFixed(1), "Horas registradas", "h"],
+    [repos.length, "Repositorios", ""],
     [feats.size, "Features especificadas", ""],
     [decisions, "Decisiones clave", ""],
     [models.size, "Familias de modelo", ""],
@@ -1990,11 +3440,14 @@
 
   // ============ Filters ============
   const phases = [...new Set(sessions.map(s=>s.phase))];
-  const state = { phase:null, model:null };
+  const state = { phase:null, model:null, repo:null };
 
   function chip(label, val, group, cls){
     return `<button class="chip ${cls||""}" role="button" aria-pressed="false" data-group="${group}" data-val="${esc(val)}">${esc(label)}</button>`;
   }
+  document.getElementById("fRepo").innerHTML =
+    `<span class="lab">Repositorio</span>` +
+    repos.map(r=>chip(`${repoLabel(r)} (${sessions.filter(s=>s.repository===r).length})`, r, "repo","violet")).join("");
   document.getElementById("fPhase").innerHTML =
     `<span class="lab">Fase</span>` +
     phases.map(p=>chip(p, p, "phase")).join("");
@@ -2066,6 +3519,7 @@
       ${formulaBlock(s)}
       ${s.architecturalNotes?`<div class="block" style="margin-top:14px"><h4>Nota arquitectónica</h4><p class="ctx" style="margin:0">${esc(s.architecturalNotes)}</p></div>`:""}
       ${(s.openDecisions||s.openDependencies)?listBlock("Decisiones abiertas", s.openDecisions||s.openDependencies):""}
+      ${listBlock("Validación", s.validationNotes)}
       <div style="margin-top:14px">${humanBlock(s)}</div>
     `;
 
@@ -2076,10 +3530,12 @@
         <span class="date">${esc(s.date)}</span>
       </div>
       <div class="meta">
+        ${s.repository?`<span class="repo-badge">⌂ ${esc(repoLabel(s.repository))}</span>`:""}
         <span class="tag">◆ <b>${esc(s.phase)}</b></span>
         <span class="tag">modelo <b>${esc(s.aiModel)}</b></span>
         ${durTxt?`<span class="tag">⧗ ${esc(durTxt)}</span>`:""}
         ${s.tool?`<span class="tag">${esc(s.tool)}</span>`:""}
+        ${s.author?`<span class="author-badge">✎ ${esc(s.author)}</span>`:""}
         ${statusPill(s.status)}
       </div>
       ${s.context?`<p class="ctx">${esc(s.context)}</p>`:""}
@@ -2091,6 +3547,7 @@
     const filtered = sessions.filter(s=>{
       if(state.phase && s.phase!==state.phase) return false;
       if(state.model && modelFamily(s.aiModel)!==state.model) return false;
+      if(state.repo && s.repository!==state.repo) return false;
       return true;
     });
     countEl.textContent = `${filtered.length} de ${sessions.length} sesiones`;
@@ -2111,39 +3568,6 @@
     }).join("");
   }
   render();
-
-  // ============ Linked repositories ============
-  (function renderLinked(){
-    const linked = DATA.linkedRepositories;
-    const host = document.getElementById("linked");
-    if(!linked || !host){ const sec=document.getElementById("linkedSection"); if(sec) sec.style.display="none"; return; }
-
-    const repos = Object.entries(linked);
-    host.innerHTML = repos.map(([key, r])=>{
-      const list = (r.sessions || r.recentSessions || []).slice()
-        .sort((a,b)=> a.date < b.date ? 1 : a.date > b.date ? -1 : 0); // newest first
-      const rows = list.map(s=>{
-        const model = modelFamily(s.model);
-        const tool = s.tool ? `<span class="lr-tool">${esc(s.tool)}</span>` : "";
-        return `<div class="lr-row">
-          <div class="lr-date"><code>${esc(s.date)}</code></div>
-          <div class="lr-main">
-            <div class="lr-title">${esc(s.title)}</div>
-            <div class="lr-meta">${tool}<span class="lr-model">${esc(model)}</span>${statusPill(s.status)}</div>
-          </div>
-        </div>`;
-      }).join("");
-      return `<div class="lr-card">
-        <div class="lr-head">
-          <a class="lr-name" href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.name || key)} ↗</a>
-          <span class="lr-count">${list.length} sesiones</span>
-        </div>
-        ${r.description?`<p class="lr-desc">${esc(r.description)}</p>`:""}
-        <div class="lr-rows">${rows}</div>
-        ${r.note?`<p class="lr-note">${esc(r.note)}</p>`:""}
-      </div>`;
-    }).join("");
-  })();
 
   // ============ Theme toggle ============
   const root = document.documentElement;
