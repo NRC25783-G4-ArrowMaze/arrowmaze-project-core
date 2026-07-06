@@ -201,6 +201,25 @@
   footer code{font-family:var(--mono);color:var(--ink-soft)}
 
   @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+  /* ---- Linked repositories ---- */
+  #linked{display:flex;flex-direction:column;gap:16px}
+  .lr-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .lr-head{display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;justify-content:space-between}
+  .lr-name{font-family:var(--mono);font-weight:700;font-size:1.02rem;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
+  .lr-name:hover{color:var(--amber)}
+  .lr-count{font-family:var(--mono);font-size:12px;color:var(--ink-soft);background:var(--panel-2);padding:2px 8px;border-radius:20px;white-space:nowrap}
+  .lr-desc{margin:6px 0 14px;color:var(--ink-soft);font-size:.92rem;max-width:70ch}
+  .lr-rows{display:flex;flex-direction:column}
+  .lr-row{display:flex;gap:14px;padding:10px 0;border-top:1px solid var(--line)}
+  .lr-date{flex:0 0 96px}
+  .lr-date code{font-family:var(--mono);font-size:12px;color:var(--ink-soft)}
+  .lr-main{flex:1 1 auto;min-width:0}
+  .lr-title{color:var(--ink);font-size:.94rem;line-height:1.35}
+  .lr-meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:5px}
+  .lr-tool,.lr-model{font-family:var(--mono);font-size:11px;color:var(--ink-soft);background:var(--panel-2);padding:1px 7px;border-radius:5px}
+  .lr-note{margin:14px 0 0;font-size:.8rem;color:var(--ink-faint);font-style:italic}
+  @media(max-width:560px){.lr-row{flex-direction:column;gap:3px}.lr-date{flex-basis:auto}}
 </style>
 </head>
 <body>
@@ -238,6 +257,12 @@
   </div>
 
   <div class="timeline" id="timeline"></div>
+</section>
+
+<section class="wrap" id="linkedSection" style="margin-top:14px">
+  <div class="sec-head"><h2>Repositorios enlazados</h2><span class="rule"></span></div>
+  <p class="sec-note">Sesiones de IA registradas en los repositorios de implementación. La fuente autoritativa de cada historial vive en el <code>.ai-usage/manifest.json</code> del repositorio correspondiente; aquí se consolida por referencia.</p>
+  <div id="linked"></div>
 </section>
 </main>
 
@@ -1595,9 +1620,269 @@
       "name": "arrowmaze-game (Cliente)",
       "url": "https://github.com/NRC25783-G4-ArrowMaze/arrowmaze-game",
       "description": "Implementación del cliente (React + TypeScript + Vite + Capacitor)",
-      "lastUpdated": "2026-06-26T00:00:00Z",
+      "lastUpdated": "2026-07-06",
       "totalReports": 31,
-      "recentSessions": [
+      "sessions": [
+        {
+          "id": "2026-06-01-001",
+          "date": "2026-06-01",
+          "title": "Initial Scaffold: Vite + React + TypeScript + Capacitor",
+          "file": "2026-06-01-initial-scaffold.md",
+          "tool": "GitHub Copilot",
+          "model": "Claude Haiku 4.5",
+          "status": "completed",
+          "repository": "arrowmaze-game"
+        },
+        {
+          "id": "2026-06-01-002",
+          "date": "2026-06-01",
+          "title": "Domain Layer port-based + Infrastructure & Application Layer (It.1 + It.2)",
+          "file": "2026-06-01-domain-infra-application-layer.md",
+          "tool": "Antigravity (Gemini / Claude)",
+          "model": "Claude Sonnet 4.6 (Thinking)",
+          "status": "completed",
+          "repository": "arrowmaze-game"
+        },
+        {
+          "id": "2026-06-02-001",
+          "date": "2026-06-02",
+          "title": "PlantUML Setup & Class Diagram Generation",
+          "file": "2026-06-02-plantuml-setup.md",
+          "tool": "Antigravity (Gemini)",
+          "model": "Gemini 3.5 Flash (Medium)",
+          "status": "completed",
+          "repository": "arrowmaze-game"
+        },
+        {
+          "id": "2026-06-02-002",
+          "date": "2026-06-02",
+          "title": "Board Graph Engine — Architecture by Layer Documentation",
+          "file": "2026-06-02-board-graph-architecture.md",
+          "tool": "Claude (web.claude.ai)",
+          "model": "Claude Haiku 4.5",
+          "status": "completed",
+          "repository": "arrowmaze-game"
+        },
+        {
+          "id": "2026-06-02-003",
+          "date": "2026-06-02",
+          "title": "Auditoría, limpieza y refactorización — alineación con feature BDD",
+          "file": "2026-06-02-cleanup-and-refactor-feature1.md",
+          "tool": "Antigravity (Claude)",
+          "model": "Claude Sonnet 4.6 (Thinking)",
+          "status": "completed",
+          "repository": "arrowmaze-game"
+        },
+        {
+          "id": "2026-06-02-004",
+          "date": "2026-06-02",
+          "title": "Feature 1 Documentation: Board as Node Graph",
+          "file": "2026-06-02-feature1.md",
+          "tool": "Antigravity (Gemini)",
+          "model": "Gemini 3.5 Flash (Medium)",
+          "status": "completed",
+          "repository": "arrowmaze-game"
+        },
+        {
+          "id": "2026-06-02-005",
+          "date": "2026-06-02",
+          "title": "TypeScript Strict Compilation & Vite Env Fixes",
+          "file": "2026-06-02-fix-typescript-compilation.md",
+          "tool": "Antigravity (Gemini)",
+          "model": "Gemini 3.5 Flash (Low)",
+          "status": "completed",
+          "repository": "arrowmaze-game"
+        },
+        {
+          "id": "2026-06-03-001",
+          "date": "2026-06-03",
+          "title": "Arrow Placement Feature Implementation",
+          "file": "2026-06-03-arrow-placement-feature.md",
+          "tool": "Antigravity (Gemini)",
+          "model": "Gemini 3.5 Flash (Low)",
+          "status": "completed",
+          "repository": "arrowmaze-game"
+        },
+        {
+          "id": "2026-06-03-002",
+          "date": "2026-06-03",
+          "title": "ArrowSegment Domain Entity Redesign",
+          "file": "2026-06-03-arrow-segment-redesign.md",
+          "tool": "Antigravity (Gemini / Claude)",
+          "model": "Claude Sonnet 4.6 (Thinking)",
+          "status": "completed",
+          "repository": "arrowmaze-game"
+        },
+        {
+          "id": "2026-06-04-001",
+          "date": "2026-06-04",
+          "title": "Propagación de refactor del dominio de ArrowSegment a aplicación e infra",
+          "file": "2026-06-04-refactor-arrow-propagation.md",
+          "tool": "Antigravity (Gemini / Claude)",
+          "model": "Claude Sonnet 4.6 (Thinking)",
+          "status": "completed",
+          "repository": "arrowmaze-game"
+        },
+        {
+          "id": "2026-06-09-001",
+          "date": "2026-06-09",
+          "title": "Arrow Movement Engine (Domain & Application)",
+          "file": "2026-06-09-arrow-movement-engine.md",
+          "tool": "Antigravity (Claude)",
+          "model": "Claude Sonnet 4.6 (Thinking)",
+          "status": "completed",
+          "repository": "arrowmaze-game"
+        },
+        {
+          "id": "2026-06-12-001",
+          "date": "2026-06-12",
+          "title": "Complementar carpeta .claude con CLAUDE.md y comandos personalizados",
+          "file": "2026-06-12-claude-folder-rules-complement.md",
+          "tool": "Claude Code (claude.ai/code)",
+          "model": "Claude Sonnet 4.6",
+          "status": "completed",
+          "repository": "arrowmaze-game"
+        },
+        {
+          "id": "2026-06-12-002",
+          "date": "2026-06-12",
+          "title": "Planning del Roadmap Maestro — Análisis de 13 features (A1–A5, B1–B3, C1–C4, D1–D2)",
+          "file": "2026-06-12-master-roadmap-planning.md",
+          "tool": "Antigravity (Claude)",
+          "model": "Claude Sonnet 4.6 (Thinking)",
+          "status": "in-progress",
+          "repository": "arrowmaze-game"
+        },
+        {
+          "id": "2026-06-12-003",
+          "date": "2026-06-12",
+          "title": "README.md del proyecto Arrow Maze — documentación real del repositorio",
+          "file": "2026-06-12-master-roadmap-planning.md",
+          "tool": "Antigravity (Claude)",
+          "model": "Claude Sonnet 4.6 (Thinking)",
+          "status": "completed",
+          "repository": "arrowmaze-game"
+        },
+        {
+          "id": "2026-06-13-001",
+          "date": "2026-06-13",
+          "title": "A4 — Game End Detection: GameSession + PlayMoveUseCase",
+          "file": "2026-06-13-game-end-detection-a4.md",
+          "tool": "Claude Code (claude.ai/code)",
+          "model": "Claude Sonnet 4.6",
+          "status": "completed",
+          "repository": "arrowmaze-game"
+        },
+        {
+          "id": "2026-06-14-001",
+          "date": "2026-06-14",
+          "title": "A5 — Game Session Scoring: Planning",
+          "file": "2026-06-14-game-session-scoring-a5-planning.md",
+          "tool": "Antigravity (Claude)",
+          "model": "Claude Sonnet 4.6 (Thinking)",
+          "status": "completed",
+          "repository": "arrowmaze-game"
+        },
+        {
+          "id": "2026-06-14-002",
+          "date": "2026-06-14",
+          "title": "A5 — Game Session Scoring: Evaluation & Implementation",
+          "file": "2026-06-14-game-session-scoring-evaluation-implementation.md",
+          "tool": "Claude Code (claude.ai/code)",
+          "model": "Claude Opus 4.8 (evaluation) + Sonnet 4.6 (impl init) + Haiku 4.5 (impl final)",
+          "status": "completed",
+          "repository": "arrowmaze-game"
+        },
+        {
+          "id": "2026-06-15-001",
+          "date": "2026-06-15",
+          "title": "Motor de Juego: Constructores de Tablero y Flechas (Frontend)",
+          "file": "2026-06-15-level-load.md",
+          "tool": "Gemini",
+          "model": "Gemini (versión no especificada)",
+          "status": "completed",
+          "repository": "arrowmaze-game"
+        },
+        {
+          "id": "2026-06-22-001",
+          "date": "2026-06-22",
+          "title": "Validación PR #10 + saneo registro AI usage + spec movimiento continuo",
+          "file": "2026-06-22-pr10-validation-ai-usage-cleanup.md",
+          "tool": "Claude Code (claude.ai/code)",
+          "model": "Claude Opus 4.8",
+          "status": "completed",
+          "repository": "arrowmaze-game"
+        },
+        {
+          "id": "2026-06-26-001",
+          "date": "2026-06-26",
+          "title": "Planning de fixes de movimiento — FIX-1 (slide, aplicación) + FIX-2 (colisión de cola, dominio)",
+          "file": "2026-06-26-movement-fixes-planning.md",
+          "tool": "Claude Code (claude.ai/code)",
+          "model": "Claude Opus 4.8",
+          "status": "completed",
+          "repository": "arrowmaze-game"
+        },
+        {
+          "id": "2026-06-26-002",
+          "date": "2026-06-26",
+          "title": "FIX-1 slide-arrow-movement — implementación de SlideArrowUseCase",
+          "file": "2026-06-26-slide-arrow-movement-impl.md",
+          "tool": "Claude Code (claude.ai/code)",
+          "model": "Claude Opus 4.8",
+          "status": "completed",
+          "repository": "arrowmaze-game"
+        },
+        {
+          "id": "2026-06-26-003",
+          "date": "2026-06-26",
+          "title": "FIX-2 tail-collision-detection — validación del destino de la cola en Arrow.advance (dominio)",
+          "file": "2026-06-26-tail-collision-detection-impl.md",
+          "tool": "Claude Code (claude.ai/code)",
+          "model": "Claude Opus 4.8",
+          "status": "completed",
+          "repository": "arrowmaze-game"
+        },
+        {
+          "id": "2026-06-27-001",
+          "date": "2026-06-27",
+          "title": "Animación de slide tick-a-tick + recoil de colisión (presentación)",
+          "file": "2026-06-27-slide-animation-recoil-presentation.md",
+          "tool": "Claude Code (claude.ai/code)",
+          "model": "Claude Sonnet 4.6 (slide tick-a-tick) + Claude Opus 4.8 (recoil + cierre)",
+          "status": "completed",
+          "repository": "arrowmaze-game"
+        },
+        {
+          "id": "2026-06-27-002",
+          "date": "2026-06-27",
+          "title": "Mapa de preview 'corazón': tablero-grafo esquemático y resoluble",
+          "file": "2026-06-27-heart-preview-map.md",
+          "tool": "Claude Code (claude.ai/code)",
+          "model": "Claude Opus 4.8",
+          "status": "completed",
+          "repository": "arrowmaze-game"
+        },
+        {
+          "id": "2026-06-27-003",
+          "date": "2026-06-27",
+          "title": "Animaciones desaparición, deformación colisión, UI mejorado",
+          "file": "2026-06-27-animaciones-desaparicion-deformacion-ui.md",
+          "tool": "Claude Code (claude.ai/code)",
+          "model": "Claude Haiku 4.5 + Claude Opus 4.8",
+          "status": "completed",
+          "repository": "arrowmaze-game"
+        },
+        {
+          "id": "2026-06-27-004",
+          "date": "2026-06-27",
+          "title": "Persistencia local del progreso (Offline-First) + sincronización bidireccional",
+          "file": "2026-06-27-progreso-local.md",
+          "tool": "Gemini",
+          "model": "Gemini (versión no especificada)",
+          "status": "completed",
+          "repository": "arrowmaze-game"
+        },
         {
           "id": "2026-06-28-001",
           "date": "2026-06-28",
@@ -1648,7 +1933,8 @@
           "status": "completed",
           "repository": "arrowmaze-game"
         }
-      ]
+      ],
+      "note": "Historial completo de sesiones de IA referenciado desde arrowmaze-game/.ai-usage/manifest.json (fuente autoritativa en su repositorio)."
     }
   }
 }
@@ -1825,6 +2111,39 @@
     }).join("");
   }
   render();
+
+  // ============ Linked repositories ============
+  (function renderLinked(){
+    const linked = DATA.linkedRepositories;
+    const host = document.getElementById("linked");
+    if(!linked || !host){ const sec=document.getElementById("linkedSection"); if(sec) sec.style.display="none"; return; }
+
+    const repos = Object.entries(linked);
+    host.innerHTML = repos.map(([key, r])=>{
+      const list = (r.sessions || r.recentSessions || []).slice()
+        .sort((a,b)=> a.date < b.date ? 1 : a.date > b.date ? -1 : 0); // newest first
+      const rows = list.map(s=>{
+        const model = modelFamily(s.model);
+        const tool = s.tool ? `<span class="lr-tool">${esc(s.tool)}</span>` : "";
+        return `<div class="lr-row">
+          <div class="lr-date"><code>${esc(s.date)}</code></div>
+          <div class="lr-main">
+            <div class="lr-title">${esc(s.title)}</div>
+            <div class="lr-meta">${tool}<span class="lr-model">${esc(model)}</span>${statusPill(s.status)}</div>
+          </div>
+        </div>`;
+      }).join("");
+      return `<div class="lr-card">
+        <div class="lr-head">
+          <a class="lr-name" href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.name || key)} ↗</a>
+          <span class="lr-count">${list.length} sesiones</span>
+        </div>
+        ${r.description?`<p class="lr-desc">${esc(r.description)}</p>`:""}
+        <div class="lr-rows">${rows}</div>
+        ${r.note?`<p class="lr-note">${esc(r.note)}</p>`:""}
+      </div>`;
+    }).join("");
+  })();
 
   // ============ Theme toggle ============
   const root = document.documentElement;
