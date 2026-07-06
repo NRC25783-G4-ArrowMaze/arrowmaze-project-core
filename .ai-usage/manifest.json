@@ -2,12 +2,12 @@
   "metadata": {
     "project": "Arrow Maze",
     "description": "Registro centralizado de uso de IA en desarrollo de puzzle game",
-    "lastUpdated": "2026-07-06",
+    "lastUpdated": "2026-07-07",
     "maintainedBy": "Jrgil20",
-    "totalSessions": 19,
+    "totalSessions": 20,
     "dateRange": {
       "start": "2026-05-03",
-      "end": "2026-07-06"
+      "end": "2026-07-07"
     },
     "aiTools": [
       "Claude (Sonnet 4.5, Sonnet 4.6, Opus 4.7, Opus 4.8, Fable 5)",
@@ -1170,6 +1170,114 @@
         "star-thresholds",
         "closed"
       ]
+    },
+    {
+      "id": "2026-07-07-001",
+      "date": "2026-07-07",
+      "month": "2026-07",
+      "title": "H1 — FORGE Editor Visual de Niveles (Specification)",
+      "file": "2026-07/2026-07-07_h1-forge-editor-spec.md",
+      "duration": {
+        "value": 120,
+        "unit": "minutes",
+        "estimated": true
+      },
+      "aiModel": "Claude Fable 5 + Claude Haiku 4.5",
+      "tool": "claude-code",
+      "phase": "Tooling & Content Creation",
+      "feature": "H1",
+      "context": "Sesión SDD para el FORGE — editor visual interactivo de niveles (herramienta interna ADMIN). Introducción de nuevo grupo H (Herramientas internas). Formalización del schema de arrows (cierre de divergencia C2–F2–código): body como lista ordenada de cellIds SIN la cabeza; color fuera del contrato (presentación, paleta por índice). Convenciones normativas: id de celda 'col,row', portCount=4 fijo, derivación automática de puertos opuestos. 8 bloques funcionales (lienzo/celdas, conexiones, flechas, validación, playtest embebido, propiedades, export JSON, publicación ADMIN). Scope v1: sin solver, sin DELETE backend, sin collisionBehavior en contrato. Arquitectura: Scene plana + validación derivada (reutiliza LevelLoader/dominios). Estado zustand. Ubicación: entry separada (forge.html) en arrowmaze-game. Fase 0 SDD completada con .feature canónica, matriz de 10 decisiones cerradas, y plan detallado de 6 fases de implementación.",
+      "methodology": "Spec-Driven Development (SDD) con plan de implementación ejecutable por modelos pequeños (Haiku 4.5)",
+      "deliverables": [
+        "H1-forge-editor-niveles.feature — Gherkin en español: CONCEPTOS CLAVE, INVARIANTE, DECISIONES (D1–D10), 8 bloques temáticos con ~30 escenarios",
+        "Plan detallado de 6 fases de implementación (scaffolding, celdas/conexiones, flechas, validación/undo, playtest, publicación) con hitos verificables",
+        "Especificación de arquitectura: Scene plana + zustand + reutilización de LevelLoader para validación derivada",
+        "Matriz SDD con 10 decisiones: modelo de edición, id normativo, puertos, schema de arrows, herramientas, undo/redo, validación, playtest, publicación dual, scope v1",
+        "Inventario de piezas reutilizables (20 ítems) y nuevos archivos (~18 ficheros)",
+        "Lista de hechos verificados del código (4 secciones) y guía de riesgos abiertos"
+      ],
+      "status": "completed",
+      "iterationRounds": 1,
+      "keyDecisions": [
+        {
+          "id": "D1",
+          "decision": "Modelo de edición: Scene plana + validación derivada",
+          "rationale": "Tolera estados intermedios inevitables; LevelLoader reutiliza reglas; no duplica lógica"
+        },
+        {
+          "id": "D2",
+          "decision": "Id de celda: formato normativo 'col,row'",
+          "rationale": "Convención que parsea sceneFromLevelData; garantiza round-trip con paleta por índice"
+        },
+        {
+          "id": "D3",
+          "decision": "Puertos: portCount=4 fijo (N/E/S/O), derivación automática de opuestos (p+2)%4",
+          "rationale": "Coherente con portDelta de presentación; derivación desde adyacencia"
+        },
+        {
+          "id": "D4",
+          "decision": "Schema de arrows: {id, head:{cellId, exitPort}, body: string[] SIN cabeza}, color fuera del contrato",
+          "rationale": "Cierra divergencia C2–F2–código; body es lista ordenada de cellIds; color por paleta (presentación)"
+        },
+        {
+          "id": "D5",
+          "decision": "6 herramientas de modo: select, cell, connect, arrowHead, extend, erase. Tecla R para rotar",
+          "rationale": "Cubre 100% del flujo de construcción; R es atajocomúnde rotación"
+        },
+        {
+          "id": "D6",
+          "decision": "Undo/redo en v1: snapshots de Scene (Ctrl+Z / Ctrl+Shift+Z)",
+          "rationale": "Scene JSON-serializable; trivial con zustand; esperado en UI interactiva"
+        },
+        {
+          "id": "D7",
+          "decision": "Validación: errors bloquean publicar/playtest, warnings informativos. Reutiliza LevelLoader + excepciones canónicas",
+          "rationale": "Coherencia con reglas del dominio (C2/A1–A3); panel de UI muestra problemas en vivo"
+        },
+        {
+          "id": "D8",
+          "decision": "Playtest embebido: modal con GameView, sin persistencia de progreso",
+          "rationale": "Juega el nivel en edición sin tocár datos locales; GameView acepta progressModule=null"
+        },
+        {
+          "id": "D9",
+          "decision": "Publicación dual: API ADMIN (POST/PUT) + export JSON",
+          "rationale": "Cubre flujo vivo (API remota) y seed versionado (backend local)"
+        },
+        {
+          "id": "D10",
+          "decision": "Scope v1: sin solver, sin DELETE backend, sin collisionBehavior en contrato",
+          "rationale": "Valida estructura; playtest manual es suficiente; deuda anotada para v2"
+        }
+      ],
+      "architecturalNotes": "El forge reutiliza 100% las reglas del dominio (Board, Arrow, LevelLoader, validadores) sin duplicarlas. Entry point separada (forge.html) mantiene la app móvil limpia. Validation es derivada (intenta cargar con LevelLoader; excepciones → issues). Estado zustand + selectores. Render: Scene → BoardViewModel → ComponentSVG. Ningún cambio al backend en v1; la API ya soporta POST/PUT.",
+        "uiArchitecture": "Lienzo fijo 8×8 (editable); slots fantasma en modo 'cell'; líneas de conexiones; celdas/flechas con paleta por índice; overlays de selección/candidatas. Toolbar: selector de herramienta + Rotar + Undo/Redo + Playtest. Panel derecho: propiedades (id/name/difficulty/allowedMoves/gridCols/gridRows), validación (issues en vivo), publicación (login/crear/cargar/exportar/copiar).",
+        "teamContribution": "Usuario: decisión de ubicación (forge.html en arrowmaze-game), publicación dual (API + seed JSON), validación estructural + playtest sin solver, y confirmó que Haiku 4.5 puede implementar el plan sin problemas. Definió el flujo de construcción (celdas → conexiones → flechas) e insistió en atajos de teclado (R, Ctrl+Z).",
+        "aiOutputQuality": {
+          "feature-gherkin": "95%",
+          "architecture-design": "98%",
+          "implementation-plan": "99%",
+          "risk-assessment": "90%",
+          "reusable-code-inventory": "100%"
+        },
+        "openDependencies": [
+          "Implementar 6 fases en arrowmaze-game (rama feature/h1-forge)"
+        ],
+        "keywords": [
+          "forge",
+          "level-editor",
+          "h1",
+          "tooling",
+          "sdd",
+          "scene-plana",
+          "zustand",
+          "level-loader-reutilization",
+          "validation-derived",
+          "admin-tool",
+          "spec-complete",
+          "plan-executable-by-haiku"
+        ]
+      }
     }
   ],
   "summary": {
