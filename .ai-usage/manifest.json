@@ -2,12 +2,12 @@
   "metadata": {
     "project": "Arrow Maze",
     "description": "Registro centralizado de uso de IA en desarrollo de puzzle game",
-    "lastUpdated": "2026-07-05",
+    "lastUpdated": "2026-07-06",
     "maintainedBy": "Jrgil20",
     "totalSessions": 19,
     "dateRange": {
       "start": "2026-05-03",
-      "end": "2026-07-05"
+      "end": "2026-07-06"
     },
     "aiTools": [
       "Claude (Sonnet 4.5, Sonnet 4.6, Opus 4.7, Opus 4.8, Fable 5)",
@@ -1340,5 +1340,66 @@
     "bddSpecifications": "features/*.feature (Gherkin en español)",
     "projectGuide": "CLAUDE.md en raíz del proyecto",
     "aiUsageReports": "Archivos .md en carpeta ai-usage/"
+  },
+  "linkedRepositories": {
+    "arrowmaze-game": {
+      "name": "arrowmaze-game (Cliente)",
+      "url": "https://github.com/NRC25783-G4-ArrowMaze/arrowmaze-game",
+      "description": "Implementación del cliente (React + TypeScript + Vite + Capacitor)",
+      "lastUpdated": "2026-06-26T00:00:00Z",
+      "totalReports": 31,
+      "recentSessions": [
+        {
+          "id": "2026-06-28-001",
+          "date": "2026-06-28",
+          "title": "Colisión configurable (return por defecto) + mapa decorado 6×6",
+          "file": "2026-06-28-colision-return-y-mapa-decorado.md",
+          "tool": "Claude Code (Cursor)",
+          "model": "Claude Opus 4.8",
+          "status": "completed",
+          "repository": "arrowmaze-game"
+        },
+        {
+          "id": "2026-07-03-001",
+          "date": "2026-07-03",
+          "title": "Pulido visual de animaciones: glide entre ticks, recoil asimétrico, burst orgánico, fractura de punta",
+          "file": "2026-07-03-pulido-visual-animaciones.md",
+          "tool": "Claude Code (claude.ai/code)",
+          "model": "Claude Fable 5",
+          "status": "completed",
+          "repository": "arrowmaze-game"
+        },
+        {
+          "id": "2026-07-03-002",
+          "date": "2026-07-03",
+          "title": "Auditoría del repo: reglas sincronizadas y tooling corregido",
+          "file": "2026-07-03-analisis-repo-sync-reglas-tooling.md",
+          "tool": "Claude Code (claude.ai/code)",
+          "model": "claude-fable-5",
+          "status": "completed",
+          "repository": "arrowmaze-game"
+        },
+        {
+          "id": "2026-07-04-001",
+          "date": "2026-07-04",
+          "title": "Resolución de conflictos PR #16 + matriz de decisiones",
+          "file": "2026-07-04-resolucion-conflictos-pr16.md",
+          "tool": "Claude Code (claude.ai/code)",
+          "model": "Claude Fable 5 + Haiku 4.5",
+          "status": "completed",
+          "repository": "arrowmaze-game"
+        },
+        {
+          "id": "2026-07-06-001",
+          "date": "2026-07-06",
+          "title": "Sincronización de especificaciones con arrowmaze-project-core",
+          "file": "2026-07-06-sincronizar-specs-con-project-core.md",
+          "tool": "Claude Code (claude.ai/code)",
+          "model": "claude-haiku-4-5-20251001",
+          "status": "completed",
+          "repository": "arrowmaze-game"
+        }
+      ]
+    }
   }
 }
