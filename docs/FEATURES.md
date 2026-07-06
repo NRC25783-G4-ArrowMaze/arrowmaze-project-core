@@ -59,8 +59,8 @@
 
 | # | Feature | Depende de | Estado |
 |---|---|---|---|
-| [E1](../features/E1-register_and_login.feature) | Registro e inicio de sesión de usuario | — | 📝 Spec lista (backend) |
-| [E2](../features/E2-active_session_management.feature) | Gestión de sesión activa y renovación de credenciales JWT | E1 | 📝 Spec lista (backend) |
+| [E1](../features/E1-register_and_login.feature) | Registro e inicio de sesión de usuario | — | ✅ Implementado (backend) |
+| [E2](../features/E2-active_session_management.feature) | Gestión de sesión activa y renovación de credenciales JWT | E1 | ✅ Implementado (backend) |
 
 ---
 
@@ -68,10 +68,10 @@
 
 | # | Feature | Depende de | Estado |
 |---|---|---|---|
-| [F1](../features/F1-api_users_auth.feature) | API de autenticación de usuarios (registro, login, logout con JWT) | — | 📝 Spec lista (backend) |
-| [F2](../features/F2-level-api-distribution.feature) | API de distribución y actualización remota de definiciones de niveles | Contrato C2 | 📝 Spec lista (backend) |
-| [F3](../features/F3-recepcion-consulta-progreso.feature) | API de recepción y consulta del progreso del jugador | F1 | 📝 Spec lista (backend) |
-| F4 | Sistema de clasificación por nivel (leaderboard) | F1, F3 | ❌ Pendiente (sin spec) |
+| [F1](../features/F1-api_users_auth.feature) | API de autenticación de usuarios (registro, login, logout con JWT) | — | ✅ Implementado (backend) |
+| [F2](../features/F2-level-api-distribution.feature) | API de distribución y actualización remota de definiciones de niveles | Contrato C2 | ✅ Implementado (backend + seed de niveles iniciales; cliente con carga remota y fallback offline) |
+| [F3](../features/F3-recepcion-consulta-progreso.feature) | API de recepción y consulta del progreso del jugador | F1 | ✅ Implementado (backend) |
+| F4 | Sistema de clasificación por nivel (leaderboard) | F1, F3 | ✅ Implementado (backend; sin spec formal) |
 
 ---
 
@@ -100,10 +100,10 @@ Sprint 3 ── C2 → B2 → C1 → C4                  ⚠️ En curso (C2/B2/
 Sprint 4 ── D1 → C3                            ⚠️ D1 ❌ · C3 📝 spec lista (foco actual)
             Persistencia local + selección de niveles
 
-Sprint 5 ── E1 → E2 → F1 → F2                  📝 Specs listas (backend pendiente)
+Sprint 5 ── E1 → E2 → F1 → F2                  ✅ Completado (backend; F2 con seed + cliente offline-first)
             Autenticación + backend + distribución de niveles
 
-Sprint 6 ── F3 → F4 → D2                       📝 Spec F3 lista; F4/D2 pendientes
+Sprint 6 ── F3 → F4 → D2                       ⚠️ En curso (F3/F4 backend ✅ · D2 cliente ✅ · integración cliente↔F3 pendiente)
             Progreso remoto + leaderboard + sincronización
 
 Sprint 7 ── G1 → G2 → G3                       📝 Specs listas (implementación pendiente)
