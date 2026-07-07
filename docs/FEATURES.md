@@ -39,10 +39,10 @@
 
 | # | Feature | Depende de | Estado |
 |---|---|---|---|
-| C1 | Máquina de estados del ciclo de vida de una partida | A4 | ✅ Implementado (falta flujo UI PAUSED/MENU, ver C4) |
+| [C1](../features/C1-maquina_estados_partida.feature) | Máquina de estados del flujo de una partida (autómata de pila: ACTIVE/PAUSED/SETTINGS) | A4 | ⚠️ Parcial — veredicto de Dominio (`GameStatus`: IN_PROGRESS/WON/LOST) ✅ implementado desde A4; flujo de UI (`GameFlowController`) 📝 Spec lista (SDD 2026-07-07), sin implementar |
 | [C2](../features/C2-carga-deserializacion-niveles.feature) | Carga y deserialización de definiciones de niveles desde archivos locales | A1, A2 | ✅ Implementado |
 | [C3](../features/C3-seleccion-niveles-progreso.feature) | Pantalla de selección de niveles con indicador de progreso y control de desbloqueo | C2, D1 | 📝 Spec lista (Presentation; desbloqueo por grafo, lee D1) |
-| C4 | Pantallas de soporte del juego (inicio, victoria, derrota, pausa, ajustes) | C1 | ⚠️ Parcial (`GameOverlay` de fin de partida) |
+| C4 | Pantallas de soporte del juego (inicio, victoria, derrota, pausa, ajustes) | C1 | ⚠️ Parcial (`GameOverlay` de fin de partida); pausa/ajustes bloqueados por implementación de C1 |
 
 ---
 
