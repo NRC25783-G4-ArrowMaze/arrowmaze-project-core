@@ -4,7 +4,7 @@
     "description": "Registro centralizado de uso de IA en desarrollo de puzzle game",
     "lastUpdated": "2026-07-07",
     "maintainedBy": "Jrgil20",
-    "totalSessions": 20,
+    "totalSessions": 22,
     "dateRange": {
       "start": "2026-05-03",
       "end": "2026-07-07"
@@ -1251,33 +1251,32 @@
         }
       ],
       "architecturalNotes": "El forge reutiliza 100% las reglas del dominio (Board, Arrow, LevelLoader, validadores) sin duplicarlas. Entry point separada (forge.html) mantiene la app móvil limpia. Validation es derivada (intenta cargar con LevelLoader; excepciones → issues). Estado zustand + selectores. Render: Scene → BoardViewModel → ComponentSVG. Ningún cambio al backend en v1; la API ya soporta POST/PUT.",
-        "uiArchitecture": "Lienzo fijo 8×8 (editable); slots fantasma en modo 'cell'; líneas de conexiones; celdas/flechas con paleta por índice; overlays de selección/candidatas. Toolbar: selector de herramienta + Rotar + Undo/Redo + Playtest. Panel derecho: propiedades (id/name/difficulty/allowedMoves/gridCols/gridRows), validación (issues en vivo), publicación (login/crear/cargar/exportar/copiar).",
-        "teamContribution": "Usuario: decisión de ubicación (forge.html en arrowmaze-game), publicación dual (API + seed JSON), validación estructural + playtest sin solver, y confirmó que Haiku 4.5 puede implementar el plan sin problemas. Definió el flujo de construcción (celdas → conexiones → flechas) e insistió en atajos de teclado (R, Ctrl+Z).",
-        "aiOutputQuality": {
-          "feature-gherkin": "95%",
-          "architecture-design": "98%",
-          "implementation-plan": "99%",
-          "risk-assessment": "90%",
-          "reusable-code-inventory": "100%"
-        },
-        "openDependencies": [
-          "Implementar 6 fases en arrowmaze-game (rama feature/h1-forge)"
-        ],
-        "keywords": [
-          "forge",
-          "level-editor",
-          "h1",
-          "tooling",
-          "sdd",
-          "scene-plana",
-          "zustand",
-          "level-loader-reutilization",
-          "validation-derived",
-          "admin-tool",
-          "spec-complete",
-          "plan-executable-by-haiku"
-        ]
-      }
+      "uiArchitecture": "Lienzo fijo 8×8 (editable); slots fantasma en modo 'cell'; líneas de conexiones; celdas/flechas con paleta por índice; overlays de selección/candidatas. Toolbar: selector de herramienta + Rotar + Undo/Redo + Playtest. Panel derecho: propiedades (id/name/difficulty/allowedMoves/gridCols/gridRows), validación (issues en vivo), publicación (login/crear/cargar/exportar/copiar).",
+      "teamContribution": "Usuario: decisión de ubicación (forge.html en arrowmaze-game), publicación dual (API + seed JSON), validación estructural + playtest sin solver, y confirmó que Haiku 4.5 puede implementar el plan sin problemas. Definió el flujo de construcción (celdas → conexiones → flechas) e insistió en atajos de teclado (R, Ctrl+Z).",
+      "aiOutputQuality": {
+        "feature-gherkin": "95%",
+        "architecture-design": "98%",
+        "implementation-plan": "99%",
+        "risk-assessment": "90%",
+        "reusable-code-inventory": "100%"
+      },
+      "openDependencies": [
+        "Implementar 6 fases en arrowmaze-game (rama feature/h1-forge)"
+      ],
+      "keywords": [
+        "forge",
+        "level-editor",
+        "h1",
+        "tooling",
+        "sdd",
+        "scene-plana",
+        "zustand",
+        "level-loader-reutilization",
+        "validation-derived",
+        "admin-tool",
+        "spec-complete",
+        "plan-executable-by-haiku"
+      ]
     },
     {
       "id": "2026-07-07-002",
@@ -1328,6 +1327,65 @@
         "pausa",
         "ajustes",
         "spec-skeleton"
+      ]
+    },
+    {
+      "id": "2026-07-07-003",
+      "date": "2026-07-07",
+      "month": "2026-07",
+      "title": "C4 — Pantallas de soporte (Implementación: Pausa y Ajustes)",
+      "file": "2026-07/2026-07-07_c4-pantallas-soporte-implementacion.md",
+      "duration": {
+        "value": 90,
+        "unit": "minutes",
+        "estimated": true
+      },
+      "aiModel": "Claude Sonnet 5",
+      "tool": "claude-code",
+      "phase": "Implementation",
+      "feature": "C4",
+      "context": "El .feature de C4 seguía con solo un Scenario placeholder y decía 'PAUSED aún no existe', pero C1 ya había implementado el autómata de pila GameFlowController (ACTIVE|PAUSED|SETTINGS) conectado a useGameController/GameView, sin ningún control de UI que lo disparara. Se investigó vía sub-agentes Explore, se diseñó el plan vía sub-agente Plan, el usuario decidió el alcance (Ajustes solo placeholders, Inicio reusa LevelSelectScreen), y se implementó: dos overlays nuevos (PauseOverlay, SettingsOverlay), botón de pausa en GameView, y el .feature reescrito con 6 Rules y 9 escenarios.",
+      "methodology": "Plan mode (exploración con sub-agentes Explore, diseño con sub-agente Plan, revisión con AskUserQuestion) + implementación TDD",
+      "deliverables": [
+        "features/C4-pantallas-soporte.feature (arrowmaze-game + espejo en project-core) — reescrito completo, 6 Rules / 9 escenarios",
+        "src/presentation/components/PauseOverlay.tsx y SettingsOverlay.tsx (arrowmaze-game, nuevos)",
+        "src/presentation/components/GameView.tsx (arrowmaze-game, modificado) — botón de Pausa + montaje condicional de overlays",
+        "__tests__/presentation/{pauseOverlay,settingsOverlay,gameFlowNavigation}.spec.{ts,tsx} (arrowmaze-game, nuevos)",
+        "doc/C4-pantallas-soporte_plan.md (arrowmaze-game) — completado con el plan ejecutado"
+      ],
+      "status": "completed",
+      "iterationRounds": 3,
+      "keyDecisions": [
+        {
+          "id": "C4-D3",
+          "decision": "Ajustes = solo contenedor con placeholders 'Próximamente' (Idioma/Audio)",
+          "rationale": "G1 (audio) no implementado; G2 (idioma) solo tiene diccionario ES fijo sin selector — el usuario eligió no adelantar ese trabajo"
+        },
+        {
+          "id": "C4-D4",
+          "decision": "Inicio reusa LevelSelectScreen (C3) existente, sin pantalla Home nueva",
+          "rationale": "La exploración reveló que C3 ya estaba implementado (más avanzado que lo que decía el borrador de pendientes) y ya cumple ese rol"
+        },
+        {
+          "id": "C4-D5",
+          "decision": "El .feature final lo redactó el asistente directamente, no el sub-agente Plan",
+          "rationale": "El usuario rechazó la versión generada por el sub-agente y pidió que se reescribiera — prefirió revisión directa del contenido de la spec"
+        }
+      ],
+      "openDependencies": [
+        "G1 (audio) y G2 (selector de idioma real) quedan pendientes; SettingsOverlay ya deja el punto de extensión listo",
+        "G3 (timer) sigue sin implementar, sin bloquear a C4"
+      ],
+      "keywords": [
+        "c4",
+        "pantallas-soporte",
+        "pausa",
+        "ajustes",
+        "game-flow-controller",
+        "presentation",
+        "tdd",
+        "implementation",
+        "plan-mode"
       ]
     }
   ],
