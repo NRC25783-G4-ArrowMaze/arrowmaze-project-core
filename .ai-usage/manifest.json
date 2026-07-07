@@ -1278,6 +1278,57 @@
           "plan-executable-by-haiku"
         ]
       }
+    },
+    {
+      "id": "2026-07-07-002",
+      "date": "2026-07-07",
+      "month": "2026-07",
+      "title": "C4 — Pantallas de soporte (Scaffolding)",
+      "file": "2026-07/2026-07-07_c4-pantallas-soporte-scaffolding.md",
+      "duration": {
+        "value": 10,
+        "unit": "minutes",
+        "estimated": true
+      },
+      "aiModel": "Claude Fable 5",
+      "tool": "claude-code",
+      "phase": "Content Creation",
+      "feature": "C4",
+      "context": "C4 (Pantallas de soporte del juego) no estaba contemplado como sesión de trabajo activa; ya figuraba en docs/FEATURES.md y docs/BORRADOR-features-pendientes.md como parcial (GameOverlay de Victoria/Derrota implementado; faltan Inicio, Pausa y Ajustes) pero sin .feature propio. Se generó el andamiaje (skill newfeature) siguiendo el formato de C3 como referencia de estilo: Background + CONCEPTOS CLAVE + escenarios placeholder, sin redactar el Gherkin real ni el plan de implementación detallado, que quedan para una sesión posterior.",
+      "methodology": "Scaffolding de spec (skill newfeature) — sin elicitación ni matriz de decisiones",
+      "deliverables": [
+        "C4-pantallas-soporte.feature — Background + CONCEPTOS CLAVE + 1 Scenario placeholder y 4 escenarios sugeridos comentados (inicio, pausa, ajustes, navegación reversible)",
+        "Espejo idéntico del .feature en arrowmaze-game/features/ (convención de specs duplicadas entre repos)",
+        "doc/C4-pantallas-soporte_plan.md en arrowmaze-game — esqueleto de plan con secciones vacías, sin commitear a petición del usuario (se detallará después)"
+      ],
+      "status": "completed",
+      "iterationRounds": 1,
+      "keyDecisions": [
+        {
+          "id": "C4-D1",
+          "decision": "Solo se sube el .feature a ambos repos (main en project-core, dev en arrowmaze-game); el plan de implementación queda fuera de este commit",
+          "rationale": "El usuario pidió separar el andamiaje de la spec del diseño detallado, que se abordará en otra sesión"
+        },
+        {
+          "id": "C4-D2",
+          "decision": "El .feature se duplica en arrowmaze-game/features/ como espejo exacto del de project-core",
+          "rationale": "Sigue la convención observada en el resto de specs (C2, C3, etc.), duplicadas byte-a-byte en ambos repos"
+        }
+      ],
+      "openDependencies": [
+        "Redactar los escenarios Gherkin reales de C4 (Inicio, Pausa, Ajustes, navegación reversible)",
+        "Detallar doc/C4-pantallas-soporte_plan.md en sesión SDD dedicada, incluyendo el estado de flujo PAUSED sobre la máquina de estados de C1",
+        "Actualizar la fila C4 en docs/FEATURES.md para enlazar el nuevo .feature"
+      ],
+      "keywords": [
+        "c4",
+        "pantallas-soporte",
+        "scaffolding",
+        "presentation",
+        "pausa",
+        "ajustes",
+        "spec-skeleton"
+      ]
     }
   ],
   "summary": {
