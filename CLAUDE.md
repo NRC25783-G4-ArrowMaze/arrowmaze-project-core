@@ -8,7 +8,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **Arrow Maze** is a puzzle game engine implemented using **Specification-Driven Development (SDD)** with Clean Architecture and Domain-Driven Design (DDD).
 
-**Current Phase:** Specification authority + active client implementation. In `arrow-maze-client`: A1–A5 (motor), B1–B3 (render/input) and C1–C2 (flow/levels) are **implemented**; C4 is **partial** (game-over overlay). **G1–G3 specs are ready** (SDD 2026-07-04: audio, i18n, visual timer — all Presentation/Infrastructure only; P23 remains partially open: time WILL affect score, but the integration mechanism into A5 is a pending decision with its own SDD session). Pending client work: C3, C4 (finish), D1, D2, G1–G3 implementation — key points in [`docs/BORRADOR-features-pendientes.md`](docs/BORRADOR-features-pendientes.md). Backend (E1–E2, F1–F3 specs ready; F4 not yet specced) lives in `arrow-maze-backend`. This repo remains the single source of truth for specs and architecture decisions.
+**Current Phase:** Specification authority + active client implementation. In `arrowmaze-game`: 
+- **A1–A5** (motor), **B1–B3** (render/input): ✅ Implementado
+- **C1** (flujo de partida): ✅ Veredicto de Dominio (IN_PROGRESS|WON|LOST desde A4); 📝 Spec lista (SDD 2026-07-07: autómata de pila ACTIVE/PAUSED/SETTINGS), 🏗️ Implementación en PR #22 (GameFlowController)
+- **C2** (carga niveles): ✅ Implementado
+- **C3** (selección de niveles): 📝 Spec lista (SDD 2026-07-05), sin implementar (bloqueada por D1)
+- **C4** (pantallas de soporte): ⚠️ Parcial (GameOverlay fin de partida), bloqueada por C1 (ahora desbloqueada)
+- **G1–G3** (audio, i18n, timer): 📝 Specs listas (SDD 2026-07-04), sin implementar
+- **P23** (integración tiempo→score): 🟡 Parcial — decidido que SÍ afecta el score; el CÓMO espera sesión SDD propia de enmienda A5
+
+Pending client work: D1 (persistencia local), C4 (finish), D2 (sincronización), G1–G3 implementation. Backend (E1–E2, F1–F3 specs ready; F4 not yet specced) lives in `arrowmaze-backend`. This repo remains the single source of truth for specs and architecture decisions.
 
 **Key Characteristics:**
 - **Methodology:** SDD with structured Q&A using Claude + Gherkin BDD
@@ -23,18 +32,28 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ```
 arrowmaze-project-core/
 ├── features/                    # BDD Feature files (Gherkin/Spanish)
-│   ├── A1-board_graph.feature   # Board initialization and graph representation
+│   ├── A1-board_graph.feature
 │   ├── A2-arrow_placement.feature
 │   ├── A3-arrow_movement.feature
 │   ├── A4-game_end_detection.feature
-│   └── A5-game_session_scoring.feature
+│   ├── A5-game_session_scoring.feature
+│   ├── B1-board-rendering.feature
+│   ├── B2-animation_feedback.feature
+│   ├── B3-input-routing.feature
+│   ├── C1-maquina_estados_partida.feature
+│   ├── C2-carga-deserializacion-niveles.feature
+│   ├── C3-seleccion-niveles-progreso.feature
+│   ├── G1-audio-sfx-musica.feature
+│   ├── G2-internacionalizacion.feature
+│   └── G3-temporizador-nivel.feature
 ├── docs/                        # Design and architecture documentation
 │   ├── FEATURES.md              # Feature dependency matrix + implementation roadmap
 │   └── STACK.md                 # Technology stack decisions + folder structure for implementation
 ├── .ai-usage/                   # Structured AI session documentation (hidden folder)
 │   ├── manifest.json            # Central index of all AI usage reports
 │   ├── 2026-05/                 # May: Foundation & Architecture
-│   └── 2026-06/                 # June: Game Logic & Specs
+│   ├── 2026-06/                 # June: Game Logic & Early Specs
+│   └── 2026-07/                 # July: SDD Sessions (C3, C1, G1-G3, H1)
 ├── CLAUDE.md                    # This file
 ├── README.md                    # Brief project title (minimal)
 └── .claude/                     # Claude Code local settings
