@@ -85,6 +85,14 @@
 
 ---
 
+### GRUPO H — Herramientas internas
+
+| # | Feature | Depende de | Estado |
+|---|---|---|---|
+| [H1](../features/H1-forge-editor-niveles.feature) | FORGE — Editor visual interactivo de niveles (herramienta ADMIN) | C2, F2 | 📝 Spec lista (SDD 2026-07-07; plan 6 fases de implementación en arrowmaze-game) |
+
+---
+
 ## Orden de implementación
 
 ```
