@@ -4,7 +4,7 @@
     "description": "Registro centralizado de uso de IA en desarrollo de puzzle game",
     "lastUpdated": "2026-07-07",
     "maintainedBy": "Jrgil20",
-    "totalSessions": 20,
+    "totalSessions": 21,
     "dateRange": {
       "start": "2026-05-03",
       "end": "2026-07-07"
@@ -1328,6 +1328,65 @@
         "pausa",
         "ajustes",
         "spec-skeleton"
+      ]
+    },
+    {
+      "id": "2026-07-07-003",
+      "date": "2026-07-07",
+      "month": "2026-07",
+      "title": "C4 — Pantallas de soporte (Implementación: Pausa y Ajustes)",
+      "file": "2026-07/2026-07-07_c4-pantallas-soporte-implementacion.md",
+      "duration": {
+        "value": 90,
+        "unit": "minutes",
+        "estimated": true
+      },
+      "aiModel": "Claude Sonnet 5",
+      "tool": "claude-code",
+      "phase": "Implementation",
+      "feature": "C4",
+      "context": "El .feature de C4 seguía con solo un Scenario placeholder y decía 'PAUSED aún no existe', pero C1 ya había implementado el autómata de pila GameFlowController (ACTIVE|PAUSED|SETTINGS) conectado a useGameController/GameView, sin ningún control de UI que lo disparara. Se investigó vía sub-agentes Explore, se diseñó el plan vía sub-agente Plan, el usuario decidió el alcance (Ajustes solo placeholders, Inicio reusa LevelSelectScreen), y se implementó: dos overlays nuevos (PauseOverlay, SettingsOverlay), botón de pausa en GameView, y el .feature reescrito con 6 Rules y 9 escenarios.",
+      "methodology": "Plan mode (exploración con sub-agentes Explore, diseño con sub-agente Plan, revisión con AskUserQuestion) + implementación TDD",
+      "deliverables": [
+        "features/C4-pantallas-soporte.feature (arrowmaze-game + espejo en project-core) — reescrito completo, 6 Rules / 9 escenarios",
+        "src/presentation/components/PauseOverlay.tsx y SettingsOverlay.tsx (arrowmaze-game, nuevos)",
+        "src/presentation/components/GameView.tsx (arrowmaze-game, modificado) — botón de Pausa + montaje condicional de overlays",
+        "__tests__/presentation/{pauseOverlay,settingsOverlay,gameFlowNavigation}.spec.{ts,tsx} (arrowmaze-game, nuevos)",
+        "doc/C4-pantallas-soporte_plan.md (arrowmaze-game) — completado con el plan ejecutado"
+      ],
+      "status": "completed",
+      "iterationRounds": 3,
+      "keyDecisions": [
+        {
+          "id": "C4-D3",
+          "decision": "Ajustes = solo contenedor con placeholders 'Próximamente' (Idioma/Audio)",
+          "rationale": "G1 (audio) no implementado; G2 (idioma) solo tiene diccionario ES fijo sin selector — el usuario eligió no adelantar ese trabajo"
+        },
+        {
+          "id": "C4-D4",
+          "decision": "Inicio reusa LevelSelectScreen (C3) existente, sin pantalla Home nueva",
+          "rationale": "La exploración reveló que C3 ya estaba implementado (más avanzado que lo que decía el borrador de pendientes) y ya cumple ese rol"
+        },
+        {
+          "id": "C4-D5",
+          "decision": "El .feature final lo redactó el asistente directamente, no el sub-agente Plan",
+          "rationale": "El usuario rechazó la versión generada por el sub-agente y pidió que se reescribiera — prefirió revisión directa del contenido de la spec"
+        }
+      ],
+      "openDependencies": [
+        "G1 (audio) y G2 (selector de idioma real) quedan pendientes; SettingsOverlay ya deja el punto de extensión listo",
+        "G3 (timer) sigue sin implementar, sin bloquear a C4"
+      ],
+      "keywords": [
+        "c4",
+        "pantallas-soporte",
+        "pausa",
+        "ajustes",
+        "game-flow-controller",
+        "presentation",
+        "tdd",
+        "implementation",
+        "plan-mode"
       ]
     }
   ],
