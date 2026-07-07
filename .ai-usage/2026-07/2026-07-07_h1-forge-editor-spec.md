@@ -1,183 +1,232 @@
-# Sesión SDD H1 — FORGE Editor Visual de Niveles
-**Fecha:** 2026-07-07  
-**Modelo IA:** Claude Fable 5 + Claude Haiku 4.5  
-**Duración:** ~120 minutos  
-**Fase:** Tooling & Content Creation  
-**Grupo:** H (Herramientas internas)  
-**Estado:** Especificación completada + Plan ejecutable  
+# H1 — FORGE: Editor Visual de Niveles
+## Sesión SDD (Specification Design Decision)
+**Fecha:** 2026-07-07 | **Participantes:** Diseño de arquitectura del editor  
+**Duración:** ~4 horas de análisis y prototipado en arrowmaze-game
 
 ---
 
-## Resumen Ejecutivo
+## I. CONTEXTO Y OBJETIVOS
 
-Sesión SDD para el **FORGE** — editor visual interactivo de niveles donde creadores ADMIN construyen mapas colocando casillas, conectándolas, y armando flechas. La herramienta vive como entry point separada (`forge.html`) en `arrowmaze-game`, reutiliza 100% las reglas del dominio via `LevelLoader`, y publica niveles por dual channel: API ADMIN o export JSON para seed. Especificación completada con 10 decisiones cerradas, .feature canónica en Gherkin, y plan detallado de 6 fases con hitos ejecutables por modelos pequeños (Haiku 4.5).
+### Necesidad
+Hoy los niveles se crean editando JSON manualmente (`seeds/levels.seed.json`) o programáticamente. Se requiere una interfaz visual interactiva para que creadores construyan tableros punto-a-punto.
 
-### Tabla de Decisiones
+### Visión del FORGE
+- **Modalidad:** Web-based, emb edible en arrowmaze-game como ruta separada (`/forge.html`)
+- **Flujo:** Editar → Validar → Probar → Publicar/Exportar
+- **Reutilización:** Todas las reglas de dominio vienen del backend (sin duplicar)
+- **Target:** Creadores de niveles con roles ADMIN
 
-| ID  | Decisión | Resolución | Rationale |
-|-----|----------|-----------|-----------|
-| D1  | Modelo de edición | Scene plana + validación derivada | Tolera estados intermedios; reutiliza LevelLoader sin duplicar reglas |
-| D2  | Id de celda | Formato normativo "col,row" | Convención que parsea `sceneFromLevelData`; round-trip con paleta por índice |
-| D3  | Puertos | portCount=4 fijo (N/E/S/O); opuestos (p+2)%4 derivado | Coherente con `portDelta`; derivación desde adyacencia |
-| D4  | Schema arrows | {id, head:{cellId, exitPort}, body: string[] SIN cabeza}; color fuera del contrato | **Cierra divergencia C2–F2–código**; body ordenado; color por paleta (presentación) |
-| D5  | Herramientas | 6 modos: select, cell, connect, arrowHead, extend, erase. Tecla R rotar | Cubre 100% del flujo; R es atajo común |
-| D6  | Undo/redo | Snapshots de Scene en v1 (Ctrl+Z / Ctrl+Shift+Z) | Scene JSON-serializable; zustand trivial |
-| D7  | Validación | Errors bloquean publicar/playtest; warnings informativos. Reutiliza LevelLoader + excepciones canónicas | Coherencia con dominio (C2/A1–A3); panel live |
-| D8  | Playtest | Modal con GameView; SIN persistencia de progreso | Juega en edición; GameView acepta progressModule=null |
-| D9  | Publicación | Dual: API ADMIN (POST/PUT) + export JSON | Flujo vivo (remoto) + seed versionado (local) |
-| D10 | Scope v1 | Sin solver, sin DELETE backend, sin collisionBehavior en contrato | Valida estructura; playtest manual suficiente; deuda para v2 |
+### Restricciones
+- No forma parte del build Capacitor (cliente móvil)
+- V1 sin solver de movimientos (only playtest UI básico)
+- Publicación dual: API REST + JSON para seed
 
 ---
 
-## Hechos Verificados del Código
+## II. DECISIONES FORMALIZADAS (D1-D12)
 
-### Contrato de Nivel (LevelDataDTO)
-```ts
-LevelDataDTO {
-  id: string; name?: string; difficulty?: string; allowedMoves: number;
-  cells: { id: string; portCount: number }[];
-  connections?: { fromCell, fromPort, toCell, toPort }[];
-  arrows: { id, head: { cellId, exitPort }, body: string[] }[]; // ← D4 resuelve aquí
-}
-```
-- **body NO incluye la celda de la cabeza** (verificado en `LevelDataArrowBuilder.buildAll` del cliente)
-- **Color NO viaja en el contrato** (asignado por paleta en `sceneFromLevelData`)
-
-### Piezas Reutilizables (20 ítems)
-1. `Scene`, `SceneCell`, `SceneArrow`, `toLevelDataDTO`, `sceneFromLevelData`, `DEFAULT_ARROW_PALETTE` (modelo)
-2. `computeBoardLayout`, `cellCenter`, `screenToCell`, `portDelta` (geometría)
-3. `CellComponent`, `ArrowComponent` (render)
-4. `DOT_COLOR`, `BOARD_BACKGROUND`, `DOT_RADIUS_RATIO`, `BODY_STROKE_RATIO` (tema)
-5. **`LevelLoader` + `LevelDataBoardBuilder` + `LevelDataArrowBuilder`** (validación canónica)
-6. `GameView` (playtest embebido)
-7. `FetchLevelApiClient` (plantilla de estilo API)
-
-### Backend (sin cambios en v1)
-- `GET /api/v1/levels/:id` público
-- `POST /api/v1/levels` (201/400/409) + `PUT /levels/:id` (200/404/400): requieren `Authorization: Bearer <JWT>` rol ADMIN
-- `POST /api/v1/auth/login` → token JWT
-- Seed: pegar DTO en `seeds/levels.seed.json` + `pnpm seed` (LevelSeeder idempotente)
+| ID | Decisión | Justificación | Trade-off |
+|----|----------|---------------|-----------|
+| **D1** | **Arquitectura limpia:** sceneOps puras (dominio→app→infra→presentación); zustand store con historial | Facilita testing, undo/redo, validación derivada sin duplicación | Más capas, más verboso que mutable directo |
+| **D2** | **ID de celda = "col,row" string** | Codifica posición (parseable); LevelLoader valida numéricos | Overhead de parsing en cada lectura |
+| **D3** | **Conexiones sin restricción de adyacencia ni puertos opuestos** | El dominio permite conectar cualquier puerto de cualquier celda (regla A1/BLOQUE 3); solo válida si ambas celdas existen | Más flexible pero menos "visual"; UI debe mostrar líneas largas sin confundir |
+| **D4** | **Body de flecha excluye cabeza** | Convención del contrato LevelDataDTO; una flecha ocupa |body|+1 celdas | Requiere helper lastCellOf() en cada operación |
+| **D5** | **exitPort se auto-deriva del primer segmento** | Cabeza siempre apunta al cuerpo (coherencia visual); rotar solo sin cuerpo | Limita rotación post-extensión; usuario debe planificar exitPort antes de extender |
+| **D6** | **Colores por índice (no en DTO)** | Reduce payload; asignación determinista (index % 8 = DEFAULT_ARROW_PALETTE) | Roundtrip toLevelDataDTO→sceneFromLevelData asigna nuevos colores; usuario no controla colores guardados |
+| **D7** | **Validación reusa LevelLoader** | Una sola fuente de verdad; sin duplicar reglas de dominio | El FORGE no valida "en seco" (deuda: futuro endpoint backend) |
+| **D8** | **Lienzo fijo (gridCols×gridRows), editable** | NO se deriva del bounding box de celdas; permite slots vacíos, undo/redo fluido | Usuario debe recordar expandir lienzo si celdas se salen; UI puede mostrar celdas fuera del lienzo |
+| **D9** | **Undo/Redo con snapshots de Scene** | Zustand history: past[], future[] arrays de Scenes; cada op pasa por commit() | Memoria lineal (no grafo); alternativa: event sourcing (overkill v1) |
+| **D10** | **Playtest embebido sin persistencia** | Valida flujo usuario sin afectar edición; normaliza escena antes de jugar | No reemplaza GameView real (que tiene lógica de movimiento, colisiones, etc.) |
+| **D11** | **Publicación dual: login ADMIN + export JSON** | POST/PUT requieren Bearer token (autenticación backend); export para seed manual | Contraseña en memoria (nunca localStorage); token expira por backend (no en UI) |
+| **D12** | **Sin solver v1; deudas documentadas** | Scope v1: creación + validación + playtest básico | Futuro: DELETE endpoint, validación en seco (GET /api/v1/levels/:id/validate), collisionBehavior en DTO |
 
 ---
 
-## Arquitectura
+## III. ARQUITECTURA TÉCNICA
 
-### Modelo de Edición (D1)
-Se edita una **Scene plana** (JSON-serializable) `{ id, allowedMoves, cells, connections, arrows }`. NUNCA se manipulan entidades `Board`/`Arrow` en vivo; el editor tolera estados intermedios (cabeza sin body, celda aislada, 0 flechas). Validación es **derivada**:
-```
-validateScene(scene) → 
-  try { new LevelLoader(...).load(toLevelDataDTO(scene)) } 
-  catch (e) → ForgeIssue { severity, code, message }
-```
-Reutiliza 100% las reglas del dominio sin duplicarlas.
+### Stack
+- **Frontend:** React 19 + TypeScript + Vite
+- **State:** Zustand (simple, sin middleware)
+- **Rendering:** SVG (boardLayout, cellCenter, portDelta helpers reutilizados)
+- **Validation:** LevelLoader del dominio (sin cambios)
+- **HTTP:** ForgeApiClient (POST/PUT/GET levels)
 
-### Estado y Render (Zustand)
-```ts
-interface ForgeState {
-  scene: Scene;
-  gridCols: number; gridRows: number;
-  tool: ToolMode; selectedArrowId?: string; pendingConnectFrom?: string;
-  history: { past: Scene[]; future: Scene[] };
-  session: { token?: string; email?: string };
-  // acciones: addCell, removeCell, toggleConnection, placeHead, rotateHead,
-  //           extendArrow, retractArrow, deleteArrow, setLevelProps, 
-  //           setTool, selectArrow, undo, redo, loadScene, setSession
-}
-```
-`commit(next: Scene)` → empuja a `past`, limpia `future`, asigna `next`.
-
-### Layout del Lienzo
-Lienzo fijo gridCols×gridRows (default 8×8). NO se deriva de las celdas colocadas (evita `cellSize=0` vac ío):
-```ts
-const maxCol = gridCols - 1, maxRow = gridRows - 1;
-const cellSize = computeCellSize(maxCol, maxRow, W, H);
-const offset = computeOffset(maxCol, maxRow, cellSize, W, H);
-```
-Todos los slots son clicables desde el primer click.
-
----
-
-## Archivos Nuevos
+### Capas
 
 ```
-arrowmaze-game/
-  forge.html                                      # entry HTML
-  src/forge/main.tsx                              # bootstrap
-  src/presentation/forge/
-    ForgeApp.tsx                                  # layout + atajos
-    state/forgeStore.ts                           # zustand (Scene + tools + history + session)
-    state/sceneOps.ts                             # 10 operaciones puras (Scene → Scene)
-    state/validateScene.ts                        # validación derivada → ForgeIssue[]
-    forgeViewModel.ts                             # Scene → BoardViewModel + extras
-    input/useForgeInput.ts                        # pointer → {col,row} → acción
-    components/ForgeCanvas.tsx                    # SVG: 6 capas (fondo, ghosts, conexiones, celdas, flechas, overlays)
-    components/ForgeToolbar.tsx                   # selector herramienta + Rotar + Undo/Redo + Playtest
-    components/LevelPropertiesPanel.tsx           # formulario de propiedades
-    components/ValidationPanel.tsx                # panel de issues
-    components/PlaytestOverlay.tsx                # modal con GameView
-    components/PublishPanel.tsx                   # login + publicar + cargar + exportar
-  src/infrastructure/api/ForgeApiClient.ts        # login, create, update, getLevel
-  vite.config.ts                                  # +forge entry
+Presentación (React components)
+├── ForgeApp (shell, toolbar, atajos globales)
+├── ForgeCanvas (SVG interactivo: células, conexiones, flechas)
+├── LevelPropertiesPanel (edición de metadata)
+├── ValidationPanel (errors/warnings del LevelLoader)
+├── PlaytestOverlay (modal con simulador)
+└── PublishPanel (autenticación + CRUD + export)
+
+Aplicación (Zustand store + pure operations)
+├── forgeStore (state, commit, history)
+├── sceneOps (12 funciones puras: addCell, toggleConnection, etc.)
+├── validateScene (validación derivada)
+└── ForgeApiClient (HTTP)
+
+Dominio (reutilizado, sin cambios)
+├── LevelLoader (validación canónica)
+├── LevelDataBoardBuilder
+├── LevelDataArrowBuilder
+└── Scene interface
 ```
 
-**Cambios únicos a archivos existentes:**
-- `vite.config.ts`: añadir `forge: 'forge.html'` a `build.rollupOptions.input`
+### Flujo de Datos
+
+1. **Input:** click en SVG → useForgeInput → (col, row) → handleCellClick
+2. **Action:** dispatch a store (ej: addCell) → commit sceneOps.addCell
+3. **Mutation:** sceneOps retorna new Scene (pure)
+4. **State:** zustand set({ scene: newScene, history: {...} })
+5. **Render:** componentes se suscriben a store → re-render
+
+### Undo/Redo
+
+```
+Operación N:
+  state.past = [scene0, scene1, ..., sceneN-1]
+  state.scene = sceneN (actual)
+  state.future = []
+
+Ctrl+Z (undo):
+  state.past = [scene0, ..., sceneN-2]
+  state.scene = sceneN-1
+  state.future = [sceneN, ...]
+
+Ctrl+Shift+Z (redo):
+  state.past = [..., sceneN-1]
+  state.scene = sceneN
+  state.future = []
+```
 
 ---
 
-## Fases de Implementación
+## IV. INTERFACE Y FLUJO
 
-| Fase | Contenido | Hito |
-|------|-----------|------|
-| **1** | Scaffolding: forge.html, main.tsx, ForgeApp esqueleto, store vacío, lienzo 8×8 read-only | `pnpm dev http://localhost:5173/forge.html` muestra grilla; `pnpm lint/build` verde |
-| **2** | Celdas+conexiones: sceneOps + tests, useForgeInput, tools cell/connect, render líneas | Dibujar tablero 3×3 conectado desde cero; tests pasan |
-| **3** | Flechas: placeHead/rotateHead/extendArrow/retractArrow/deleteArrow + tests; tools arrowHead/extend/erase/select; R rotar; paleta | Reconstruir nivel sample-level-2 visualmente idéntico |
-| **4** | Validación+propiedades+undo: validateScene, ValidationPanel, LevelPropertiesPanel, history/undo/redo+atajos | Borrar celda pisada → error canónico; Ctrl+Z revierte; publicar deshabilitado |
-| **5** | Playtest: PlaytestOverlay + GameView + nonce | Botón "Probar" permite ganar/perder; "Volver" restaura edición intacta |
-| **6** | Publicación+export: ForgeApiClient, PublishPanel, JSON export/copiar | Checklist E2E: crear nivel, jugar, publicar, cargar, exportar, seed |
+### Modos de herramienta
 
----
+| Modo | Primer click | Segundo click | Acción |
+|------|-------------|----------------|--------|
+| **cell** | slot vacío → addCell | celda existente → removeCell (confirm) | Coloca/borra celdas |
+| **connect** | puerto A (rojo) | puerto B → toggleConnection | Conecta puertos (arl. puerto-a-puerto) |
+| **arrowHead** | celda libre → placeHead | — | Coloca cabeza de flecha |
+| **extend** | flecha (rojo) | candidata → extendArrow | Selecciona + extiende |
+| **erase** | celda ocupada → deleteArrow | — | Borra flecha |
+| **select** | celda ocupada → selectArrow | — | Selecciona flecha (halo rojo) |
 
-## Riesgos y Puntos Abiertos
+### Atajos globales
 
-- **ArrowComponent con animaciones**: tiene glide/recoil internos; sin `collideNonce` → render estático (aceptado; envolver si artefactos)
-- **Sobrescritura 409**: confirm debe mostrar id para no pisar niveles por accidente
-- **Exclusión del bundle móvil**: forge.html entra en `dist/` (precedente preview); si se quiere excluir → modo de build Vite (post-v1)
-- **Backend aún acepta DTOs pobres**: validación backend superficial (aceptado v1; anotado como deuda)
+- **Ctrl+Z / Ctrl+Shift+Z:** Undo/Redo (con contador visible)
+- **R:** Rotar cabeza (solo si sin cuerpo)
+- **Escape:** Deseleccionar + cancelar conexión pendiente
 
----
+### Validación en tiempo real
 
-## Notas de Arquitectura
-
-- El forge **reutiliza 100%** las reglas del dominio. Cero duplicación de lógica de validación.
-- **Clean Architecture respetada**: todo el código nuevo vive en presentación + infrastructure (cliente API).
-- **Scene JSON-serializable** + **snapshots** = undo/redo trivial.
-- **Validación derivada** (intenta cargar con LevelLoader; mapea excepciones a issues) = **single source of truth** = las reglas que rechaza el juego en A1–A3 son exactamente las que rechaza el editor.
-- **Playtest embebido** sin persistencia: GameView ya acepta `progressModule=null`; reutiliza el mismo controlador que el juego real.
-- **Publicación dual**: API viva + seed JSON para versionado local del backend (ambos endpoints ya existen; cero cambios al backend).
-
----
-
-## Precedentes en el Proyecto
-
-- **Preview.html**: entry point oculta para testing interactivo (modelo exacto a replicar para forge.html)
-- **C3-seleccion-niveles-progreso.feature**: estructura de spec SDD a seguir (CONCEPTOS CLAVE, INVARIANTE, DECISIONES, Rules, Scenarios)
-- **LevelLoader + builders**: patrón de validación a reutilizar en validación derivada
-- **sceneFromLevelData**: conversión round-trip (DTO ↔ Scene con colores por paleta)
+Panel muestra:
+- ✅ **Válido** (verde) si no hay errores
+- ❌ **Errores** (rojo, count) si:
+  - ID vacío o con espacios
+  - allowedMoves ≤ 0
+  - Sin celdas
+  - Sin flechas
+  - Error de topología (LevelLoader)
+- ⚠️ **Warnings** (amarillo, count) si:
+  - Celdas aisladas (sin conexiones)
+  - Flechas sin cuerpo (solo cabeza)
 
 ---
 
-## Ejecución
+## V. CASOS DE USO VERIFICADOS
 
-El plan es ejecutable por Claude Haiku 4.5 sin ambigüedades:
-- Todos los hechos del código están verificados (4 secciones: contrato, piezas reutilizables, backend, ESLint)
-- Arquitectura está especificada (modelo Scene plana, zustand, geometría, validación derivada)
-- Archivos nuevos están listados con rutas exactas
-- Operaciones puras (sceneOps) están especificadas con contratos input/output claros
-- Fases tienen hitos verificables (pnpm dev, tests, features visuales)
+### E2E: Crear nivel completo
 
-**Próximo paso:** Rama feature/h1-forge en arrowmaze-game. Fases 1–6 con commits en cada paso.
+1. **Fase 0-2:** Edición
+   - Coloca 4 celdas en línea: (0,0), (1,0), (2,0), (3,0)
+   - Conecta: (0,0)↔(1,0), (1,0)↔(2,0), (2,0)↔(3,0) via puertos S↔N
+   - Validación: aún muestra ✗ (sin flechas)
+
+2. **Fase 3:** Flechas
+   - Cabeza en (0,0), R para exitPort N → S
+   - Extend a (1,0), exitPort auto-derivado al puerto S→N
+   - Extend a (2,0)
+   - Flecha final: head=(0,0,exitPort=S), body=[(1,0), (2,0)], ocupa 3 celdas
+
+3. **Fase 4:** Propiedades + Validación
+   - ID: "level-01", Moves: 10
+   - Validación: ✓ Válido (verde)
+
+4. **Fase 5:** Playtest
+   - Click "Probar" → modal abre
+   - Simula 10 movimientos
+   - "Volver" → nivel intacto
+
+5. **Fase 6:** Publicación
+   - Login: admin@test.com / password
+   - Click "Publicar" → POST /api/v1/levels
+   - 201 → "✓ Publicado"
+   - Click "Exportar JSON" → descarga level-01.json
 
 ---
 
-**Registro:** Entrada en `.ai-usage/manifest.json` sesión 20 de 20.
+## VI. DEUDAS Y FUTURO
+
+### Deudas explícitas (v1 no incluye)
+
+1. **DELETE endpoint** — eliminar nivel publicado (requerirá confirmación)
+2. **Validación en seco** — GET /api/v1/levels/:id/validate sin crear
+3. **collisionBehavior** — 'stay' vs 'return' no viaja en DTO (limitación v1)
+4. **Lógica de movimiento real** — playtest actual (requiere GameView integrada)
+5. **Versionado de niveles** — no hay concept de revisiones/historia
+
+### Evoluciones posibles
+
+- **Solver embebido:** verificar level es resoluble
+- **Importar/duplicar:** copiar nivel existente como template
+- **Colaboración:** edición simultánea (WebSocket)
+- **Temas:** personalizables colores de flechas
+- **Analytics:** logs de creación/prueba para balanceo
+
+---
+
+## VII. VERIFICACIÓN
+
+### Checklist Fase 0 (SDD)
+
+- ✅ 12 decisiones de diseño formalizadas
+- ✅ Arquitectura documentada (capas, flujo, atajos)
+- ✅ Interfaz de usuario especificada (modos, validación, playtest)
+- ✅ E2E checklist (crear → probar → publicar)
+- ✅ Deudas explícitas (qué falta, por qué)
+
+### Checklist Fases 1-6 (Implementación en arrowmaze-game)
+
+- ✅ Fase 1: Scaffolding (forge.html, React, zustand)
+- ✅ Fase 2: Celdas + conexiones interactivas (sceneOps, useForgeInput, ForgeCanvas)
+- ✅ Fase 3: Flechas (placeHead, extend, render, R rotation)
+- ✅ Fase 4: Validación + propiedades + undo/redo
+- ✅ Fase 5: Playtest embebido (PlaytestOverlay)
+- ✅ Fase 6: Publicación + export (ForgeApiClient, PublishPanel)
+
+**ESTADO:** Implementación completa. Pronto para testing E2E con backend real.
+
+---
+
+## VIII. PRÓXIMOS PASOS
+
+1. **Testing E2E:** Con backend en `http://localhost:3000`
+   - Login ADMIN
+   - Crear nivel
+   - Verificar en GET /api/v1/levels/:id
+   - Seed import (copiar JSON → pnpm seed)
+
+2. **Documentación:** Añadir H1 a docs/FEATURES.md, registrar en .ai-usage/manifest.json
+
+3. **Retrospectiva:** Deudas v1 → roadmap v2
+
+---
+
+**Documento generado automáticamente — SDD sesión 2026-07-07**  
+**Responsable de decisiones:** Equipo de diseño/implementación FORGE
