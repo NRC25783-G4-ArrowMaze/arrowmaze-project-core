@@ -42,7 +42,7 @@
 | [C1](../features/C1-maquina_estados_partida.feature) | Máquina de estados del flujo de una partida (autómata de pila: ACTIVE/PAUSED/SETTINGS) | A4 | ⚠️ Parcial — veredicto de Dominio (`GameStatus`: IN_PROGRESS/WON/LOST) ✅ implementado desde A4; flujo de UI (`GameFlowController`) 📝 Spec lista (SDD 2026-07-07), sin implementar |
 | [C2](../features/C2-carga-deserializacion-niveles.feature) | Carga y deserialización de definiciones de niveles desde archivos locales | A1, A2 | ✅ Implementado |
 | [C3](../features/C3-seleccion-niveles-progreso.feature) | Pantalla de selección de niveles con indicador de progreso y control de desbloqueo | C2, D1 | 📝 Spec lista (Presentation; desbloqueo por grafo, lee D1) |
-| C4 | Pantallas de soporte del juego (inicio, victoria, derrota, pausa, ajustes) | C1 | ⚠️ Parcial (`GameOverlay` de fin de partida); pausa/ajustes bloqueados por implementación de C1 |
+| [C4](../features/C4-pantallas-soporte.feature) | Pantallas de soporte del juego (inicio, victoria, derrota, pausa, ajustes) | C1 | ⚠️ Parcial (`GameOverlay` de fin de partida); pausa/ajustes bloqueados por implementación de C1 |
 
 ---
 
@@ -50,8 +50,8 @@
 
 | # | Feature | Depende de | Estado |
 |---|---|---|---|
-| D1 | Persistencia local del progreso y puntuaciones del jugador en SQLite | A5 | ❌ Pendiente |
-| D2 | Sincronización del progreso local con el servidor remoto | D1, E2 | ❌ Pendiente |
+| [D1](../features/D1-persistencia-local.feature) | Persistencia local del progreso y puntuaciones del jugador en SQLite | A5 | ❌ Pendiente |
+| [D2](../features/D2-sincronizacion-local-remota.feature) | Sincronización del progreso local con el servidor remoto | D1, E2 | ❌ Pendiente |
 
 ---
 
