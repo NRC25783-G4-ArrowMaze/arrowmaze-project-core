@@ -274,12 +274,12 @@
   "metadata": {
     "project": "Arrow Maze",
     "description": "Registro centralizado de uso de IA en desarrollo de puzzle game",
-    "lastUpdated": "2026-07-06",
+    "lastUpdated": "2026-07-09",
     "maintainedBy": "Jrgil20",
-    "totalSessions": 56,
+    "totalSessions": 63,
     "dateRange": {
       "start": "2026-05-03",
-      "end": "2026-07-06"
+      "end": "2026-07-09"
     },
     "aiTools": [
       "Claude (Sonnet 4.5, Sonnet 4.6, Opus 4.7, Opus 4.8, Fable 5)",
@@ -288,8 +288,8 @@
     ],
     "note": "Vista unificada: cada sesion incluye su repositorio de origen (repository) y, cuando esta documentado, el autor humano responsable (author). Las specs SDD (project-core) y las sesiones de implementacion (arrowmaze-game, arrowmaze-backend) conviven en la misma linea de tiempo; filtra por repositorio para aislar una historia.",
     "repositoryCounts": {
-      "project-core": 19,
-      "arrowmaze-backend": 6,
+      "project-core": 24,
+      "arrowmaze-backend": 8,
       "arrowmaze-game": 31
     }
   },
@@ -3184,6 +3184,467 @@
         "orphan references: passed — cero referencias a AI_USAGE.md o enlaces rotos"
       ],
       "linkedSession": null
+    },
+    {
+      "id": "2026-07-07-001",
+      "date": "2026-07-07",
+      "month": "2026-07",
+      "title": "H1 — FORGE Editor Visual de Niveles (Specification)",
+      "file": "2026-07/2026-07-07_h1-forge-editor-spec.md",
+      "duration": {
+        "value": 120,
+        "unit": "minutes",
+        "estimated": true
+      },
+      "aiModel": "Claude Fable 5 + Claude Haiku 4.5",
+      "tool": "claude-code",
+      "phase": "Tooling & Content Creation",
+      "feature": "H1",
+      "context": "Sesión SDD para el FORGE — editor visual interactivo de niveles (herramienta interna ADMIN). Introducción de nuevo grupo H (Herramientas internas). Formalización del schema de arrows (cierre de divergencia C2–F2–código): body como lista ordenada de cellIds SIN la cabeza; color fuera del contrato (presentación, paleta por índice). Convenciones normativas: id de celda 'col,row', portCount=4 fijo, derivación automática de puertos opuestos. 8 bloques funcionales (lienzo/celdas, conexiones, flechas, validación, playtest embebido, propiedades, export JSON, publicación ADMIN). Scope v1: sin solver, sin DELETE backend, sin collisionBehavior en contrato. Arquitectura: Scene plana + validación derivada (reutiliza LevelLoader/dominios). Estado zustand. Ubicación: entry separada (forge.html) en arrowmaze-game. Fase 0 SDD completada con .feature canónica, matriz de 10 decisiones cerradas, y plan detallado de 6 fases de implementación.",
+      "methodology": "Spec-Driven Development (SDD) con plan de implementación ejecutable por modelos pequeños (Haiku 4.5)",
+      "deliverables": [
+        "H1-forge-editor-niveles.feature — Gherkin en español: CONCEPTOS CLAVE, INVARIANTE, DECISIONES (D1–D10), 8 bloques temáticos con ~30 escenarios",
+        "Plan detallado de 6 fases de implementación (scaffolding, celdas/conexiones, flechas, validación/undo, playtest, publicación) con hitos verificables",
+        "Especificación de arquitectura: Scene plana + zustand + reutilización de LevelLoader para validación derivada",
+        "Matriz SDD con 10 decisiones: modelo de edición, id normativo, puertos, schema de arrows, herramientas, undo/redo, validación, playtest, publicación dual, scope v1",
+        "Inventario de piezas reutilizables (20 ítems) y nuevos archivos (~18 ficheros)",
+        "Lista de hechos verificados del código (4 secciones) y guía de riesgos abiertos"
+      ],
+      "status": "completed",
+      "iterationRounds": 1,
+      "keyDecisions": [
+        {
+          "id": "D1",
+          "decision": "Modelo de edición: Scene plana + validación derivada",
+          "rationale": "Tolera estados intermedios inevitables; LevelLoader reutiliza reglas; no duplica lógica"
+        },
+        {
+          "id": "D2",
+          "decision": "Id de celda: formato normativo 'col,row'",
+          "rationale": "Convención que parsea sceneFromLevelData; garantiza round-trip con paleta por índice"
+        },
+        {
+          "id": "D3",
+          "decision": "Puertos: portCount=4 fijo (N/E/S/O), derivación automática de opuestos (p+2)%4",
+          "rationale": "Coherente con portDelta de presentación; derivación desde adyacencia"
+        },
+        {
+          "id": "D4",
+          "decision": "Schema de arrows: {id, head:{cellId, exitPort}, body: string[] SIN cabeza}, color fuera del contrato",
+          "rationale": "Cierra divergencia C2–F2–código; body es lista ordenada de cellIds; color por paleta (presentación)"
+        },
+        {
+          "id": "D5",
+          "decision": "6 herramientas de modo: select, cell, connect, arrowHead, extend, erase. Tecla R para rotar",
+          "rationale": "Cubre 100% del flujo de construcción; R es atajocomúnde rotación"
+        },
+        {
+          "id": "D6",
+          "decision": "Undo/redo en v1: snapshots de Scene (Ctrl+Z / Ctrl+Shift+Z)",
+          "rationale": "Scene JSON-serializable; trivial con zustand; esperado en UI interactiva"
+        },
+        {
+          "id": "D7",
+          "decision": "Validación: errors bloquean publicar/playtest, warnings informativos. Reutiliza LevelLoader + excepciones canónicas",
+          "rationale": "Coherencia con reglas del dominio (C2/A1–A3); panel de UI muestra problemas en vivo"
+        },
+        {
+          "id": "D8",
+          "decision": "Playtest embebido: modal con GameView, sin persistencia de progreso",
+          "rationale": "Juega el nivel en edición sin tocár datos locales; GameView acepta progressModule=null"
+        },
+        {
+          "id": "D9",
+          "decision": "Publicación dual: API ADMIN (POST/PUT) + export JSON",
+          "rationale": "Cubre flujo vivo (API remota) y seed versionado (backend local)"
+        },
+        {
+          "id": "D10",
+          "decision": "Scope v1: sin solver, sin DELETE backend, sin collisionBehavior en contrato",
+          "rationale": "Valida estructura; playtest manual es suficiente; deuda anotada para v2"
+        }
+      ],
+      "architecturalNotes": "El forge reutiliza 100% las reglas del dominio (Board, Arrow, LevelLoader, validadores) sin duplicarlas. Entry point separada (forge.html) mantiene la app móvil limpia. Validation es derivada (intenta cargar con LevelLoader; excepciones → issues). Estado zustand + selectores. Render: Scene → BoardViewModel → ComponentSVG. Ningún cambio al backend en v1; la API ya soporta POST/PUT.",
+      "uiArchitecture": "Lienzo fijo 8×8 (editable); slots fantasma en modo 'cell'; líneas de conexiones; celdas/flechas con paleta por índice; overlays de selección/candidatas. Toolbar: selector de herramienta + Rotar + Undo/Redo + Playtest. Panel derecho: propiedades (id/name/difficulty/allowedMoves/gridCols/gridRows), validación (issues en vivo), publicación (login/crear/cargar/exportar/copiar).",
+      "teamContribution": "Usuario: decisión de ubicación (forge.html en arrowmaze-game), publicación dual (API + seed JSON), validación estructural + playtest sin solver, y confirmó que Haiku 4.5 puede implementar el plan sin problemas. Definió el flujo de construcción (celdas → conexiones → flechas) e insistió en atajos de teclado (R, Ctrl+Z).",
+      "aiOutputQuality": {
+        "feature-gherkin": "95%",
+        "architecture-design": "98%",
+        "implementation-plan": "99%",
+        "risk-assessment": "90%",
+        "reusable-code-inventory": "100%"
+      },
+      "openDependencies": [
+        "Implementar 6 fases en arrowmaze-game (rama feature/h1-forge)"
+      ],
+      "keywords": [
+        "forge",
+        "level-editor",
+        "h1",
+        "tooling",
+        "sdd",
+        "scene-plana",
+        "zustand",
+        "level-loader-reutilization",
+        "validation-derived",
+        "admin-tool",
+        "spec-complete",
+        "plan-executable-by-haiku"
+      ],
+      "repository": "project-core",
+      "author": null
+    },
+    {
+      "id": "2026-07-07-002",
+      "date": "2026-07-07",
+      "month": "2026-07",
+      "title": "C4 — Pantallas de soporte (Scaffolding)",
+      "file": "2026-07/2026-07-07_c4-pantallas-soporte-scaffolding.md",
+      "duration": {
+        "value": 10,
+        "unit": "minutes",
+        "estimated": true
+      },
+      "aiModel": "Claude Fable 5",
+      "tool": "claude-code",
+      "phase": "Content Creation",
+      "feature": "C4",
+      "context": "C4 (Pantallas de soporte del juego) no estaba contemplado como sesión de trabajo activa; ya figuraba en docs/FEATURES.md y docs/BORRADOR-features-pendientes.md como parcial (GameOverlay de Victoria/Derrota implementado; faltan Inicio, Pausa y Ajustes) pero sin .feature propio. Se generó el andamiaje (skill newfeature) siguiendo el formato de C3 como referencia de estilo: Background + CONCEPTOS CLAVE + escenarios placeholder, sin redactar el Gherkin real ni el plan de implementación detallado, que quedan para una sesión posterior.",
+      "methodology": "Scaffolding de spec (skill newfeature) — sin elicitación ni matriz de decisiones",
+      "deliverables": [
+        "C4-pantallas-soporte.feature — Background + CONCEPTOS CLAVE + 1 Scenario placeholder y 4 escenarios sugeridos comentados (inicio, pausa, ajustes, navegación reversible)",
+        "Espejo idéntico del .feature en arrowmaze-game/features/ (convención de specs duplicadas entre repos)",
+        "doc/C4-pantallas-soporte_plan.md en arrowmaze-game — esqueleto de plan con secciones vacías, sin commitear a petición del usuario (se detallará después)"
+      ],
+      "status": "completed",
+      "iterationRounds": 1,
+      "keyDecisions": [
+        {
+          "id": "C4-D1",
+          "decision": "Solo se sube el .feature a ambos repos (main en project-core, dev en arrowmaze-game); el plan de implementación queda fuera de este commit",
+          "rationale": "El usuario pidió separar el andamiaje de la spec del diseño detallado, que se abordará en otra sesión"
+        },
+        {
+          "id": "C4-D2",
+          "decision": "El .feature se duplica en arrowmaze-game/features/ como espejo exacto del de project-core",
+          "rationale": "Sigue la convención observada en el resto de specs (C2, C3, etc.), duplicadas byte-a-byte en ambos repos"
+        }
+      ],
+      "openDependencies": [
+        "Redactar los escenarios Gherkin reales de C4 (Inicio, Pausa, Ajustes, navegación reversible)",
+        "Detallar doc/C4-pantallas-soporte_plan.md en sesión SDD dedicada, incluyendo el estado de flujo PAUSED sobre la máquina de estados de C1",
+        "Actualizar la fila C4 en docs/FEATURES.md para enlazar el nuevo .feature"
+      ],
+      "keywords": [
+        "c4",
+        "pantallas-soporte",
+        "scaffolding",
+        "presentation",
+        "pausa",
+        "ajustes",
+        "spec-skeleton"
+      ],
+      "repository": "project-core",
+      "author": null
+    },
+    {
+      "id": "2026-07-07-003",
+      "date": "2026-07-07",
+      "month": "2026-07",
+      "title": "C4 — Pantallas de soporte (Implementación: Pausa y Ajustes)",
+      "file": "2026-07/2026-07-07_c4-pantallas-soporte-implementacion.md",
+      "duration": {
+        "value": 90,
+        "unit": "minutes",
+        "estimated": true
+      },
+      "aiModel": "Claude Sonnet 5",
+      "tool": "claude-code",
+      "phase": "Implementation",
+      "feature": "C4",
+      "context": "El .feature de C4 seguía con solo un Scenario placeholder y decía 'PAUSED aún no existe', pero C1 ya había implementado el autómata de pila GameFlowController (ACTIVE|PAUSED|SETTINGS) conectado a useGameController/GameView, sin ningún control de UI que lo disparara. Se investigó vía sub-agentes Explore, se diseñó el plan vía sub-agente Plan, el usuario decidió el alcance (Ajustes solo placeholders, Inicio reusa LevelSelectScreen), y se implementó: dos overlays nuevos (PauseOverlay, SettingsOverlay), botón de pausa en GameView, y el .feature reescrito con 6 Rules y 9 escenarios.",
+      "methodology": "Plan mode (exploración con sub-agentes Explore, diseño con sub-agente Plan, revisión con AskUserQuestion) + implementación TDD",
+      "deliverables": [
+        "features/C4-pantallas-soporte.feature (arrowmaze-game + espejo en project-core) — reescrito completo, 6 Rules / 9 escenarios",
+        "src/presentation/components/PauseOverlay.tsx y SettingsOverlay.tsx (arrowmaze-game, nuevos)",
+        "src/presentation/components/GameView.tsx (arrowmaze-game, modificado) — botón de Pausa + montaje condicional de overlays",
+        "__tests__/presentation/{pauseOverlay,settingsOverlay,gameFlowNavigation}.spec.{ts,tsx} (arrowmaze-game, nuevos)",
+        "doc/C4-pantallas-soporte_plan.md (arrowmaze-game) — completado con el plan ejecutado"
+      ],
+      "status": "completed",
+      "iterationRounds": 3,
+      "keyDecisions": [
+        {
+          "id": "C4-D3",
+          "decision": "Ajustes = solo contenedor con placeholders 'Próximamente' (Idioma/Audio)",
+          "rationale": "G1 (audio) no implementado; G2 (idioma) solo tiene diccionario ES fijo sin selector — el usuario eligió no adelantar ese trabajo"
+        },
+        {
+          "id": "C4-D4",
+          "decision": "Inicio reusa LevelSelectScreen (C3) existente, sin pantalla Home nueva",
+          "rationale": "La exploración reveló que C3 ya estaba implementado (más avanzado que lo que decía el borrador de pendientes) y ya cumple ese rol"
+        },
+        {
+          "id": "C4-D5",
+          "decision": "El .feature final lo redactó el asistente directamente, no el sub-agente Plan",
+          "rationale": "El usuario rechazó la versión generada por el sub-agente y pidió que se reescribiera — prefirió revisión directa del contenido de la spec"
+        }
+      ],
+      "openDependencies": [
+        "G1 (audio) y G2 (selector de idioma real) quedan pendientes; SettingsOverlay ya deja el punto de extensión listo",
+        "G3 (timer) sigue sin implementar, sin bloquear a C4"
+      ],
+      "keywords": [
+        "c4",
+        "pantallas-soporte",
+        "pausa",
+        "ajustes",
+        "game-flow-controller",
+        "presentation",
+        "tdd",
+        "implementation",
+        "plan-mode"
+      ],
+      "repository": "project-core",
+      "author": null
+    },
+    {
+      "id": "2026-07-07-004",
+      "date": "2026-07-07",
+      "month": "2026-07",
+      "title": "C1 — Máquina de estados del flujo de una partida (autómata de pila)",
+      "file": "2026-07/2026-07-07_c1-fsm-flujo-partida-sdd.md",
+      "duration": {
+        "value": 60,
+        "unit": "minutes",
+        "estimated": true
+      },
+      "aiModel": "Claude Sonnet 5",
+      "tool": "claude-code",
+      "phase": "Client Flow Specification",
+      "feature": "C1",
+      "context": "C1 figuraba en docs/FEATURES.md como '✅ Implementado (falta flujo UI PAUSED/MENU, ver C4)' pero sin .feature propio — se había implementado ad-hoc en GameSession.ts sin pasar por sesión SDD. Al revisar, se detectó que además del vacío de spec el diseño mismo estaba incompleto: GameStatus solo tenía IN_PROGRESS|WON|LOST, sin soporte de pausa/ajustes. Se formalizó como un autómata de pila (Pushdown Automata) en Presentación/Aplicación, reconciliado con la spec ya cerrada de G3 (que asume 'tiempo activo = IN_PROGRESS y la UI fuera de PAUSED').",
+      "methodology": "Spec-Driven Development (SDD) con Q&A estructurada (elicitación → consolidación → .feature)",
+      "deliverables": [
+        "features/C1-maquina_estados_partida.feature — 7 Rules, 15 escenarios: tope de pila exclusivo, pausar (guards de terminalidad y de tope), reanudar, ajustes anidados, reiniciar, salir, invariante de separación Dominio/Presentación",
+        "arrow-maze-client/doc/C1-maquina-estados-flujo_plan.md — plan de implementación TDD (GameFlowController + GameFlowState + InvalidFlowTransitionError, capa de Aplicación, sin tocar Dominio)"
+      ],
+      "status": "completed",
+      "keyDecisions": [
+        {
+          "id": "D1",
+          "decision": "PAUSED vive en un autómata de pila de Presentación/Aplicación, NO en GameStatus de Dominio",
+          "rationale": "Reconciliado con G3 (2026-07-04), que asume 'tiempo activo = IN_PROGRESS y la UI fuera de PAUSED'; agregarlo a GameStatus habría roto G3 retroactivamente"
+        },
+        {
+          "id": "D2",
+          "decision": "MENU (ausencia de partida) queda fuera de esta feature",
+          "rationale": "Es routing de C3 (ausencia de GameSession/GameFlowController), no un estado de esta pila, que solo existe mientras hay un nivel cargado"
+        },
+        {
+          "id": "D3",
+          "decision": "Pausa solo permitida desde ACTIVE con GameSession.status == IN_PROGRESS; el reloj se congela",
+          "rationale": "Consistente con G3 D4, que ya asumía esta congelación; confirmado explícitamente por el usuario"
+        },
+        {
+          "id": "D4",
+          "decision": "Salidas de PAUSED: RESUME, RESTART (nueva GameSession, colapsa pila a [ACTIVE]), EXIT (descarta todo)",
+          "rationale": "El usuario pidió las tres explícitamente"
+        },
+        {
+          "id": "D5",
+          "decision": "SETTINGS se apila solo sobre PAUSED; cerrar ajustes vuelve a PAUSED, no a ACTIVE",
+          "rationale": "El usuario aportó la referencia de autómatas de pila (Pushdown Automata) de la industria de videojuegos, que modela naturalmente los ajustes anidados sobre pausa — un enum plano no lo resuelve bien"
+        }
+      ],
+      "teamContribution": "Identificó que, al no existir .feature para C1, no correspondía marcarlo '✅ Implementado' bajo las reglas propias de trazabilidad SDD; señaló que el diseño estaba objetivamente incompleto (no solo un problema retroactivo de documentación); aportó la referencia arquitectónica de autómatas de pila que resolvió D1 y D5.",
+      "openDependencies": [
+        "Actualizar docs/FEATURES.md: C1 debía reflejar '📝 Spec lista, implementación de flujo pendiente' en vez de '✅ Implementado' (resuelto en la sesión C4-implementación del mismo día, que construyó GameFlowController sobre esta FSM)",
+        "Conectar GameFlowController.current a la capa de input (B3) — contrato explícito dejado para la sesión de implementación de C4"
+      ],
+      "keywords": [
+        "c1",
+        "maquina-de-estados",
+        "fsm",
+        "pushdown-automata",
+        "pausa",
+        "ajustes",
+        "flujo-de-partida",
+        "sdd",
+        "presentation",
+        "application-layer"
+      ],
+      "repository": "project-core",
+      "author": null
+    },
+    {
+      "id": "2026-07-06-002",
+      "date": "2026-07-06",
+      "month": "2026-07",
+      "title": "Corrección de bugs críticos hallados en inspección (logout, build, JWT, email)",
+      "file": "2026-07-06-correccion-bugs-logout-build-jwt-email.md",
+      "aiModel": "Claude Fable 5",
+      "tool": "Claude Code (claude.ai/code)",
+      "author": "@Jrgil20",
+      "phase": "Bugfix & Hardening",
+      "feature": "cross-cutting — auth (E1/E2), build, persistencia JSON",
+      "context": "Continuación de una inspección detallada del backend que verificó 4 bugs en runtime: logout roto (authMiddleware.execute perdía ‘this’ al registrarse sin bind, el token nunca se revocaba), build de producción doblemente roto (dist/src/index.js vs dist/index.js, imports ESM sin extensión), TTL de JWT inconsistente (Login pedía 24h pero JwtTokenService ignoraba expiresInSeconds y siempre emitía 7 días) y email case-sensitive (duplicados por mayúsculas). Se corrigieron junto con riesgos de configuración detectados: lockfile no versionado, data/ sin ignorar, secreto JWT hardcodeado como fallback en LeaderboardModuleFactory, y una carrera read-modify-write en los repositorios JSON.",
+      "deliverables": [
+        "src/presentation/routes/AuthRoutes.ts — fix logout: authMiddleware.execute envuelto en arrow function (bind perdido)",
+        "src/infrastructure/services/JwtTokenService.ts + Login.ts — TTL honra expiresInSeconds; 604800s (7 días) explícito",
+        "src/domain/value-objects/Email.ts — Email.create() normaliza trim().toLowerCase()",
+        "tsconfig.json/tsconfig.build.json — build migrado a ESM nodenext + extensiones .js en ~45 imports relativos",
+        "src/main/factories/SharedSecurityFactory.ts (NUEVO) — Singleton de dependencias de seguridad compartidas entre las 4 factories",
+        "src/infrastructure/persistence/FileWriteQueue.ts (NUEVO) — mutex de escritura por archivo para los repositorios JSON",
+        "8 commits modulares en rama fix/correcciones-inspeccion"
+      ],
+      "keyDecisions": [
+        {
+          "decision": "Build de producción migrado a ESM nodenext + extensiones .js en vez de bundler o CommonJS"
+        },
+        {
+          "decision": "Token de sesión fijado en 7 días (604800s), alineado con README y spec E2"
+        },
+        {
+          "decision": "Mutex de escritura JSON y renombres de typos incluidos; CORS y actualización de READMEs diferidos explícitamente a petición del usuario"
+        }
+      ],
+      "status": "completed",
+      "repository": "arrowmaze-backend",
+      "keywords": [
+        "bugfix",
+        "auth",
+        "jwt",
+        "build-tooling",
+        "esm",
+        "persistence-json",
+        "concurrency",
+        "composition-root",
+        "singleton"
+      ],
+      "validationNotes": [
+        "tests: passed — 75/75 en 20 suites (subió de 67/67 al añadir tests de regresión)",
+        "typecheck: passed — tsc --noEmit limpio",
+        "build: passed — pnpm build && node dist/index.js arranca sin ERR_MODULE_NOT_FOUND",
+        "e2e smoke test: passed — logout revoca token (200, antes 401), token revocado rechazado en /progress (403, antes 200), login case-insensitive (200, antes 401), JWT exp-iat = 604800s"
+      ],
+      "linkedSession": null
+    },
+    {
+      "id": "2026-07-09-001-backend",
+      "date": "2026-07-09",
+      "month": "2026-07",
+      "title": "Cierre del backend: patrones GoF, AOP y Swagger/OpenAPI",
+      "file": "2026-07-09-patrones-gof-aop-swagger.md",
+      "aiModel": "Claude Fable 5",
+      "tool": "Claude Code (claude.ai/code)",
+      "author": "@Jrgil20",
+      "phase": "Architecture & Documentation",
+      "feature": "rúbrica — patrones GoF + AOP + OpenAPI",
+      "context": "Cierre de los tres requisitos de rúbrica académica pendientes en el backend: patrones GoF documentados, aspecto AOP formal, documentación OpenAPI. Ejecutado en modo plan (agentes Explore + Plan) con aprobación explícita antes de implementar. Rama feature/patrones-aop-swagger con 7 commits modulares, PR #17 hacia develop (pendiente de aprobación).",
+      "deliverables": [
+        "src/domain/services/IRankingStrategy.ts + CompetitiveRankingStrategy.ts — patrón Strategy (antes LeaderboardSortingService estático)",
+        "src/infrastructure/aspects/ErrorHandlerAspect.ts — aspecto AOP: manejo centralizado de excepciones dominio→HTTP",
+        "src/infrastructure/aspects/RequestLoggingAspect.ts — aspecto AOP: logging transversal [HTTP] método ruta → status (ms)",
+        "src/main/config/swagger.ts — spec OpenAPI 3.0.3 (swagger-jsdoc); Swagger UI en /api/docs + spec crudo en /api/docs/json",
+        "docs/design-patterns.md (NUEVO) — Factory Method, Singleton, Adapter, Strategy con ubicación/problema/alternativas/tests",
+        "Tests nuevos: adapters Bcrypt/Jwt, Singleton SharedSecurityFactory, ambos aspectos, spec OpenAPI"
+      ],
+      "keyDecisions": [
+        {
+          "decision": "Strategy (ranking del leaderboard) como patrón de comportamiento en lugar de forzar Command sobre un DTO con static factory"
+        },
+        {
+          "decision": "Adapter (Bcrypt/Jwt) documentado como patrón estructural explícito, con tests unitarios"
+        },
+        {
+          "decision": "ErrorHandlerAspect centralizado aprovechando la propagación de promesas rechazadas de Express 5, eliminando el try/catch duplicado de los 4 controllers"
+        },
+        {
+          "decision": "Corrección de contrato: leaderboard de nivel inexistente responde 404 (LevelNotFoundError) en vez de 422 (reservado a LevelRegistryError de progreso)"
+        }
+      ],
+      "status": "completed",
+      "repository": "arrowmaze-backend",
+      "keywords": [
+        "design-patterns",
+        "gof",
+        "strategy",
+        "adapter",
+        "singleton",
+        "factory-method",
+        "aop",
+        "error-handling",
+        "logging",
+        "openapi",
+        "swagger",
+        "documentation"
+      ],
+      "validationNotes": [
+        "tests: passed — 109/109 en 27 suites (subió de 80/80)",
+        "build: passed — pnpm build limpio",
+        "e2e smoke test: passed — /api/docs/json sirve OpenAPI 3.0.3 con 12 paths, Swagger UI 200, nivel inexistente 404 vía ErrorHandlerAspect, logout sin token 401, RequestLoggingAspect emite líneas [HTTP] en stdout"
+      ],
+      "linkedSession": null
+    },
+    {
+      "id": "2026-07-09-001",
+      "date": "2026-07-09",
+      "month": "2026-07",
+      "title": "Sincronización de arquitectura backend y consolidación de la bitácora de IA",
+      "file": "2026-07/2026-07-09_backend-arquitectura-sync-vitacora.md",
+      "duration": {
+        "value": 40,
+        "unit": "minutes",
+        "estimated": true
+      },
+      "aiModel": "Claude Sonnet 5",
+      "tool": "claude-code",
+      "phase": "Documentation & Communication",
+      "feature": null,
+      "context": "El backend cerró en su rama feature/patrones-aop-swagger (PR #17, pendiente de aprobación) patrones GoF, aspectos AOP y documentación OpenAPI/Swagger. Mientras se aprueba el PR, se sincronizó ese trabajo en project-core: se detectó que la bitácora unificada (vitacora/index.html) estaba atrasada respecto a ambos manifests (2 sesiones de backend y 3 sesiones propias de project-core del 2026-07-07 sin propagar), y que docs/STACK.md describía la carpeta de aspectos AOP y la ruta de Swagger con nombres distintos a los implementados.",
+      "methodology": "Plan mode (exploración paralela con 2 sub-agentes Explore, uno por repo → AskUserQuestion para fijar el alcance → plan escrito y aprobado) seguido de edición documental directa",
+      "deliverables": [
+        "vitacora/index.html — 6 sesiones nuevas (3 project-core, 2 arrowmaze-backend, esta sesión) + metadata actualizada",
+        "docs/STACK.md — rutas/nombres de AOP y Swagger del backend corregidos a lo implementado",
+        "docs/FEATURES.md — nota de arquitectura bajo el Grupo F (GoF/AOP/Swagger)",
+        "CLAUDE.md — nota de estado del backend + fecha actualizada",
+        ".ai-usage/2026-07/2026-07-09_backend-arquitectura-sync-vitacora.md (este reporte)"
+      ],
+      "status": "completed",
+      "keyDecisions": [
+        {
+          "decision": "Alcance de 3 frentes: vitácora + reconciliación de docs de arquitectura + registro de esta sesión",
+          "rationale": "El usuario eligió los 3 frentes ofrecidos en AskUserQuestion en vez de limitarse solo a la bitácora"
+        },
+        {
+          "decision": "Consolidar las 2 sesiones de backend que faltaban, no solo la más reciente",
+          "rationale": "Dejar la bitácora completamente al día en vez de reflejar únicamente el pedido explícito"
+        },
+        {
+          "decision": "No registrar retroactivamente la sesión C1-FSM (2026-07-07) hallada sin entrada en el manifest",
+          "rationale": "Es un gap preexistente distinto del pedido original; corregirlo habría expandido el plan sin pasar por aprobación explícita — queda anotado como pendiente"
+        },
+        {
+          "decision": "Reconciliación quirúrgica de STACK.md (solo rutas de AOP y Swagger), no reescritura completa de los árboles de carpetas",
+          "rationale": "STACK.md es un documento prospectivo; solo 2 rutas divergieron de lo realmente implementado"
+        }
+      ],
+      "teamContribution": "Definió el alcance de los 3 frentes y la inclusión de las 2 sesiones de backend vía AskUserQuestion; aprobó el plan sin cambios.",
+      "keywords": [
+        "vitacora",
+        "ai-usage",
+        "sincronizacion",
+        "backend",
+        "aop",
+        "gof",
+        "swagger",
+        "openapi",
+        "documentation",
+        "governance"
+      ],
+      "repository": "project-core",
+      "author": null
     }
   ],
   "summary": {
