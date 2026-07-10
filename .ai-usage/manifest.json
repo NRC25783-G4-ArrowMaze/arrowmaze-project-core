@@ -4,7 +4,7 @@
     "description": "Registro centralizado de uso de IA en desarrollo de puzzle game",
     "lastUpdated": "2026-07-09",
     "maintainedBy": "Jrgil20",
-    "totalSessions": 23,
+    "totalSessions": 24,
     "dateRange": {
       "start": "2026-05-03",
       "end": "2026-07-09"
@@ -1386,6 +1386,73 @@
         "tdd",
         "implementation",
         "plan-mode"
+      ]
+    },
+    {
+      "id": "2026-07-07-004",
+      "date": "2026-07-07",
+      "month": "2026-07",
+      "title": "C1 — Máquina de estados del flujo de una partida (autómata de pila)",
+      "file": "2026-07/2026-07-07_c1-fsm-flujo-partida-sdd.md",
+      "duration": {
+        "value": 60,
+        "unit": "minutes",
+        "estimated": true
+      },
+      "aiModel": "Claude Sonnet 5",
+      "tool": "claude-code",
+      "phase": "Client Flow Specification",
+      "feature": "C1",
+      "context": "C1 figuraba en docs/FEATURES.md como '✅ Implementado (falta flujo UI PAUSED/MENU, ver C4)' pero sin .feature propio — se había implementado ad-hoc en GameSession.ts sin pasar por sesión SDD. Al revisar, se detectó que además del vacío de spec el diseño mismo estaba incompleto: GameStatus solo tenía IN_PROGRESS|WON|LOST, sin soporte de pausa/ajustes. Se formalizó como un autómata de pila (Pushdown Automata) en Presentación/Aplicación, reconciliado con la spec ya cerrada de G3 (que asume 'tiempo activo = IN_PROGRESS y la UI fuera de PAUSED').",
+      "methodology": "Spec-Driven Development (SDD) con Q&A estructurada (elicitación → consolidación → .feature)",
+      "deliverables": [
+        "features/C1-maquina_estados_partida.feature — 7 Rules, 15 escenarios: tope de pila exclusivo, pausar (guards de terminalidad y de tope), reanudar, ajustes anidados, reiniciar, salir, invariante de separación Dominio/Presentación",
+        "arrow-maze-client/doc/C1-maquina-estados-flujo_plan.md — plan de implementación TDD (GameFlowController + GameFlowState + InvalidFlowTransitionError, capa de Aplicación, sin tocar Dominio)"
+      ],
+      "status": "completed",
+      "keyDecisions": [
+        {
+          "id": "D1",
+          "decision": "PAUSED vive en un autómata de pila de Presentación/Aplicación, NO en GameStatus de Dominio",
+          "rationale": "Reconciliado con G3 (2026-07-04), que asume 'tiempo activo = IN_PROGRESS y la UI fuera de PAUSED'; agregarlo a GameStatus habría roto G3 retroactivamente"
+        },
+        {
+          "id": "D2",
+          "decision": "MENU (ausencia de partida) queda fuera de esta feature",
+          "rationale": "Es routing de C3 (ausencia de GameSession/GameFlowController), no un estado de esta pila, que solo existe mientras hay un nivel cargado"
+        },
+        {
+          "id": "D3",
+          "decision": "Pausa solo permitida desde ACTIVE con GameSession.status == IN_PROGRESS; el reloj se congela",
+          "rationale": "Consistente con G3 D4, que ya asumía esta congelación; confirmado explícitamente por el usuario"
+        },
+        {
+          "id": "D4",
+          "decision": "Salidas de PAUSED: RESUME, RESTART (nueva GameSession, colapsa pila a [ACTIVE]), EXIT (descarta todo)",
+          "rationale": "El usuario pidió las tres explícitamente"
+        },
+        {
+          "id": "D5",
+          "decision": "SETTINGS se apila solo sobre PAUSED; cerrar ajustes vuelve a PAUSED, no a ACTIVE",
+          "rationale": "El usuario aportó la referencia de autómatas de pila (Pushdown Automata) de la industria de videojuegos, que modela naturalmente los ajustes anidados sobre pausa — un enum plano no lo resuelve bien"
+        }
+      ],
+      "teamContribution": "Identificó que, al no existir .feature para C1, no correspondía marcarlo '✅ Implementado' bajo las reglas propias de trazabilidad SDD; señaló que el diseño estaba objetivamente incompleto (no solo un problema retroactivo de documentación); aportó la referencia arquitectónica de autómatas de pila que resolvió D1 y D5.",
+      "openDependencies": [
+        "Actualizar docs/FEATURES.md: C1 debía reflejar '📝 Spec lista, implementación de flujo pendiente' en vez de '✅ Implementado' (resuelto en la sesión C4-implementación del mismo día, que construyó GameFlowController sobre esta FSM)",
+        "Conectar GameFlowController.current a la capa de input (B3) — contrato explícito dejado para la sesión de implementación de C4"
+      ],
+      "keywords": [
+        "c1",
+        "maquina-de-estados",
+        "fsm",
+        "pushdown-automata",
+        "pausa",
+        "ajustes",
+        "flujo-de-partida",
+        "sdd",
+        "presentation",
+        "application-layer"
       ]
     },
     {
