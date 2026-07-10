@@ -17,7 +17,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **G1–G3** (audio, i18n, timer): 📝 Specs listas (SDD 2026-07-04), sin implementar
 - **P23** (integración tiempo→score): 🟡 Parcial — decidido que SÍ afecta el score; el CÓMO espera sesión SDD propia de enmienda A5
 
-Pending client work: D1 (persistencia local), C4 (finish), D2 (sincronización), G1–G3 implementation. Backend (E1–E2, F1–F3 specs ready; F4 not yet specced) lives in `arrowmaze-backend`. This repo remains the single source of truth for specs and architecture decisions.
+Pending client work: D1 (persistencia local), C4 (finish), D2 (sincronización), G1–G3 implementation. The **backend is closed at `v1.0.0`** (E1–E2, F1–F4 implemented) in `arrowmaze-backend` and is now **frozen** in this repo; future backend versions evolve independently and are no longer mirrored here. This repo remains the single source of truth for specs and architecture decisions.
+
+**Versioning policy (versionario hasta v1.0.0):** project-core documents each implementation repo **up to its `v1.0.0`**. Once a repo closes v1.0.0 its documentation here is **frozen**; later versions evolve independently and are *not* re-mirrored here (that would be a manual, non-automated duplicate). The client (`arrowmaze-game`) is **not yet closed** — it keeps being documented until it closes its own v1.0.0, then the same freeze applies. After those freezes this repo acts as a **historical bitácora** and may become highly outdated. See the "Política de versionado y congelamiento" section in the README.
 
 **Key Characteristics:**
 - **Methodology:** SDD with structured Q&A using Claude + Gherkin BDD
@@ -106,11 +108,14 @@ Technology stack and folder structure decisions **have been finalized**. See **`
 
 When implementation begins, clone the structure from STACK.md's folder trees exactly. Do not invent intermediate abstractions—build what the spec demands, no more.
 
-**Backend architecture status (2026-07-09):** `arrowmaze-backend` already materializes
-cross-cutting concerns via two AOP aspects (`ErrorHandlerAspect`, `RequestLoggingAspect`) and
-exposes the API through OpenAPI/Swagger at `/api/docs`. GoF patterns (Factory Method,
-Singleton, Adapter, Strategy) are documented in `arrowmaze-backend/docs/design-patterns.md`.
-Work lives on branch `feature/patrones-aop-swagger` (PR #17, pending approval).
+**Backend architecture status (backend v1.0.0, 2026-07-09):** `arrowmaze-backend` already
+materializes cross-cutting concerns via two AOP aspects (`ErrorHandlerAspect`,
+`RequestLoggingAspect`) and exposes the API through OpenAPI/Swagger at `/api/docs`. GoF patterns
+(Factory Method, Singleton, Adapter, Strategy) are documented in
+`arrowmaze-backend/docs/design-patterns.md`. This work was **merged (PR #17)** and **released as
+`v1.0.0`** (release #18), with build+test CI on every PR. The backend is now **frozen at v1.0.0**
+in this repo — later backend versions evolve independently and are no longer mirrored here (see the
+versioning policy in the README).
 
 ---
 
