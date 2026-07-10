@@ -3760,7 +3760,7 @@
           "rationale": "Conserva el historial de la bitácora (179 KB con el array embebido)"
         }
       ],
-      "teamContributions": "Propuso la visión (web con 'cómo se hizo' además de la bitácora), eligió estructura y secciones vía AskUserQuestion (añadió la sección de equipo) y encadenó las instrucciones de cierre (commit, push, PR con el reporte).",
+      "teamContributions": ["Propuso la visión (web con 'cómo se hizo' además de la bitácora), eligió estructura y secciones vía AskUserQuestion (añadió la sección de equipo) y encadenó las instrucciones de cierre (commit, push, PR con el reporte)."],
       "keywords": [
         "vitacora",
         "sitio-web",
@@ -4075,7 +4075,9 @@
     return `<div class="block"><h4>Decisiones clave</h4><div style="display:flex;flex-direction:column;gap:9px">${rows}</div></div>`;
   }
   function humanBlock(s){
-    const txt = s.teamContribution || s.humanContribution || (s.teamContributions&&s.teamContributions.join(" · "));
+    const tc = s.teamContributions;
+    const txt = s.teamContribution || s.humanContribution
+      || (tc && (Array.isArray(tc) ? tc.join(" · ") : tc));
     if(!txt) return "";
     return `<div class="human"><b>Aporte del equipo</b>${esc(txt)}</div>`;
   }
