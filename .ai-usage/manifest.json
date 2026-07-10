@@ -2,12 +2,12 @@
   "metadata": {
     "project": "Arrow Maze",
     "description": "Registro centralizado de uso de IA en desarrollo de puzzle game",
-    "lastUpdated": "2026-07-07",
+    "lastUpdated": "2026-07-09",
     "maintainedBy": "Jrgil20",
-    "totalSessions": 22,
+    "totalSessions": 23,
     "dateRange": {
       "start": "2026-05-03",
-      "end": "2026-07-07"
+      "end": "2026-07-09"
     },
     "aiTools": [
       "Claude (Sonnet 4.5, Sonnet 4.6, Opus 4.7, Opus 4.8, Fable 5)",
@@ -1386,6 +1386,63 @@
         "tdd",
         "implementation",
         "plan-mode"
+      ]
+    },
+    {
+      "id": "2026-07-09-001",
+      "date": "2026-07-09",
+      "month": "2026-07",
+      "title": "Sincronización de arquitectura backend y consolidación de la bitácora de IA",
+      "file": "2026-07/2026-07-09_backend-arquitectura-sync-vitacora.md",
+      "duration": {
+        "value": 40,
+        "unit": "minutes",
+        "estimated": true
+      },
+      "aiModel": "Claude Sonnet 5",
+      "tool": "claude-code",
+      "phase": "Documentation & Communication",
+      "feature": null,
+      "context": "El backend cerró en su rama feature/patrones-aop-swagger (PR #17, pendiente de aprobación) patrones GoF, aspectos AOP y documentación OpenAPI/Swagger. Mientras se aprueba el PR, se sincronizó ese trabajo en project-core: se detectó que la bitácora unificada (vitacora/index.html) estaba atrasada respecto a ambos manifests (2 sesiones de backend y 3 sesiones propias de project-core del 2026-07-07 sin propagar), y que docs/STACK.md describía la carpeta de aspectos AOP y la ruta de Swagger con nombres distintos a los implementados.",
+      "methodology": "Plan mode (exploración paralela con 2 sub-agentes Explore, uno por repo → AskUserQuestion para fijar el alcance → plan escrito y aprobado) seguido de edición documental directa",
+      "deliverables": [
+        "vitacora/index.html — 6 sesiones nuevas (3 project-core, 2 arrowmaze-backend, esta sesión) + metadata actualizada",
+        "docs/STACK.md — rutas/nombres de AOP y Swagger del backend corregidos a lo implementado",
+        "docs/FEATURES.md — nota de arquitectura bajo el Grupo F (GoF/AOP/Swagger)",
+        "CLAUDE.md — nota de estado del backend + fecha actualizada",
+        ".ai-usage/2026-07/2026-07-09_backend-arquitectura-sync-vitacora.md (este reporte)"
+      ],
+      "status": "completed",
+      "keyDecisions": [
+        {
+          "decision": "Alcance de 3 frentes: vitácora + reconciliación de docs de arquitectura + registro de esta sesión",
+          "rationale": "El usuario eligió los 3 frentes ofrecidos en AskUserQuestion en vez de limitarse solo a la bitácora"
+        },
+        {
+          "decision": "Consolidar las 2 sesiones de backend que faltaban, no solo la más reciente",
+          "rationale": "Dejar la bitácora completamente al día en vez de reflejar únicamente el pedido explícito"
+        },
+        {
+          "decision": "No registrar retroactivamente la sesión C1-FSM (2026-07-07) hallada sin entrada en el manifest",
+          "rationale": "Es un gap preexistente distinto del pedido original; corregirlo habría expandido el plan sin pasar por aprobación explícita — queda anotado como pendiente"
+        },
+        {
+          "decision": "Reconciliación quirúrgica de STACK.md (solo rutas de AOP y Swagger), no reescritura completa de los árboles de carpetas",
+          "rationale": "STACK.md es un documento prospectivo; solo 2 rutas divergieron de lo realmente implementado"
+        }
+      ],
+      "teamContribution": "Definió el alcance de los 3 frentes y la inclusión de las 2 sesiones de backend vía AskUserQuestion; aprobó el plan sin cambios.",
+      "keywords": [
+        "vitacora",
+        "ai-usage",
+        "sincronizacion",
+        "backend",
+        "aop",
+        "gof",
+        "swagger",
+        "openapi",
+        "documentation",
+        "governance"
       ]
     }
   ],
