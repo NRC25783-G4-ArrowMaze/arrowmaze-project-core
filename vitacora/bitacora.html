@@ -4159,20 +4159,29 @@
     }).join("");
   }
   render();
-
-  // ============ Theme toggle ============
-  const root = document.documentElement;
-  const label = document.getElementById("themeLabel");
-  function apply(t){ if(t){root.setAttribute("data-theme",t);} label.textContent = t? (t==="dark"?"Oscuro":"Claro") : "Tema"; }
-  try{ apply(localStorage.getItem("am-theme")); }catch(e){}
-  document.getElementById("themeToggle").addEventListener("click",()=>{
-    const cur = root.getAttribute("data-theme")
-      || (matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");
-    const next = cur==="dark"?"light":"dark";
-    apply(next);
-    try{ localStorage.setItem("am-theme", next); }catch(e){}
-  });
 })();
+</script>
+
+<script>
+  (function(){
+    const root = document.documentElement;
+    const label = document.getElementById("themeLabel");
+    function apply(t){
+      if(t){ root.setAttribute("data-theme", t); }
+      else { root.removeAttribute("data-theme"); }
+      // Determina el tema efectivo (explícito o inferido del sistema)
+      const effective = t || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      label.textContent = effective === "dark" ? "Oscuro" : "Claro";
+    }
+    try{ apply(localStorage.getItem("am-theme")); }catch(e){}
+    document.getElementById("themeToggle").addEventListener("click", function(){
+      const cur = root.getAttribute("data-theme")
+        || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      const next = cur === "dark" ? "light" : "dark";
+      apply(next);
+      try{ localStorage.setItem("am-theme", next); }catch(e){}
+    });
+  })();
 </script>
 </body>
 </html>
