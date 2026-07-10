@@ -1,6 +1,8 @@
 ## Features — Versión definitiva
 
 > **Estado de implementación** sincronizado con el repo `arrow-maze-client` (2026-07-04).
+> El **backend está cerrado y congelado en `v1.0.0`** (grupos E–F); sus versiones futuras
+> evolucionan en su propio repo y ya no se reflejan aquí (ver política de versionado en el README).
 > Specs del grupo G (audio, i18n, temporizador) listas desde la sesión SDD 2026-07-04.
 > Spec de **C3** (selección de niveles con mapa de progreso) lista desde la sesión SDD 2026-07-05.
 > Para los puntos clave de las features aún pendientes del cliente, ver
@@ -73,11 +75,13 @@
 | [F3](../features/F3-recepcion-consulta-progreso.feature) | API de recepción y consulta del progreso del jugador | F1 | ✅ Implementado (backend) |
 | F4 | Sistema de clasificación por nivel (leaderboard) | F1, F3 | ✅ Implementado (backend; sin spec formal) |
 
-> **Arquitectura del backend (2026-07-09):** el backend documenta patrones GoF (Factory
-> Method, Singleton, Adapter, Strategy), 2 aspectos AOP (`ErrorHandlerAspect`,
+> **Arquitectura del backend (backend v1.0.0, 2026-07-09):** el backend documenta patrones GoF
+> (Factory Method, Singleton, Adapter, Strategy), 2 aspectos AOP (`ErrorHandlerAspect`,
 > `RequestLoggingAspect`) y expone documentación OpenAPI/Swagger en `/api/docs`
-> (`arrowmaze-backend/docs/design-patterns.md`, rama `feature/patrones-aop-swagger`, PR #17
-> pendiente de aprobación). Ver `docs/STACK.md` sección 3/5 para el detalle de rutas y DI.
+> (`arrowmaze-backend/docs/design-patterns.md`). Este trabajo fue **mergeado (PR #17)** y
+> **liberado como `v1.0.0`** (release #18), con CI de build+tests en cada PR. Ver `docs/STACK.md`
+> sección 3/5 para el detalle de rutas y DI. El backend queda **congelado en v1.0.0** en este
+> repositorio (ver política de versionado en el README).
 
 ---
 

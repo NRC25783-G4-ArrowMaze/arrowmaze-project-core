@@ -276,7 +276,7 @@
     "description": "Registro centralizado de uso de IA en desarrollo de puzzle game",
     "lastUpdated": "2026-07-09",
     "maintainedBy": "Jrgil20",
-    "totalSessions": 63,
+    "totalSessions": 64,
     "dateRange": {
       "start": "2026-05-03",
       "end": "2026-07-09"
@@ -288,7 +288,7 @@
     ],
     "note": "Vista unificada: cada sesion incluye su repositorio de origen (repository) y, cuando esta documentado, el autor humano responsable (author). Las specs SDD (project-core) y las sesiones de implementacion (arrowmaze-game, arrowmaze-backend) conviven en la misma linea de tiempo; filtra por repositorio para aislar una historia.",
     "repositoryCounts": {
-      "project-core": 24,
+      "project-core": 25,
       "arrowmaze-backend": 8,
       "arrowmaze-game": 31
     }
@@ -3642,6 +3642,65 @@
         "openapi",
         "documentation",
         "governance"
+      ],
+      "repository": "project-core",
+      "author": null
+    },
+    {
+      "id": "2026-07-09-002",
+      "date": "2026-07-09",
+      "month": "2026-07",
+      "title": "Cierre del backend en v1.0.0 y política de congelamiento del versionario",
+      "file": "2026-07/2026-07-09_cierre-backend-v1.0.0-politica-versionado.md",
+      "duration": {
+        "value": 35,
+        "unit": "minutes",
+        "estimated": true
+      },
+      "aiModel": "Claude Opus 4.8",
+      "tool": "claude-code",
+      "phase": "Documentation & Communication",
+      "feature": null,
+      "context": "El backend cerró su versión 1.0.0: patrones GoF, aspectos AOP y OpenAPI/Swagger fueron mergeados (PR #17) y liberados como release v1.0.0 (#18) con CI de build+tests. project-core aún lo describía como 'PR #17 pendiente de aprobación'. Se actualizó ese estado y se documentó la política de versionado: project-core documenta cada repo de implementación hasta su v1.0.0; al cerrar esa versión su documentación se congela y las versiones futuras evolucionan aparte sin re-espejarse aquí. El cliente aún no cierra su versión.",
+      "methodology": "Plan mode (exploración con sub-agente Explore → AskUserQuestion para fijar alcance de registro y forma de la política → plan escrito y aprobado) seguido de edición documental directa",
+      "deliverables": [
+        "README.md — nueva sección 'Política de versionado y congelamiento' + tabla repo→versión→estado; estado y fecha actualizados",
+        "docs/FEATURES.md — Grupo F actualizado a v1.0.0 (merged PR #17 + release #18 + CI, congelado) + nota de congelamiento en cabecera",
+        "CLAUDE.md — estado del backend a v1.0.0 (merged/released/frozen) + nota de política de versionado",
+        "vitacora/index.html — esta sesión añadida al array + metadata actualizada",
+        ".ai-usage/2026-07/2026-07-09_cierre-backend-v1.0.0-politica-versionado.md (este reporte)"
+      ],
+      "status": "completed",
+      "keyDecisions": [
+        {
+          "decision": "Registrar el cambio meta como sesión SDD completa (reporte + manifest + vitácora), no solo editar docs",
+          "rationale": "El usuario lo eligió en AskUserQuestion; mantiene la traza auditable que exige la convención del repo"
+        },
+        {
+          "decision": "Expresar la política con una sección dedicada + tabla repo→versión→estado",
+          "rationale": "El usuario prefirió una declaración explícita y escaneable sobre notas inline dispersas"
+        },
+        {
+          "decision": "Marcar arrowmaze-game como 'sin cerrar / en curso' en la tabla",
+          "rationale": "El cliente aún no cierra su v1.0.0; la política se le aplicará cuando cierre, no ahora"
+        },
+        {
+          "decision": "Verificar la deuda de bookkeeping C1-FSM heredada en vez de re-anotarla como pendiente",
+          "rationale": "Al verificar se encontró que la sesión C1-FSM ya está registrada como 2026-07-07-004 en manifest y vitácora; la deuda estaba saldada. Conteo confirma que no hay reportes sin registrar ni id/file duplicados"
+        }
+      ],
+      "teamContribution": "Definió el alcance del registro (sesión SDD completa) y la forma de la política (sección + tabla) vía AskUserQuestion; aprobó el plan sin cambios.",
+      "keywords": [
+        "versionado",
+        "v1.0.0",
+        "congelamiento",
+        "freeze",
+        "backend",
+        "release",
+        "bitacora",
+        "governance",
+        "ai-usage",
+        "documentation"
       ],
       "repository": "project-core",
       "author": null

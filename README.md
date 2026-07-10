@@ -16,7 +16,7 @@ Este repositorio es el **compendio centralizado** de:
 
 Arrow Maze es un puzzle donde debes guiar flechas a través de un tablero para alcanzar objetivos. Implementado usando **Clean Architecture + Domain-Driven Design**, con especificaciones completas **antes** de escribir código (Specification-Driven Development).
 
-**Estado actual:** ✅ Arquitectura finalizada, ✅ 23 features especificadas en grupos A–H, 🔄 En implementación (C3, C4, D1, D2, G1–G3, H1). Ver estado detallado por feature en [docs/FEATURES.md](./docs/FEATURES.md).
+**Estado actual:** ✅ Arquitectura finalizada, ✅ 23 features especificadas en grupos A–H, ✅ **Backend cerrado y congelado en `v1.0.0`** (grupos E–F), 🔄 Cliente en implementación (C3, C4, D1, D2, G1–G3, H1). Ver estado detallado por feature en [docs/FEATURES.md](./docs/FEATURES.md) y la [política de versionado](#-política-de-versionado-y-congelamiento).
 
 ---
 
@@ -90,6 +90,26 @@ A partir de **Junio 15, 2026**, arrowmaze-project-core es:
 - Todos los cambios de arquitectura → documentar en `.ai-usage/` con sesión SDD
 - Frontend y backend **sincronizan specs** desde `features/` aquí
 - Decisiones son **reproducibles y auditables** (historial completo en `.ai-usage/`)
+
+---
+
+## 🔒 Política de versionado y congelamiento
+
+project-core es un **versionario**: documenta cada repo de implementación **hasta su versión
+`v1.0.0`**. Cuando un repo cierra su `v1.0.0`, su documentación aquí queda **congelada** — las
+versiones posteriores evolucionan de forma **independiente en su propio repo y ya no se re-espejan
+aquí**, porque hacerlo sería un duplicado manual (no automatizado) de la documentación, sin sentido
+real de mantener.
+
+Tras esos congelamientos, este repositorio funciona como **bitácora histórica** del diseño y las
+decisiones: un registro auditable de *cómo* se llegó a la v1.0.0, que con el tiempo puede quedar
+**altamente obsoleto** respecto al código vivo. Esa es su función esperada, no un defecto.
+
+| Repo | Versión | Estado en project-core |
+|---|---|---|
+| **arrowmaze-backend** | **`v1.0.0`** (cerrada) | ✅ Documentado y **congelado** en v1.0.0; sus versiones futuras evolucionan en su repo y ya no se reflejan aquí |
+| **arrowmaze-game** (cliente) | sin cerrar (en curso) | 🔄 Se sigue documentando hasta que cierre su propia `v1.0.0`; a partir de ahí se congela igual |
+| **arrowmaze-project-core** | — | 📓 Compendio/bitácora histórica; puede quedar obsoleto tras los congelamientos |
 
 ---
 
@@ -320,8 +340,8 @@ Cada `.feature` incluye:
 
 ---
 
-**Última actualización:** 2026-07-08  
+**Última actualización:** 2026-07-09  
 **Proyecto:** Arrow Maze — Specification-Driven Development + Clean Architecture  
 **Mantenido por:** Jrgil20  
 **Contacto:** fariasjr223@gmail.com  
-**Estado:** 🟡 Grupos A, B, E, F implementados | 🔄 Completando C, D, G, H | ⏳ Resolviendo P20, P21, P23
+**Estado:** 🔒 Backend cerrado y congelado en `v1.0.0` (grupos E, F) | 🟡 Grupos A, B implementados | 🔄 Cliente completando C, D, G, H | ⏳ Resolviendo P20, P21, P23
