@@ -4,7 +4,7 @@
     "description": "Registro centralizado de uso de IA en desarrollo de puzzle game",
     "lastUpdated": "2026-07-09",
     "maintainedBy": "Jrgil20",
-    "totalSessions": 25,
+    "totalSessions": 26,
     "dateRange": {
       "start": "2026-05-03",
       "end": "2026-07-09"
@@ -1567,6 +1567,64 @@
         "governance",
         "ai-usage",
         "documentation"
+      ]
+    },
+    {
+      "id": "2026-07-09-003",
+      "date": "2026-07-09",
+      "month": "2026-07",
+      "title": "Sitio web multipágina de project-core (portada + 'Cómo se hizo' + bitácora)",
+      "file": "2026-07/2026-07-09_sitio-web-multipagina-project-core.md",
+      "duration": {
+        "value": 55,
+        "unit": "minutes",
+        "estimated": true
+      },
+      "aiModel": "Claude Opus 4.8",
+      "tool": "claude-code",
+      "phase": "Documentation & Communication",
+      "feature": null,
+      "context": "El sitio de GitHub Pages de project-core era una sola página (la bitácora de IA). El usuario propuso ampliarlo para contar también cómo se hizo el proyecto: arquitectura, decisiones y forma de trabajo del equipo. Se convirtió en un sitio de tres páginas que comparten sistema de diseño, tema y navegación: index.html pasó a ser una portada, la bitácora se movió a bitacora.html (con git mv, conservando historia) y se creó proyecto.html ('Cómo se hizo') con arquitectura Clean Architecture+DDD, stack, metodología SDD/BDD, features A-H, timeline y equipo. Todo el contenido se derivó de README.md, CLAUDE.md y docs/; los datos del equipo, del historial git de los tres repos.",
+      "methodology": "AskUserQuestion para fijar estructura (Home + 2 páginas) y secciones (incl. equipo) → construcción reutilizando los tokens de diseño existentes → validación de HTML bien formado y de enlaces cruzados",
+      "deliverables": [
+        "vitacora/index.html — nueva portada (hero, métricas, tarjetas de acceso, lista de repos)",
+        "vitacora/proyecto.html — nueva página 'Cómo se hizo': metodología SDD/BDD + política de versionado, arquitectura Clean Architecture+DDD (diagrama de capas, decisiones e invariantes), stack y repos, features A-H con estado + 7 sprints, timeline y equipo",
+        "vitacora/bitacora.html — index.html anterior renombrado con git mv + barra de navegación compartida",
+        "vitacora/README.md — reescrito para documentar la estructura de tres páginas y el cambio de URL de la bitácora",
+        "vitacora/bitacora.html — esta sesión añadida al array embebido + metadata actualizada",
+        ".ai-usage/2026-07/2026-07-09_sitio-web-multipagina-project-core.md (este reporte, formato /ai-usage-reporter)"
+      ],
+      "status": "completed",
+      "keyDecisions": [
+        {
+          "decision": "Estructura 'Home + 2 páginas' (portada nueva en index.html, bitácora a bitacora.html)",
+          "rationale": "El usuario lo eligió en AskUserQuestion frente a mantener la bitácora en el index; asume el cambio de URL, documentado en el README"
+        },
+        {
+          "decision": "Incluir una sección de Equipo con datos reales del historial git de los 3 repos",
+          "rationale": "El usuario pidió 'formas de trabajo del equipo'; los integrantes y su reparto se tomaron de git shortlog, no se inventaron"
+        },
+        {
+          "decision": "Derivar todo el contenido de las fuentes del repo (README/CLAUDE/docs)",
+          "rationale": "Mantiene coherencia con la documentación autoritativa y evita afirmaciones nuevas sin respaldo"
+        },
+        {
+          "decision": "Renombrar con git mv en vez de crear un archivo nuevo",
+          "rationale": "Conserva el historial de la bitácora (179 KB con el array embebido)"
+        }
+      ],
+      "teamContribution": "Propuso la visión (web con 'cómo se hizo' además de la bitácora), eligió estructura y secciones vía AskUserQuestion (añadió la sección de equipo) y encadenó las instrucciones de cierre (commit, push, PR con el reporte).",
+      "keywords": [
+        "vitacora",
+        "sitio-web",
+        "github-pages",
+        "arquitectura",
+        "stack",
+        "metodologia",
+        "sdd",
+        "equipo",
+        "documentation",
+        "ai-usage"
       ]
     }
   ],
