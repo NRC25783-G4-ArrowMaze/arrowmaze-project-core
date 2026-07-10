@@ -258,10 +258,9 @@ arrow-maze-backend/
 │   │   ├── auth/
 │   │   │   └── jwt-strategy.ts             (autenticación JWT)
 │   │   │
-│   │   ├── aop/
-│   │   │   ├── LoggingAspect.ts
-│   │   │   ├── AuthorizationAspect.ts
-│   │   │   └── ValidationAspect.ts
+│   │   ├── aspects/                       ← implementado en arrow-maze-backend real como
+│   │   │   ├── ErrorHandlerAspect.ts         infrastructure/aspects/ (no infrastructure/aop/):
+│   │   │   └── RequestLoggingAspect.ts       manejo centralizado de excepciones + logging HTTP transversal
 │   │   │
 │   │   ├── middleware/
 │   │   │   ├── authMiddleware.ts
@@ -273,8 +272,9 @@ arrow-maze-backend/
 │   │   │   ├── game.routes.ts
 │   │   │   └── leaderboard.routes.ts
 │   │   │
-│   │   └── swagger/
-│   │       └── swagger.ts                 (documentación Swagger)
+│   │   └── (swagger)                      ← implementado en arrow-maze-backend real en
+│   │                                          main/config/swagger.ts, servido en GET /api/docs
+│   │                                          (+ spec crudo en GET /api/docs/json)
 │   │
 │   ├── config/
 │   │   ├── env.ts                         (variables de entorno)
@@ -439,6 +439,14 @@ NUNCA hacia afuera ↑
 ---
 
 ## 5. INYECCIÓN DE DEPENDENCIAS (TypeScript)
+
+> **Resuelto en `arrow-maze-backend` real (2026-07):** ninguna de las dos opciones de abajo.
+> Cada módulo (Auth, Levels, Progress, Leaderboard) tiene una **Factory Method**
+> (`*ModuleFactory.createRouter()`) que ensambla su propio grafo de dependencias, y las
+> dependencias de seguridad compartidas (token service, blacklist, auth middleware) viven en
+> un **Singleton** de módulo (`SharedSecurityFactory`) con inicialización perezosa. Se
+> descartó un contenedor de DI (tsyringe/inversify) por el peso de decoradores/metadata en un
+> proyecto pequeño. Ver `docs/design-patterns.md` en `arrowmaze-backend`.
 
 ### Opción A: Manual (simple, sin librerías)
 

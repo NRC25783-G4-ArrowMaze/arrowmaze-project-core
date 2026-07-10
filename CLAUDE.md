@@ -106,6 +106,12 @@ Technology stack and folder structure decisions **have been finalized**. See **`
 
 When implementation begins, clone the structure from STACK.md's folder trees exactly. Do not invent intermediate abstractions—build what the spec demands, no more.
 
+**Backend architecture status (2026-07-09):** `arrowmaze-backend` already materializes
+cross-cutting concerns via two AOP aspects (`ErrorHandlerAspect`, `RequestLoggingAspect`) and
+exposes the API through OpenAPI/Swagger at `/api/docs`. GoF patterns (Factory Method,
+Singleton, Adapter, Strategy) are documented in `arrowmaze-backend/docs/design-patterns.md`.
+Work lives on branch `feature/patrones-aop-swagger` (PR #17, pending approval).
+
 ---
 
 ## 📋 Feature Groups and Dependencies
@@ -377,7 +383,7 @@ See **`docs/STACK.md`** for the complete folder structures and sprint-level impl
 
 ---
 
-**Last updated:** 2026-07-04  
+**Last updated:** 2026-07-09  
 **Maintained by:** Jrgil20  
 **Reference:** 
 - Complete design history: `.ai-usage/manifest.json` (hidden folder)

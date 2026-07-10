@@ -73,6 +73,12 @@
 | [F3](../features/F3-recepcion-consulta-progreso.feature) | API de recepción y consulta del progreso del jugador | F1 | ✅ Implementado (backend) |
 | F4 | Sistema de clasificación por nivel (leaderboard) | F1, F3 | ✅ Implementado (backend; sin spec formal) |
 
+> **Arquitectura del backend (2026-07-09):** el backend documenta patrones GoF (Factory
+> Method, Singleton, Adapter, Strategy), 2 aspectos AOP (`ErrorHandlerAspect`,
+> `RequestLoggingAspect`) y expone documentación OpenAPI/Swagger en `/api/docs`
+> (`arrowmaze-backend/docs/design-patterns.md`, rama `feature/patrones-aop-swagger`, PR #17
+> pendiente de aprobación). Ver `docs/STACK.md` sección 3/5 para el detalle de rutas y DI.
+
 ---
 
 ### GRUPO G — Características de producto
