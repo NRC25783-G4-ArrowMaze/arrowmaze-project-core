@@ -65,3 +65,8 @@ distinto del pedido original, que se deja anotado sin corregir (fuera del alcanc
 - La sesión `2026-07-07_c1-fsm-flujo-partida-sdd.md` sigue sin registrar en
   `manifest.json`/la vitácora — queda como deuda de bookkeeping a resolver en una sesión
   dedicada (no de sincronización con el backend).
+
+> **Actualización (2026-07-09, sesión `2026-07-09-002`):** ambos pendientes ya están resueltos.
+> El PR #17 fue mergeado y liberado como `v1.0.0` (#18); y la sesión C1-FSM figura registrada como
+> `2026-07-07-004` en el manifest y en la vitácora (verificado por conteo, sin `id`/`file`
+> duplicados). No queda deuda de bookkeeping.
