@@ -285,12 +285,12 @@
   "metadata": {
     "project": "Arrow Maze",
     "description": "Registro centralizado de uso de IA en desarrollo de puzzle game",
-    "lastUpdated": "2026-07-09",
+    "lastUpdated": "2026-07-11",
     "maintainedBy": "Jrgil20",
-    "totalSessions": 65,
+    "totalSessions": 66,
     "dateRange": {
       "start": "2026-05-03",
-      "end": "2026-07-09"
+      "end": "2026-07-11"
     },
     "aiTools": [
       "Claude (Sonnet 4.5, Sonnet 4.6, Opus 4.7, Opus 4.8, Fable 5)",
@@ -3760,7 +3760,9 @@
           "rationale": "Conserva el historial de la bitácora (179 KB con el array embebido)"
         }
       ],
-      "teamContributions": ["Propuso la visión (web con 'cómo se hizo' además de la bitácora), eligió estructura y secciones vía AskUserQuestion (añadió la sección de equipo) y encadenó las instrucciones de cierre (commit, push, PR con el reporte)."],
+      "teamContributions": [
+        "Propuso la visión (web con 'cómo se hizo' además de la bitácora), eligió estructura y secciones vía AskUserQuestion (añadió la sección de equipo) y encadenó las instrucciones de cierre (commit, push, PR con el reporte)."
+      ],
       "keywords": [
         "vitacora",
         "sitio-web",
@@ -3773,6 +3775,66 @@
         "documentation",
         "ai-usage"
       ],
+      "repository": "project-core",
+      "author": "Jrgil20"
+    },
+    {
+      "id": "2026-07-11-001",
+      "date": "2026-07-11",
+      "month": "2026-07",
+      "title": "Cierre del cliente en v1.0.0 y congelamiento total del versionario",
+      "file": "2026-07/2026-07-11_cierre-cliente-v1.0.0-freeze.md",
+      "duration": {
+        "value": 40,
+        "unit": "minutes",
+        "estimated": true
+      },
+      "aiModel": "Claude Fable 5",
+      "tool": "claude-code",
+      "phase": "Documentation & Communication",
+      "feature": null,
+      "context": "El cliente cerró su versión 1.0.0 el 2026-07-11 (release #62 de arrowmaze-game): motor completo, persistencia local + sincronización remota, identidad, leaderboard, audio, i18n, temporizador, tema claro/oscuro, tutorial guiado y editor FORGE. Según la política de versionado registrada en la sesión 2026-07-09-002, su documentación en project-core se congela igual que la del backend (2026-07-09). Con ambos repos de implementación congelados, project-core pasa a funcionar como bitácora histórica del proyecto hasta la v1.0.0.",
+      "methodology": "Relevamiento del estado final del cliente (CHANGELOG v1.0.0, release #62, verificación de P23 contra Score.ts) seguido de edición documental directa replicando el patrón del cierre del backend (sesión 2026-07-09-002)",
+      "deliverables": [
+        "README.md — cliente cerrado y congelado en v1.0.0 en la tabla de versionado; 'Fase 3: Cierre'; sección de próximos pasos reemplazada por el estado de cierre",
+        "docs/FEATURES.md — estado final congelado (C1/C3/C4/D1/D2/G1–G3/H1 → implementado); blockquote de cierre del cliente; 7 sprints completados; decisiones con estado al cierre",
+        "CLAUDE.md — fase actual = proyecto cerrado en v1.0.0; 'Next Steps' → 'Project Closure Status'",
+        "vitacora/bitacora.html — sesión añadida al JSON embebido + metadata y contadores por repo reconciliados",
+        "vitacora/index.html y vitacora/proyecto.html — stats, badges de congelamiento, pills de features, sprints, timeline (hito 2026-07-11) y política actualizados",
+        ".ai-usage/2026-07/2026-07-11_cierre-cliente-v1.0.0-freeze.md (este reporte)"
+      ],
+      "status": "completed",
+      "keyDecisions": [
+        {
+          "decision": "P23 (tiempo→score) queda congelado sin materializar: G3 es solo visual en v1.0.0 y el score se basa en ticks",
+          "rationale": "Verificado contra el código real del cliente (Score.ts: timeScore = max(0, BASE − ticksUsed × DECAY)); si la enmienda de A5 se retoma, evoluciona en el repo del cliente"
+        },
+        {
+          "decision": "P20 se marca resuelto en implementación → leaderboard por nivel",
+          "rationale": "El cliente v1.0.0 liberó la clasificación por nivel (#46) sobre F4 del backend; no existe leaderboard global"
+        },
+        {
+          "decision": "P21 se marca cerrado en implementación (D2 con gate de sesión + scheduler single-flight, cliente #52)",
+          "rationale": "La sincronización quedó operativa en v1.0.0; su evolución futura vive en el repo del cliente"
+        },
+        {
+          "decision": "Actualizar el sitio completo de la vitácora (tres páginas) y reconciliar los contadores obsoletos del bloque repositories (19/31/6 → 27/31/8)",
+          "rationale": "Las páginas mostraban al cliente 'en curso'; dejarlas desalineadas contradiría el cierre. Los contadores se verificaron por conteo real del array de sesiones"
+        }
+      ],
+      "keywords": [
+        "versionado",
+        "v1.0.0",
+        "congelamiento",
+        "freeze",
+        "cliente",
+        "arrowmaze-game",
+        "release",
+        "bitacora",
+        "governance",
+        "documentation"
+      ],
+      "teamContributions": "Definió el alcance ('congelar y documentar el cliente hasta v1.0.0 en project-core, según la política de versionado/freeze') y aportó el desglose de requisitos de documentación de la entrega.",
       "repository": "project-core",
       "author": "Jrgil20"
     }
@@ -3950,7 +4012,7 @@
     "project-core": {
       "label": "arrowmaze-project-core",
       "url": "https://github.com/NRC25783-G4-ArrowMaze/arrowmaze-project-core",
-      "sessions": 19
+      "sessions": 27
     },
     "arrowmaze-game": {
       "label": "arrowmaze-game (Cliente)",
@@ -3960,7 +4022,7 @@
     "arrowmaze-backend": {
       "label": "arrowmaze-backend (API)",
       "url": "https://github.com/NRC25783-G4-ArrowMaze/arrowmaze-backend",
-      "sessions": 6
+      "sessions": 8
     }
   }
 }

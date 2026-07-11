@@ -253,8 +253,8 @@
     <div class="stats">
       <div class="stat"><div class="n amber">3</div><div class="k">repositorios (specs · cliente · backend)</div></div>
       <div class="stat"><div class="n">23</div><div class="k">features especificadas (grupos A–H)</div></div>
-      <div class="stat"><div class="n teal">25</div><div class="k">sesiones SDD documentadas</div></div>
-      <div class="stat"><div class="n">v1.0.0</div><div class="k">backend cerrado y congelado</div></div>
+      <div class="stat"><div class="n teal">27</div><div class="k">sesiones SDD documentadas</div></div>
+      <div class="stat"><div class="n">v1.0.0</div><div class="k">cliente y backend congelados</div></div>
     </div>
   </div></section>
 
@@ -302,7 +302,7 @@
       <div class="card">
         <h3><span class="ic">◇</span> Uso de IA trazable</h3>
         <p>Todo el rationale de diseño vive en <code>.ai-usage/</code>: fecha, modelo, duración,
-        decisiones tomadas y alternativas rechazadas de cada una de las <b>25 sesiones</b>. Modelos usados:
+        decisiones tomadas y alternativas rechazadas de cada una de las <b>27 sesiones</b>. Modelos usados:
         Claude (Sonnet 4.5/4.6, Opus 4.7/4.8, Fable 5) y Gemini.</p>
         <ul>
           <li>SDD exige trazabilidad decisión → diseño → spec → implementación</li>
@@ -314,9 +314,9 @@
     <div class="callout">
       <p><b>Política de versionado y congelamiento.</b> project-core documenta cada repo de implementación
       <b>hasta su v1.0.0</b>. Cuando un repo cierra esa versión, su documentación aquí queda <b>congelada</b>
-      y sus versiones futuras evolucionan de forma independiente. El <b>backend ya está congelado en
-      v1.0.0</b>; el cliente sigue documentándose hasta cerrar el suyo. A partir de ahí, este repo funciona
-      como bitácora histórica del <em>cómo</em> se llegó a la v1.0.0.</p>
+      y sus versiones futuras evolucionan de forma independiente. <b>Ambos repos ya están congelados en
+      v1.0.0</b> — el backend desde el 2026-07-09 y el cliente desde el 2026-07-11. Este repo funciona
+      desde entonces como bitácora histórica del <em>cómo</em> se llegó a la v1.0.0.</p>
     </div>
   </div></section>
 
@@ -395,7 +395,7 @@
         <div class="rr">Fuente única de verdad — specs y decisiones de arquitectura</div>
       </div>
       <div class="repo-row">
-        <div class="rn"><a href="https://github.com/NRC25783-G4-ArrowMaze/arrowmaze-game" target="_blank" rel="noopener">arrowmaze-game</a></div>
+        <div class="rn"><a href="https://github.com/NRC25783-G4-ArrowMaze/arrowmaze-game" target="_blank" rel="noopener">arrowmaze-game</a><span class="frozen">v1.0.0 · congelado</span></div>
         <div class="rt">React 18 + Vite + TypeScript + Capacitor</div>
         <div class="rr">Cliente / frontend — sincroniza specs desde project-core</div>
       </div>
@@ -432,8 +432,10 @@
     <h2 class="sec">23 features en grupos A–H</h2>
     <p class="sec-lead">
       Las features se organizan en grupos con una cadena de dependencias estricta (el motor A1→A2→A3→A4→A5
-      es <em>hard dependency</em>). El estado refleja la sincronización con el cliente; el backend
-      (grupos E–F) está cerrado en v1.0.0.
+      es <em>hard dependency</em>). El estado es el <b>final al cierre del proyecto</b>: las 23 features
+      quedaron implementadas — backend (E–F) congelado en v1.0.0 el 2026-07-09 y cliente (A–D, G, H)
+      congelado en v1.0.0 el 2026-07-11. G3 quedó solo visual (la integración tiempo→score, P23, no se
+      materializó en v1.0.0).
     </p>
 
     <div class="legend">
@@ -445,7 +447,7 @@
 
     <div class="grid g2">
       <div class="fgroup">
-        <h3><span class="letter">A</span> Motor de juego</h3>
+        <h3><span class="letter">A</span> Motor de juego <span class="frozen" style="font-family:var(--mono);font-size:10px;color:var(--amber)">cliente v1.0.0</span></h3>
         <p class="gsub">Tablero-grafo, flechas, movimiento, fin de partida y puntuación</p>
         <div class="frow"><span class="fid">A1</span><span class="ftxt">Tablero como grafo de nodos</span><span class="pill done">✓</span></div>
         <div class="frow"><span class="fid">A2</span><span class="ftxt">Colocación de flechas (listas enlazadas)</span><span class="pill done">✓</span></div>
@@ -455,7 +457,7 @@
       </div>
 
       <div class="fgroup">
-        <h3><span class="letter">B</span> Renderizado y presentación</h3>
+        <h3><span class="letter">B</span> Renderizado y presentación <span class="frozen" style="font-family:var(--mono);font-size:10px;color:var(--amber)">cliente v1.0.0</span></h3>
         <p class="gsub">Render SVG del tablero, animaciones e input</p>
         <div class="frow"><span class="fid">B1</span><span class="ftxt">Renderizado visual del tablero (SVG)</span><span class="pill done">✓</span></div>
         <div class="frow"><span class="fid">B2</span><span class="ftxt">Animaciones y feedback visual</span><span class="pill done">✓</span></div>
@@ -463,19 +465,19 @@
       </div>
 
       <div class="fgroup">
-        <h3><span class="letter">C</span> Flujo y estados del juego</h3>
+        <h3><span class="letter">C</span> Flujo y estados del juego <span class="frozen" style="font-family:var(--mono);font-size:10px;color:var(--amber)">cliente v1.0.0</span></h3>
         <p class="gsub">Máquina de estados, niveles, selección y pantallas</p>
-        <div class="frow"><span class="fid">C1</span><span class="ftxt">Máquina de estados (autómata de pila)</span><span class="pill part">◐</span></div>
+        <div class="frow"><span class="fid">C1</span><span class="ftxt">Máquina de estados (autómata de pila)</span><span class="pill done">✓</span></div>
         <div class="frow"><span class="fid">C2</span><span class="ftxt">Carga y deserialización de niveles</span><span class="pill done">✓</span></div>
-        <div class="frow"><span class="fid">C3</span><span class="ftxt">Selección de niveles con progreso</span><span class="pill spec">✎</span></div>
-        <div class="frow"><span class="fid">C4</span><span class="ftxt">Pantallas de soporte (pausa, ajustes…)</span><span class="pill part">◐</span></div>
+        <div class="frow"><span class="fid">C3</span><span class="ftxt">Selección de niveles con progreso</span><span class="pill done">✓</span></div>
+        <div class="frow"><span class="fid">C4</span><span class="ftxt">Pantallas de soporte (pausa, ajustes…)</span><span class="pill done">✓</span></div>
       </div>
 
       <div class="fgroup">
-        <h3><span class="letter">D</span> Persistencia local</h3>
+        <h3><span class="letter">D</span> Persistencia local <span class="frozen" style="font-family:var(--mono);font-size:10px;color:var(--amber)">cliente v1.0.0</span></h3>
         <p class="gsub">Guardado en SQLite y sincronización con el servidor</p>
-        <div class="frow"><span class="fid">D1</span><span class="ftxt">Persistencia local del progreso (SQLite)</span><span class="pill todo">○</span></div>
-        <div class="frow"><span class="fid">D2</span><span class="ftxt">Sincronización local ↔ remota</span><span class="pill todo">○</span></div>
+        <div class="frow"><span class="fid">D1</span><span class="ftxt">Persistencia local del progreso (SQLite)</span><span class="pill done">✓</span></div>
+        <div class="frow"><span class="fid">D2</span><span class="ftxt">Sincronización local ↔ remota</span><span class="pill done">✓</span></div>
       </div>
 
       <div class="fgroup">
@@ -495,17 +497,17 @@
       </div>
 
       <div class="fgroup">
-        <h3><span class="letter">G</span> Características de producto</h3>
+        <h3><span class="letter">G</span> Características de producto <span class="frozen" style="font-family:var(--mono);font-size:10px;color:var(--amber)">cliente v1.0.0</span></h3>
         <p class="gsub">Audio, internacionalización y temporizador</p>
-        <div class="frow"><span class="fid">G1</span><span class="ftxt">Audio, SFX y música de fondo</span><span class="pill spec">✎</span></div>
-        <div class="frow"><span class="fid">G2</span><span class="ftxt">Internacionalización (ES/EN)</span><span class="pill spec">✎</span></div>
-        <div class="frow"><span class="fid">G3</span><span class="ftxt">Temporizador visual por nivel</span><span class="pill spec">✎</span></div>
+        <div class="frow"><span class="fid">G1</span><span class="ftxt">Audio, SFX y música de fondo</span><span class="pill done">✓</span></div>
+        <div class="frow"><span class="fid">G2</span><span class="ftxt">Internacionalización (ES/EN)</span><span class="pill done">✓</span></div>
+        <div class="frow"><span class="fid">G3</span><span class="ftxt">Temporizador visual por nivel</span><span class="pill done">✓</span></div>
       </div>
 
       <div class="fgroup">
-        <h3><span class="letter">H</span> Herramientas internas</h3>
+        <h3><span class="letter">H</span> Herramientas internas <span class="frozen" style="font-family:var(--mono);font-size:10px;color:var(--amber)">cliente v1.0.0</span></h3>
         <p class="gsub">Herramienta ADMIN para autoría de niveles</p>
-        <div class="frow"><span class="fid">H1</span><span class="ftxt">FORGE — editor visual de niveles</span><span class="pill spec">✎</span></div>
+        <div class="frow"><span class="fid">H1</span><span class="ftxt">FORGE — editor visual de niveles</span><span class="pill done">✓</span></div>
       </div>
     </div>
 
@@ -513,11 +515,11 @@
     <div class="sprint-list">
       <div class="sprint"><span class="sn">Sprint 1</span><span class="sd"><b>A1 → A2 → A3</b> — motor núcleo puro sin UI</span><span class="pill done">✓</span></div>
       <div class="sprint"><span class="sn">Sprint 2</span><span class="sd"><b>A4 → A5 → B1 → B3</b> — fin de partida + render básico + input</span><span class="pill done">✓</span></div>
-      <div class="sprint"><span class="sn">Sprint 3</span><span class="sd"><b>C2 → B2 → C1 → C4</b> — niveles JSON + animaciones + pantallas</span><span class="pill part">◐</span></div>
-      <div class="sprint"><span class="sn">Sprint 4</span><span class="sd"><b>D1 → C3</b> — persistencia local + selección de niveles <em>(foco actual)</em></span><span class="pill part">◐</span></div>
+      <div class="sprint"><span class="sn">Sprint 3</span><span class="sd"><b>C2 → B2 → C1 → C4</b> — niveles JSON + animaciones + pantallas</span><span class="pill done">✓</span></div>
+      <div class="sprint"><span class="sn">Sprint 4</span><span class="sd"><b>D1 → C3</b> — persistencia local + selección de niveles</span><span class="pill done">✓</span></div>
       <div class="sprint"><span class="sn">Sprint 5</span><span class="sd"><b>E1 → E2 → F1 → F2</b> — auth + backend + distribución de niveles</span><span class="pill done">✓</span></div>
-      <div class="sprint"><span class="sn">Sprint 6</span><span class="sd"><b>F3 → F4 → D2</b> — progreso remoto + leaderboard + sincronización</span><span class="pill part">◐</span></div>
-      <div class="sprint"><span class="sn">Sprint 7</span><span class="sd"><b>G1 → G2 → G3</b> — audio + i18n + temporizador</span><span class="pill spec">✎</span></div>
+      <div class="sprint"><span class="sn">Sprint 6</span><span class="sd"><b>F3 → F4 → D2</b> — progreso remoto + leaderboard + sincronización</span><span class="pill done">✓</span></div>
+      <div class="sprint"><span class="sn">Sprint 7</span><span class="sd"><b>G1 → G2 → G3</b> — audio + i18n + temporizador (G3 solo visual en v1.0.0)</span><span class="pill done">✓</span></div>
     </div>
   </div></section>
 
@@ -526,7 +528,7 @@
     <p class="sec-eyebrow">Historia</p>
     <h2 class="sec">Hitos del proyecto</h2>
     <p class="sec-lead">
-      De la selección de tecnología al backend congelado: 25 sesiones SDD entre mayo y julio de 2026. La
+      De la selección de tecnología al proyecto congelado en v1.0.0: 27 sesiones SDD entre mayo y julio de 2026. La
       historia completa, sesión por sesión, está en la <a href="bitacora.html" style="color:var(--teal)">Bitácora de IA</a>.
     </p>
 
@@ -550,7 +552,7 @@
         <b>15 de junio</b>: project-core se declara fuente única de verdad.</p>
       </div>
       <div class="tl-item">
-        <div class="tl-date">Julio 2026 — 9 sesiones</div>
+        <div class="tl-date">Julio 2026 — 11 sesiones</div>
         <h4>Flujo, presentación y herramientas</h4>
         <p>Specs de C1 (máquina de estados), C3 (selección de niveles), G1–G3 (audio/i18n/timer) y H1
         (FORGE). Renderizado resuelto a SVG.</p>
@@ -559,7 +561,14 @@
         <div class="tl-date">2026-07-09</div>
         <h4>Backend cerrado en v1.0.0</h4>
         <p>Patrones GoF + AOP + OpenAPI/Swagger mergeados (PR #17) y liberados como v1.0.0. El backend queda
-        <b>congelado</b> en este repo; el cliente sigue en curso.</p>
+        <b>congelado</b> en este repo; el cliente cerraría dos días después.</p>
+      </div>
+      <div class="tl-item amber">
+        <div class="tl-date">2026-07-11</div>
+        <h4>Cliente cerrado en v1.0.0 — proyecto congelado</h4>
+        <p>El cliente libera su v1.0.0 (release #62): motor completo, persistencia local + sincronización,
+        identidad, leaderboard, audio, i18n, temporizador, tema claro/oscuro, tutorial guiado y FORGE.
+        Con ambos repos congelados, project-core queda como <b>bitácora histórica</b> del proyecto.</p>
       </div>
     </div>
   </div></section>
