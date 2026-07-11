@@ -147,17 +147,15 @@ decisiones: un registro auditable de *cómo* se llegó a la v1.0.0, que con el t
 
 ## 🏗️ Arquitectura de alto nivel
 
-El proyecto sigue **Clean Architecture + Domain-Driven Design**:
+El proyecto sigue **Clean Architecture + Domain-Driven Design**. Diagrama de capas fiel al
+código del cliente (`arrowmaze-game` v1.0.0): cuatro capas concéntricas, con la **Regla de
+Dependencia** apuntando siempre hacia el centro y los puertos/adaptadores identificados.
 
-```
-Presentación (React)
-    ↓ depende de
-Aplicación (Use Cases)
-    ↓ depende de
-Adaptadores (Repositories)
-    ↓ depende de
-Dominio (Entidades puras) ← NUNCA DEPENDE DE NADA
-```
+![Diagrama de capas CLEAN de Arrow Maze — cuatro anillos concéntricos con la Regla de Dependencia hacia el centro](./docs/diagrams/clean-layers.svg)
+
+> Fuente editable: [`docs/diagrams/clean-layers.puml`](./docs/diagrams/clean-layers.puml) ·
+> render: [`docs/diagrams/clean-layers.svg`](./docs/diagrams/clean-layers.svg). Cada caja es un
+> archivo real de `src/` del cliente.
 
 **Separación clara:**
 - **Domain Layer** — Lógica de negocio pura (tablero, flechas, puntuación)

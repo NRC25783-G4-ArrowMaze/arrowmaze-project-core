@@ -25,3 +25,10 @@
 - **Contexto de la conversación:** Dejar la entrega académica lista: tras congelar el cliente v1.0.0 en project-core, cerrar las brechas de `arrowmaze-game` y `arrowmaze-backend` contra el checklist oficial (badges reales, CI, demo con capturas, AI_USAGE.md, licencia)
 - **Decisiones clave tomadas:** (1) ignorar el requisito de README en inglés; (2) CI real en el game en vez de badges estáticos; (3) LICENSE MIT en el backend igual que el game; (4) AI_USAGE.md como agregador ligero sobre el registro modular existente; (5) PRs directos a `main` sin pasar por dev/develop
 - **Patrones de uso observados:** Directivo con planificación — el humano acotó el alcance punto por punto sobre la auditoría presentada por la IA, respondió las preguntas de ejecución, aprobó el plan formal y validó el resultado final; la IA ejecutó de forma autónoma (incluyendo correr la app real para las capturas) y auto-corrigió una captura defectuosa
+
+> **Actualización (misma fecha):** a pedido del usuario ("necesito el diagrama de capas CLEAN,
+> genéralo fiel al código") se añadió a project-core el diagrama de capas CLEAN concéntrico —
+> `docs/diagrams/clean-layers.puml` (fuente editable) + `clean-layers.svg` (render vía servidor
+> PlantUML) — construido inspeccionando la estructura real de `src/` del cliente (entidades,
+> 14 puertos de `application/ports`, adaptadores fetch/SQLite) y embebido en el README de
+> project-core en reemplazo del diagrama ASCII.
