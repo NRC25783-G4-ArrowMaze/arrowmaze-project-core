@@ -4,7 +4,7 @@
     "description": "Registro centralizado de uso de IA en desarrollo de puzzle game",
     "lastUpdated": "2026-07-11",
     "maintainedBy": "Jrgil20",
-    "totalSessions": 27,
+    "totalSessions": 28,
     "dateRange": {
       "start": "2026-05-03",
       "end": "2026-07-11"
@@ -1683,6 +1683,65 @@
         "bitacora",
         "governance",
         "documentation"
+      ]
+    },
+    {
+      "id": "2026-07-11-002",
+      "date": "2026-07-11",
+      "month": "2026-07",
+      "title": "Cierre de gaps de entrega en game y backend (badges, CI, demo, AI_USAGE)",
+      "file": "2026-07/2026-07-11_cierre-gaps-entrega-game-backend.md",
+      "duration": {
+        "value": 50,
+        "unit": "minutes",
+        "estimated": true
+      },
+      "aiModel": "Claude Fable 5",
+      "tool": "claude-code",
+      "phase": "Documentation & Communication",
+      "feature": null,
+      "context": "Tras el freeze del cliente (sesión 2026-07-11-001), se auditaron arrowmaze-game y arrowmaze-backend contra el checklist oficial de entrega y se cerraron los gaps con dos PRs directos a main: game #63 (workflow de CI nuevo, badges, sección Demo con 7 capturas tomadas corriendo la app real con playwright-core, AI_USAGE.md, license MIT en package.json) y backend #20 (LICENSE MIT, badges de workflow real y licencia, AI_USAGE.md con los 4 bugs de la inspección 2026-07-06 como alucinaciones corregidas, docs/diagram.svg renderizado desde el .puml). El usuario acotó el alcance: README en inglés ignorado, preview de diagramas suficiente, agregador ligero sobre .ai-usage/.",
+      "methodology": "Auditoría contra checklist → AskUserQuestion para fijar 4 decisiones de ejecución → plan mode aprobado → ejecución autónoma (incluida la app real para capturas) → reporte generado con el skill ai-usage-reporter",
+      "deliverables": [
+        "arrowmaze-game PR #63 — .github/workflows/ci.yml, badges + sección Demo en README.md, doc/screenshots/ (7 capturas), AI_USAGE.md, license en package.json",
+        "arrowmaze-backend PR #20 — LICENSE (MIT), badges de CI/licencia + sección Licencia en README.md, AI_USAGE.md, docs/diagram.svg, license en package.json",
+        ".ai-usage/2026-07/2026-07-11_cierre-gaps-entrega-game-backend.md (este reporte, en project-core)"
+      ],
+      "status": "completed",
+      "keyDecisions": [
+        {
+          "decision": "Ignorar el requisito de README en inglés",
+          "rationale": "Decisión explícita del usuario al acotar la entrega"
+        },
+        {
+          "decision": "CI real en el game (ci.yml clonado del backend) en vez de badges estáticos",
+          "rationale": "El usuario marcó los badges como importantes; un badge de build sin workflow sería ficticio. Verificado localmente: build + 561/561 tests"
+        },
+        {
+          "decision": "LICENSE MIT en el backend, igual que el game",
+          "rationale": "Habilita el badge de licencia exigido; consistencia entre repos"
+        },
+        {
+          "decision": "AI_USAGE.md como agregador ligero enlazando al registro modular .ai-usage/",
+          "rationale": "El usuario consideró el registro modular cumplimiento parcial; el agregador añade % estimado, alucinaciones corregidas y reflexión sin duplicar los reportes"
+        },
+        {
+          "decision": "PRs directos a main sin pasar por dev/develop",
+          "rationale": "Cambios de documentación/CI de entrega; el checklist exige el README en main"
+        }
+      ],
+      "teamContribution": "Acotó el alcance punto por punto sobre la auditoría, respondió las 4 preguntas de ejecución, aprobó el plan y validó el resultado final ('acabo de revisar, todo fue bien').",
+      "keywords": [
+        "entrega",
+        "badges",
+        "ci",
+        "github-actions",
+        "screenshots",
+        "demo",
+        "ai-usage",
+        "licencia",
+        "MIT",
+        "plantuml"
       ]
     }
   ],

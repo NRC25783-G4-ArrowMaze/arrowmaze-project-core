@@ -337,7 +337,7 @@ Lo que este repo conserva de aquí en adelante:
 
 | Métrica | Valor | Status |
 |---|---|---|
-| **Sesiones SDD completadas** | 27 | ✅ Registradas en `.ai-usage/manifest.json` |
+| **Sesiones SDD completadas** | 28 | ✅ Registradas en `.ai-usage/manifest.json` |
 | **Decisiones documentadas** | 30+ | ✅ Registradas |
 | **Features especificadas** | 23 (grupos A-H) | ✅ Estado final en [docs/FEATURES.md](./docs/FEATURES.md) |
 | **Escenarios Gherkin** | ~300 | ✅ Cubiertos |
