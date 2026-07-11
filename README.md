@@ -16,7 +16,7 @@ Este repositorio es el **compendio centralizado** de:
 
 Arrow Maze es un puzzle donde debes guiar flechas a través de un tablero para alcanzar objetivos. Implementado usando **Clean Architecture + Domain-Driven Design**, con especificaciones completas **antes** de escribir código (Specification-Driven Development).
 
-**Estado actual:** ✅ Arquitectura finalizada, ✅ 23 features especificadas en grupos A–H, ✅ **Backend cerrado y congelado en `v1.0.0`** (grupos E–F), 🔄 Cliente en implementación (C3, C4, D1, D2, G1–G3, H1). Ver estado detallado por feature en [docs/FEATURES.md](./docs/FEATURES.md) y la [política de versionado](#-política-de-versionado-y-congelamiento).
+**Estado actual:** ✅ Arquitectura finalizada, ✅ 23 features especificadas en grupos A–H, ✅ **Backend cerrado y congelado en `v1.0.0`** (grupos E–F, 2026-07-09), ✅ **Cliente cerrado y congelado en `v1.0.0`** (grupos A–D, G, H, 2026-07-11). Con ambos repos de implementación congelados, project-core queda como **bitácora histórica** del proyecto hasta la v1.0.0. Ver estado final por feature en [docs/FEATURES.md](./docs/FEATURES.md) y la [política de versionado](#-política-de-versionado-y-congelamiento).
 
 ---
 
@@ -57,7 +57,7 @@ arrowmaze-project-core/
 ├── docs/                        # Documentación de arquitectura y diseño
 │   ├── STACK.md                 # Stack tecnológico elegido + estructura de carpetas
 │   ├── FEATURES.md              # Matriz de features y roadmap de implementación (fuente de verdad de estado)
-│   └── BORRADOR-features-pendientes.md  # Puntos clave para features aún sin cerrar (cliente)
+│   └── BORRADOR-features-pendientes.md  # (histórico) Puntos clave usados durante la implementación del cliente
 │
 ├── .ai-usage/                    # Registros de sesiones de IA (SDD)
 │   ├── manifest.json             # Índice central de sesiones con metadata
@@ -107,9 +107,9 @@ decisiones: un registro auditable de *cómo* se llegó a la v1.0.0, que con el t
 
 | Repo | Versión | Estado en project-core |
 |---|---|---|
-| **arrowmaze-backend** | **`v1.0.0`** (cerrada) | ✅ Documentado y **congelado** en v1.0.0; sus versiones futuras evolucionan en su repo y ya no se reflejan aquí |
-| **arrowmaze-game** (cliente) | sin cerrar (en curso) | 🔄 Se sigue documentando hasta que cierre su propia `v1.0.0`; a partir de ahí se congela igual |
-| **arrowmaze-project-core** | — | 📓 Compendio/bitácora histórica; puede quedar obsoleto tras los congelamientos |
+| **arrowmaze-backend** | **`v1.0.0`** (cerrada 2026-07-09) | ✅ Documentado y **congelado** en v1.0.0; sus versiones futuras evolucionan en su repo y ya no se reflejan aquí |
+| **arrowmaze-game** (cliente) | **`v1.0.0`** (cerrada 2026-07-11, release #62) | ✅ Documentado y **congelado** en v1.0.0; sus versiones futuras evolucionan en su repo y ya no se reflejan aquí |
+| **arrowmaze-project-core** | — | 📓 **Bitácora histórica activa**: con ambos repos congelados, este repo registra *cómo* se llegó a la v1.0.0 y puede quedar obsoleto respecto al código vivo |
 
 ---
 
@@ -179,9 +179,16 @@ Dominio (Entidades puras) ← NUNCA DEPENDE DE NADA
 - Sincronizan specs desde project-core
 - Implementan según roadmap en `docs/FEATURES.md`
 
-### Fase 2: Completitud (actual)
-- Cerrar features en curso: C3, C4, D1, D2, G1–G3, H1
-- Resolver decisiones abiertas: P20 (leaderboard), P21 (conflictos de sync), P23 (score vs. tiempo)
+### Fase 2: Completitud
+- ✅ Features del cliente cerradas: C1, C3, C4, D1, D2, G1–G3, H1 (más extensiones: tema oscuro, tutorial guiado, leaderboard en cliente, UI de auth)
+- ✅ P20 resuelto en implementación → leaderboard **por nivel**
+- ✅ P21 cerrado en implementación → sincronización D2 con gate de sesión y scheduler single-flight
+- 🔒 P23 congelado → en v1.0.0 el temporizador (G3) es **solo visual**; el score sigue basado en ticks (la enmienda de A5 no se materializó y, de hacerse, evolucionará en el repo del cliente)
+
+### Fase 3: Cierre (actual)
+- ✅ **Backend `v1.0.0`** — cerrado y congelado (2026-07-09)
+- ✅ **Cliente `v1.0.0`** — cerrado y congelado (2026-07-11, release #62): motor completo, persistencia local + sync remota, identidad, leaderboard, audio, i18n, temporizador, tema claro/oscuro, tutorial guiado y editor FORGE
+- 📓 project-core pasa a funcionar como **bitácora histórica** del diseño y las decisiones hasta la v1.0.0
 
 ---
 
@@ -256,24 +263,23 @@ Cada `.feature` incluye:
 
 ---
 
-## 🛠️ Próximos pasos (en project-core)
+## 🛠️ Estado de cierre (project-core como bitácora histórica)
 
-### Inmediatos
+Con el **backend congelado en `v1.0.0`** (2026-07-09) y el **cliente congelado en `v1.0.0`**
+(2026-07-11), el roadmap de project-core está **completo**. No quedan features por documentar:
+las versiones posteriores de ambos repos evolucionan de forma independiente y no se re-espejan aquí.
 
-1. 🔄 **Completar implementación de D1/D2** — Persistencia local y sincronización (foco actual del cliente)
-2. 🔄 **Completar C3/C4** — Selección de niveles y pantallas de pausa/ajustes
-3. 📋 **Resolver P20/P21/P23** — Leaderboard global, conflictos de sync y score vs. tiempo
+Lo que este repo conserva de aquí en adelante:
 
-### Mediano plazo
-
-4. 🔄 **Implementar G1–G3** — Audio, i18n y temporizador (specs ya listas)
-5. 🔄 **Implementar H1** — FORGE, editor visual de niveles (spec lista, plan de 6 fases)
+1. 📓 **La vida del proyecto** — specs Gherkin, decisiones de arquitectura y el registro SDD completo de cómo se construyó Arrow Maze hasta la v1.0.0 (con IA como asistente trazable)
+2. 🌐 **El sitio de la vitácora** — [vitacora/](./vitacora/) con la bitácora unificada de sesiones de IA de los 3 repos y la página "Cómo se hizo"
+3. 📋 **El estado final de las 23 features** — [docs/FEATURES.md](./docs/FEATURES.md), congelado al cierre de ambos repos
 
 ### Referencias completas en:
 
-- **Roadmap detallado:** [docs/FEATURES.md](./docs/FEATURES.md) — 7 sprints, orden de dependencias
-- **Bloqueadores activos:** Tabla en [docs/FEATURES.md](./docs/FEATURES.md#decisiones-que-aún-bloquean-features-específicos)
-- **Estado de decisiones:** [.ai-usage/manifest.json](./.ai-usage/manifest.json)
+- **Estado final de features:** [docs/FEATURES.md](./docs/FEATURES.md) — 7 sprints completados
+- **Decisiones al cierre:** Tabla en [docs/FEATURES.md](./docs/FEATURES.md#decisiones-que-aún-bloquean-features-específicos)
+- **Historial SDD:** [.ai-usage/manifest.json](./.ai-usage/manifest.json)
 
 ---
 
@@ -315,8 +321,8 @@ Cada `.feature` incluye:
 
 1. **Overview:** Este README + stats en [Project Core Checkpoint](./.ai-usage/2026-06/2026-06-15_project-core-checkpoint.md)
 2. **Decisiones:** Búsca por feature (A1, A2, A3, etc.) en `.ai-usage/manifest.json`
-3. **Timeline:** 7 sprints; Sprints 1, 2 y 5 completados, resto en curso (ver [docs/FEATURES.md](./docs/FEATURES.md))
-4. **Blockers:** Tabla en [docs/FEATURES.md](./docs/FEATURES.md) - qué bloquea qué
+3. **Timeline:** 7 sprints, **todos completados** — cliente y backend cerrados en `v1.0.0` (ver [docs/FEATURES.md](./docs/FEATURES.md))
+4. **Blockers:** Ninguno activo — tabla de decisiones al cierre en [docs/FEATURES.md](./docs/FEATURES.md)
 
 ### Si necesitas hacer cambios
 
@@ -331,17 +337,18 @@ Cada `.feature` incluye:
 
 | Métrica | Valor | Status |
 |---|---|---|
-| **Sesiones SDD completadas** | 22 | ✅ Registradas en `.ai-usage/manifest.json` |
+| **Sesiones SDD completadas** | 27 | ✅ Registradas en `.ai-usage/manifest.json` |
 | **Decisiones documentadas** | 30+ | ✅ Registradas |
-| **Features especificadas** | 23 (grupos A-H) | ✅ Ver estado individual en [docs/FEATURES.md](./docs/FEATURES.md) |
+| **Features especificadas** | 23 (grupos A-H) | ✅ Estado final en [docs/FEATURES.md](./docs/FEATURES.md) |
 | **Escenarios Gherkin** | ~300 | ✅ Cubiertos |
-| **Bloqueadores activos** | P20, P21, P23 | ⏳ Requieren resolución |
+| **Bloqueadores activos** | Ninguno | 🔒 P20/P21 cerrados en implementación; P23 congelado (G3 solo visual en v1.0.0) |
+| **Repos congelados** | backend + cliente | 🔒 Ambos en `v1.0.0` |
 | **Tiempo ahorrado (IA)** | ~60 horas | 📈 80% efficiency gain |
 
 ---
 
-**Última actualización:** 2026-07-09  
+**Última actualización:** 2026-07-11  
 **Proyecto:** Arrow Maze — Specification-Driven Development + Clean Architecture  
 **Mantenido por:** Jrgil20  
 **Contacto:** fariasjr223@gmail.com  
-**Estado:** 🔒 Backend cerrado y congelado en `v1.0.0` (grupos E, F) | 🟡 Grupos A, B implementados | 🔄 Cliente completando C, D, G, H | ⏳ Resolviendo P20, P21, P23
+**Estado:** 🔒 Backend cerrado y congelado en `v1.0.0` (grupos E, F — 2026-07-09) | 🔒 Cliente cerrado y congelado en `v1.0.0` (grupos A–D, G, H — 2026-07-11) | 📓 project-core como bitácora histórica del proyecto

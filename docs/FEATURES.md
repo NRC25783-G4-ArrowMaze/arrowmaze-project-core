@@ -1,12 +1,10 @@
 ## Features — Versión definitiva
 
-> **Estado de implementación** sincronizado con el repo `arrow-maze-client` (2026-07-04).
-> El **backend está cerrado y congelado en `v1.0.0`** (grupos E–F); sus versiones futuras
-> evolucionan en su propio repo y ya no se reflejan aquí (ver política de versionado en el README).
-> Specs del grupo G (audio, i18n, temporizador) listas desde la sesión SDD 2026-07-04.
-> Spec de **C3** (selección de niveles con mapa de progreso) lista desde la sesión SDD 2026-07-05.
-> Para los puntos clave de las features aún pendientes del cliente, ver
-> [`BORRADOR-features-pendientes.md`](./BORRADOR-features-pendientes.md).
+> **Estado final congelado (2026-07-11).** El **backend está cerrado y congelado en `v1.0.0`**
+> (grupos E–F, 2026-07-09) y el **cliente está cerrado y congelado en `v1.0.0`** (grupos A–D, G, H —
+> release #62 de `arrowmaze-game`, 2026-07-11). Las versiones futuras de ambos repos evolucionan de
+> forma independiente y ya no se reflejan aquí (ver política de versionado en el README). Esta matriz
+> queda como **registro histórico** del alcance de la v1.0.0.
 >
 > Leyenda: ✅ Implementado · ⚠️ Parcial · ❌ Pendiente · 📝 Spec lista (sin implementar)
 
@@ -20,7 +18,7 @@
 | [A2](../features/A2-arrow_placement.feature) | Definición y colocación de entidades como listas enlazadas sobre el grafo | A1 | ✅ Implementado |
 | [A3](../features/A3-arrow_movement.feature) | Resolución y desplazamiento de entidades direccionales | A1, A2 | ✅ Implementado |
 | [A4](../features/A4-game_end_detection.feature) | Detección de victoria por vaciado del tablero y de derrota por agotamiento de movimientos disponibles | A3 | ✅ Implementado |
-| [A5](../features/A5-game_session_scoring.feature) | Cálculo y composición de la puntuación por sesión de juego | A4 | ✅ Implementado — 🔶 enmienda futura pendiente de P23 (penalización por tiempo, ver G3) |
+| [A5](../features/A5-game_session_scoring.feature) | Cálculo y composición de la puntuación por sesión de juego | A4 | ✅ Implementado — 🔒 en `v1.0.0` el score se basa en ticks; la enmienda de P23 (penalización por tiempo real) no se materializó y quedó congelada (ver G3) |
 
 > **Extensiones del motor (posteriores al roadmap):** slide de flecha (1 gesto = 1 movimiento),
 > colisión de cola (fix), colisión configurable (`return`/`stay`) y preview jugable — ✅ implementadas en el cliente.
@@ -41,10 +39,10 @@
 
 | # | Feature | Depende de | Estado |
 |---|---|---|---|
-| [C1](../features/C1-maquina_estados_partida.feature) | Máquina de estados del flujo de una partida (autómata de pila: ACTIVE/PAUSED/SETTINGS) | A4 | ⚠️ Parcial — veredicto de Dominio (`GameStatus`: IN_PROGRESS/WON/LOST) ✅ implementado desde A4; flujo de UI (`GameFlowController`) 📝 Spec lista (SDD 2026-07-07), sin implementar |
+| [C1](../features/C1-maquina_estados_partida.feature) | Máquina de estados del flujo de una partida (autómata de pila: ACTIVE/PAUSED/SETTINGS) | A4 | ✅ Implementado (`GameFlowController`, cliente v0.1.0) |
 | [C2](../features/C2-carga-deserializacion-niveles.feature) | Carga y deserialización de definiciones de niveles desde archivos locales | A1, A2 | ✅ Implementado |
-| [C3](../features/C3-seleccion-niveles-progreso.feature) | Pantalla de selección de niveles con indicador de progreso y control de desbloqueo | C2, D1 | 📝 Spec lista (Presentation; desbloqueo por grafo, lee D1) |
-| [C4](../features/C4-pantallas-soporte.feature) | Pantallas de soporte del juego (inicio, victoria, derrota, pausa, ajustes) | C1 | ⚠️ Parcial (`GameOverlay` de fin de partida); pausa/ajustes bloqueados por implementación de C1 |
+| [C3](../features/C3-seleccion-niveles-progreso.feature) | Pantalla de selección de niveles con indicador de progreso y control de desbloqueo | C2, D1 | ✅ Implementado (selector con progreso, desbloqueo por grafo y trofeos de leaderboard) |
+| [C4](../features/C4-pantallas-soporte.feature) | Pantallas de soporte del juego (inicio, victoria, derrota, pausa, ajustes) | C1 | ✅ Implementado (overlays de fin de partida, pausa y ajustes con idioma/audio/tema) |
 
 ---
 
@@ -52,8 +50,8 @@
 
 | # | Feature | Depende de | Estado |
 |---|---|---|---|
-| [D1](../features/D1-persistencia-local.feature) | Persistencia local del progreso y puntuaciones del jugador en SQLite | A5 | ❌ Pendiente |
-| [D2](../features/D2-sincronizacion-local-remota.feature) | Sincronización del progreso local con el servidor remoto | D1, E2 | ❌ Pendiente |
+| [D1](../features/D1-persistencia-local.feature) | Persistencia local del progreso y puntuaciones del jugador en SQLite | A5 | ✅ Implementado (SQLite vía `jeep-sqlite`/`sql.js`; bootstrap tolerante a fallos de persistencia) |
+| [D2](../features/D2-sincronizacion-local-remota.feature) | Sincronización del progreso local con el servidor remoto | D1, E2 | ✅ Implementado (endpoint `/api/v1/progress`; gate de sesión + scheduler single-flight, cliente #52) |
 
 ---
 
@@ -89,9 +87,14 @@
 
 | # | Feature | Depende de | Estado |
 |---|---|---|---|
-| [G1](../features/G1-audio-sfx-musica.feature) | Sistema de reproducción de audio, efectos sonoros y música de fondo | B2 | 📝 Spec lista |
-| [G2](../features/G2-internacionalizacion.feature) | Soporte de internacionalización y cambio de idioma (ES/EN) | C4 | 📝 Spec lista |
-| [G3](../features/G3-temporizador-nivel.feature) | Temporizador visual por nivel (mm:ss, pausa, IClock) | C1 | 📝 Spec lista (solo Presentation; integración con score pendiente de P23) |
+| [G1](../features/G1-audio-sfx-musica.feature) | Sistema de reproducción de audio, efectos sonoros y música de fondo | B2 | ✅ Implementado (SFX por acción + música por dificultad, preferencia de silencio — cliente #37) |
+| [G2](../features/G2-internacionalizacion.feature) | Soporte de internacionalización y cambio de idioma (ES/EN) | C4 | ✅ Implementado (catálogos ES/EN con paridad de claves, cambio en caliente — cliente #35) |
+| [G3](../features/G3-temporizador-nivel.feature) | Temporizador visual por nivel (mm:ss, pausa, IClock) | C1 | ✅ Implementado (solo visual, se pausa con el flujo — cliente #36); integración con score congelada (P23) |
+
+> **Extensión de producto (fuera del roadmap original):** tema claro/oscuro con cambio en caliente
+> ("G4", cliente #53), tutorial guiado con el corazón como último nivel (#54), leaderboard por nivel
+> en el cliente (#46) y UI de login/registro/logout con badge de usuario (#38, #43) — ✅ implementadas
+> en la `v1.0.0` del cliente.
 
 ---
 
@@ -99,7 +102,13 @@
 
 | # | Feature | Depende de | Estado |
 |---|---|---|---|
-| [H1](../features/H1-forge-editor-niveles.feature) | FORGE — Editor visual interactivo de niveles (herramienta ADMIN) | C2, F2 | 📝 Spec lista (SDD 2026-07-07; plan 6 fases de implementación en arrowmaze-game) |
+| [H1](../features/H1-forge-editor-niveles.feature) | FORGE — Editor visual interactivo de niveles (herramienta ADMIN) | C2, F2 | ✅ Implementado (editor con playtest jugable y edición admin de mapas creados — cliente #60) |
+
+> **Cierre del cliente (cliente v1.0.0, 2026-07-11):** todo el alcance del cliente — motor (A),
+> presentación (B), flujo (C), persistencia y sincronización (D), producto (G) y FORGE (H1) — quedó
+> implementado y liberado como **`v1.0.0`** (release #62 de `arrowmaze-game`), con CI de build+tests
+> en cada PR. El cliente queda **congelado en v1.0.0** en este repositorio (ver política de
+> versionado en el README).
 
 ---
 
@@ -112,35 +121,39 @@ Sprint 1 ── A1 → A2 → A3                      ✅ Completado
 Sprint 2 ── A4 → A5 → B1 → B3                  ✅ Completado
             Condiciones de fin de partida + render básico + input
 
-Sprint 3 ── C2 → B2 → C1 → C4                  ⚠️ En curso (C2/B2/C1 ✅, C4 parcial)
+Sprint 3 ── C2 → B2 → C1 → C4                  ✅ Completado
             Niveles reales desde JSON + animaciones + pantallas
 
-Sprint 4 ── D1 → C3                            ⚠️ D1 ❌ · C3 📝 spec lista (foco actual)
+Sprint 4 ── D1 → C3                            ✅ Completado
             Persistencia local + selección de niveles
 
 Sprint 5 ── E1 → E2 → F1 → F2                  ✅ Completado (backend; F2 con seed + cliente offline-first)
             Autenticación + backend + distribución de niveles
 
-Sprint 6 ── F3 → F4 → D2                       ⚠️ En curso (F3/F4 backend ✅ · D2 cliente ✅ · integración cliente↔F3 pendiente)
+Sprint 6 ── F3 → F4 → D2                       ✅ Completado
             Progreso remoto + leaderboard + sincronización
 
-Sprint 7 ── G1 → G2 → G3                       📝 Specs listas (implementación pendiente)
-            Audio + i18n + temporizador visual (integración tiempo→score espera P23)
+Sprint 7 ── G1 → G2 → G3                       ✅ Completado (G3 solo visual; tiempo→score congelado, ver P23)
+            Audio + i18n + temporizador visual
 ```
 
-> **Foco de trabajo del cliente (orden sugerido):** D1 → C4 (completar) → C3 → G2 → G1 → G3 → D2.
+> **Los 7 sprints están completados.** El backend cerró en `v1.0.0` el 2026-07-09 y el cliente en
+> `v1.0.0` el 2026-07-11; esta matriz queda congelada como registro del alcance final.
 
 ---
 
 ## Decisiones que aún bloquean features específicos
 
-| Decisión | Bloquea | Estado |
+> **Al cierre de la v1.0.0 no queda ningún bloqueador activo.** La tabla registra el estado final
+> de cada decisión al momento del congelamiento.
+
+| Decisión | Bloqueaba | Estado al cierre |
 |---|---|---|
 | **P15** — Formato JSON del nivel (esquema de nodos y piezas) | C2, F2 | ✅ Resuelto (materializado en C2 / `LevelData`) |
 | **NQ4** — Tecnología de renderizado (CSS / Canvas / WebGL) | B1, B2 | ✅ Resuelto → **SVG** |
-| **P23** — ¿El temporizador afecta el score o es solo visual? | A5 (enmienda) | 🟡 **Parcial** — decidido que **SÍ debe afectar el score** (2026-07-04); queda por decidir **cómo** (candidatos: término `segundos × TIME_DECAY` [favorito], conversión a ticks, o bonus por rapidez). G3 v1 es solo visual; la enmienda de A5 se hará en su propia sesión SDD |
-| **P20** — ¿Leaderboard solo por nivel o también global? | F4 | 🟡 Abierto — borrador: por nivel primero |
-| **P21** — Resolución de conflictos en sincronización | D2 | 🟡 Abierto — borrador: conservar mayor score |
+| **P23** — ¿El temporizador afecta el score o es solo visual? | A5 (enmienda) | 🔒 **Congelado** — se decidió que SÍ debía afectar el score (2026-07-04), pero la enmienda de A5 **no se materializó en v1.0.0**: G3 quedó solo visual y el score sigue basado en ticks. Si se retoma, evoluciona en el repo del cliente |
+| **P20** — ¿Leaderboard solo por nivel o también global? | F4 | ✅ Resuelto en implementación → **por nivel** (backend F4 + UI de clasificación en el cliente #46) |
+| **P21** — Resolución de conflictos en sincronización | D2 | ✅ Cerrado en implementación → D2 con gate de sesión y scheduler single-flight (cliente #52); evolución futura en el repo del cliente |
 | **P22** — Origen de los assets de audio | G1 | ✅ Resuelto → **empaquetados en la app**, royalty-free (NEFFEX/NCS), pool por dificultad, atribución en Ajustes |
 | **P24** — Alcance de i18n (solo UI o también niveles) | G2 | ✅ Resuelto → **solo UI**; fallback de claves a inglés |
 
@@ -149,5 +162,7 @@ Sprint 7 ── G1 → G2 → G3                       📝 Specs listas (implem
 > disponible (SDD 2026-07-05). Sub-decisiones cerradas en la elicitación 2026-07-05: `starThresholds`
 > autorados en el `LevelMap` (aditivo, sin tocar F2/C2) y curva de dos umbrales absolutos [twoStar, threeStar].
 >
-> Decisiones de cliente adicionales abiertas (detalle en el borrador):
-> alcance de usuario local invitado vs login (D1), estado de flujo `PAUSED` en presentación (C4).
+> Las decisiones de cliente que quedaban abiertas en el borrador (usuario local invitado vs login en D1,
+> estado de flujo `PAUSED` en presentación para C4) se **cerraron en la implementación** de la v1.0.0
+> del cliente: modo invitado con sincronización condicionada a sesión activa, y pausa/ajustes integrados
+> al autómata de C1.
