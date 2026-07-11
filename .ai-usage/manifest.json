@@ -2,12 +2,12 @@
   "metadata": {
     "project": "Arrow Maze",
     "description": "Registro centralizado de uso de IA en desarrollo de puzzle game",
-    "lastUpdated": "2026-07-09",
+    "lastUpdated": "2026-07-11",
     "maintainedBy": "Jrgil20",
-    "totalSessions": 26,
+    "totalSessions": 28,
     "dateRange": {
       "start": "2026-05-03",
-      "end": "2026-07-09"
+      "end": "2026-07-11"
     },
     "aiTools": [
       "Claude (Sonnet 4.5, Sonnet 4.6, Opus 4.7, Opus 4.8, Fable 5)",
@@ -1625,6 +1625,123 @@
         "equipo",
         "documentation",
         "ai-usage"
+      ]
+    },
+    {
+      "id": "2026-07-11-001",
+      "date": "2026-07-11",
+      "month": "2026-07",
+      "title": "Cierre del cliente en v1.0.0 y congelamiento total del versionario",
+      "file": "2026-07/2026-07-11_cierre-cliente-v1.0.0-freeze.md",
+      "duration": {
+        "value": 40,
+        "unit": "minutes",
+        "estimated": true
+      },
+      "aiModel": "Claude Fable 5",
+      "tool": "claude-code",
+      "phase": "Documentation & Communication",
+      "feature": null,
+      "context": "El cliente cerró su versión 1.0.0 el 2026-07-11 (release #62 de arrowmaze-game): motor completo, persistencia local + sincronización remota, identidad, leaderboard, audio, i18n, temporizador, tema claro/oscuro, tutorial guiado y editor FORGE. Según la política de versionado registrada en la sesión 2026-07-09-002, su documentación en project-core se congela igual que la del backend (2026-07-09). Con ambos repos de implementación congelados, project-core pasa a funcionar como bitácora histórica del proyecto hasta la v1.0.0.",
+      "methodology": "Relevamiento del estado final del cliente (CHANGELOG v1.0.0, release #62, verificación de P23 contra Score.ts) seguido de edición documental directa replicando el patrón del cierre del backend (sesión 2026-07-09-002)",
+      "deliverables": [
+        "README.md — cliente cerrado y congelado en v1.0.0 en la tabla de versionado; 'Fase 3: Cierre'; sección de próximos pasos reemplazada por el estado de cierre",
+        "docs/FEATURES.md — estado final congelado (C1/C3/C4/D1/D2/G1–G3/H1 → implementado); blockquote de cierre del cliente; 7 sprints completados; decisiones con estado al cierre",
+        "CLAUDE.md — fase actual = proyecto cerrado en v1.0.0; 'Next Steps' → 'Project Closure Status'",
+        "vitacora/bitacora.html — sesión añadida al JSON embebido + metadata y contadores por repo reconciliados",
+        "vitacora/index.html y vitacora/proyecto.html — stats, badges de congelamiento, pills de features, sprints, timeline (hito 2026-07-11) y política actualizados",
+        ".ai-usage/2026-07/2026-07-11_cierre-cliente-v1.0.0-freeze.md (este reporte)"
+      ],
+      "status": "completed",
+      "keyDecisions": [
+        {
+          "decision": "P23 (tiempo→score) queda congelado sin materializar: G3 es solo visual en v1.0.0 y el score se basa en ticks",
+          "rationale": "Verificado contra el código real del cliente (Score.ts: timeScore = max(0, BASE − ticksUsed × DECAY)); si la enmienda de A5 se retoma, evoluciona en el repo del cliente"
+        },
+        {
+          "decision": "P20 se marca resuelto en implementación → leaderboard por nivel",
+          "rationale": "El cliente v1.0.0 liberó la clasificación por nivel (#46) sobre F4 del backend; no existe leaderboard global"
+        },
+        {
+          "decision": "P21 se marca cerrado en implementación (D2 con gate de sesión + scheduler single-flight, cliente #52)",
+          "rationale": "La sincronización quedó operativa en v1.0.0; su evolución futura vive en el repo del cliente"
+        },
+        {
+          "decision": "Actualizar el sitio completo de la vitácora (tres páginas) y reconciliar los contadores obsoletos del bloque repositories (19/31/6 → 27/31/8)",
+          "rationale": "Las páginas mostraban al cliente 'en curso'; dejarlas desalineadas contradiría el cierre. Los contadores se verificaron por conteo real del array de sesiones"
+        }
+      ],
+      "teamContribution": "Definió el alcance ('congelar y documentar el cliente hasta v1.0.0 en project-core, según la política de versionado/freeze') y aportó el desglose de requisitos de documentación de la entrega.",
+      "keywords": [
+        "versionado",
+        "v1.0.0",
+        "congelamiento",
+        "freeze",
+        "cliente",
+        "arrowmaze-game",
+        "release",
+        "bitacora",
+        "governance",
+        "documentation"
+      ]
+    },
+    {
+      "id": "2026-07-11-002",
+      "date": "2026-07-11",
+      "month": "2026-07",
+      "title": "Cierre de gaps de entrega en game y backend (badges, CI, demo, AI_USAGE)",
+      "file": "2026-07/2026-07-11_cierre-gaps-entrega-game-backend.md",
+      "duration": {
+        "value": 50,
+        "unit": "minutes",
+        "estimated": true
+      },
+      "aiModel": "Claude Fable 5",
+      "tool": "claude-code",
+      "phase": "Documentation & Communication",
+      "feature": null,
+      "context": "Tras el freeze del cliente (sesión 2026-07-11-001), se auditaron arrowmaze-game y arrowmaze-backend contra el checklist oficial de entrega y se cerraron los gaps con dos PRs directos a main: game #63 (workflow de CI nuevo, badges, sección Demo con 7 capturas tomadas corriendo la app real con playwright-core, AI_USAGE.md, license MIT en package.json) y backend #20 (LICENSE MIT, badges de workflow real y licencia, AI_USAGE.md con los 4 bugs de la inspección 2026-07-06 como alucinaciones corregidas, docs/diagram.svg renderizado desde el .puml). El usuario acotó el alcance: README en inglés ignorado, preview de diagramas suficiente, agregador ligero sobre .ai-usage/.",
+      "methodology": "Auditoría contra checklist → AskUserQuestion para fijar 4 decisiones de ejecución → plan mode aprobado → ejecución autónoma (incluida la app real para capturas) → reporte generado con el skill ai-usage-reporter",
+      "deliverables": [
+        "arrowmaze-game PR #63 — .github/workflows/ci.yml, badges + sección Demo en README.md, doc/screenshots/ (7 capturas), AI_USAGE.md, license en package.json",
+        "arrowmaze-backend PR #20 — LICENSE (MIT), badges de CI/licencia + sección Licencia en README.md, AI_USAGE.md, docs/diagram.svg, license en package.json",
+        ".ai-usage/2026-07/2026-07-11_cierre-gaps-entrega-game-backend.md (este reporte, en project-core)"
+      ],
+      "status": "completed",
+      "keyDecisions": [
+        {
+          "decision": "Ignorar el requisito de README en inglés",
+          "rationale": "Decisión explícita del usuario al acotar la entrega"
+        },
+        {
+          "decision": "CI real en el game (ci.yml clonado del backend) en vez de badges estáticos",
+          "rationale": "El usuario marcó los badges como importantes; un badge de build sin workflow sería ficticio. Verificado localmente: build + 561/561 tests"
+        },
+        {
+          "decision": "LICENSE MIT en el backend, igual que el game",
+          "rationale": "Habilita el badge de licencia exigido; consistencia entre repos"
+        },
+        {
+          "decision": "AI_USAGE.md como agregador ligero enlazando al registro modular .ai-usage/",
+          "rationale": "El usuario consideró el registro modular cumplimiento parcial; el agregador añade % estimado, alucinaciones corregidas y reflexión sin duplicar los reportes"
+        },
+        {
+          "decision": "PRs directos a main sin pasar por dev/develop",
+          "rationale": "Cambios de documentación/CI de entrega; el checklist exige el README en main"
+        }
+      ],
+      "teamContribution": "Acotó el alcance punto por punto sobre la auditoría, respondió las 4 preguntas de ejecución, aprobó el plan y validó el resultado final ('acabo de revisar, todo fue bien').",
+      "keywords": [
+        "entrega",
+        "badges",
+        "ci",
+        "github-actions",
+        "screenshots",
+        "demo",
+        "ai-usage",
+        "licencia",
+        "MIT",
+        "plantuml"
       ]
     }
   ],

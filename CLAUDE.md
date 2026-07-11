@@ -8,18 +8,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **Arrow Maze** is a puzzle game engine implemented using **Specification-Driven Development (SDD)** with Clean Architecture and Domain-Driven Design (DDD).
 
-**Current Phase:** Specification authority + active client implementation. In `arrowmaze-game`: 
-- **A1–A5** (motor), **B1–B3** (render/input): ✅ Implementado
-- **C1** (flujo de partida): ✅ Veredicto de Dominio (IN_PROGRESS|WON|LOST desde A4); 📝 Spec lista (SDD 2026-07-07: autómata de pila ACTIVE/PAUSED/SETTINGS), 🏗️ Implementación en PR #22 (GameFlowController)
-- **C2** (carga niveles): ✅ Implementado
-- **C3** (selección de niveles): 📝 Spec lista (SDD 2026-07-05), sin implementar (bloqueada por D1)
-- **C4** (pantallas de soporte): ⚠️ Parcial (GameOverlay fin de partida), bloqueada por C1 (ahora desbloqueada)
-- **G1–G3** (audio, i18n, timer): 📝 Specs listas (SDD 2026-07-04), sin implementar
-- **P23** (integración tiempo→score): 🟡 Parcial — decidido que SÍ afecta el score; el CÓMO espera sesión SDD propia de enmienda A5
+**Current Phase:** Project closed at `v1.0.0` — this repo is now the **historical bitácora**. Final state:
+- **Backend (`arrowmaze-backend`)**: 🔒 closed and **frozen at `v1.0.0`** (2026-07-09) — E1–E2, F1–F4 implemented, GoF patterns + AOP + OpenAPI/Swagger, CI on every PR
+- **Client (`arrowmaze-game`)**: 🔒 closed and **frozen at `v1.0.0`** (2026-07-11, release #62) — full scope shipped: motor (A1–A5), render/input (B1–B3), game flow (C1–C4), local persistence + remote sync (D1–D2), audio/i18n/timer (G1–G3), FORGE level editor (H1), plus product extensions (dark theme, guided tutorial, per-level leaderboard UI, auth UI)
+- **P23** (time→score integration): 🔒 frozen unmaterialized — G3 shipped visual-only in v1.0.0; score remains tick-based. If retaken, it evolves in the client repo
 
-Pending client work: D1 (persistencia local), C4 (finish), D2 (sincronización), G1–G3 implementation. The **backend is closed at `v1.0.0`** (E1–E2, F1–F4 implemented) in `arrowmaze-backend` and is now **frozen** in this repo; future backend versions evolve independently and are no longer mirrored here. This repo remains the single source of truth for specs and architecture decisions.
+No pending client or backend work is tracked here anymore. This repo remains the single source of truth for the specs and architecture decisions **as of v1.0.0**.
 
-**Versioning policy (versionario hasta v1.0.0):** project-core documents each implementation repo **up to its `v1.0.0`**. Once a repo closes v1.0.0 its documentation here is **frozen**; later versions evolve independently and are *not* re-mirrored here (that would be a manual, non-automated duplicate). The client (`arrowmaze-game`) is **not yet closed** — it keeps being documented until it closes its own v1.0.0, then the same freeze applies. After those freezes this repo acts as a **historical bitácora** and may become highly outdated. See the "Política de versionado y congelamiento" section in the README.
+**Versioning policy (versionario hasta v1.0.0):** project-core documents each implementation repo **up to its `v1.0.0`**. Once a repo closes v1.0.0 its documentation here is **frozen**; later versions evolve independently and are *not* re-mirrored here (that would be a manual, non-automated duplicate). Both implementation repos are now closed — backend (2026-07-09) and client (2026-07-11) — so this repo acts as a **historical bitácora** and may become highly outdated relative to the live code. That is its expected function, not a defect. See the "Política de versionado y congelamiento" section in the README.
 
 **Key Characteristics:**
 - **Methodology:** SDD with structured Q&A using Claude + Gherkin BDD
@@ -370,25 +366,20 @@ See **`docs/STACK.md`** for the complete folder structures and sprint-level impl
 
 ---
 
-## 🚀 Next Steps
+## 🚀 Project Closure Status
 
-### Immediate (current focus)
-1. ✅ **P15 resolved** — JSON level schema materialized in C2 (`LevelData`)
-2. ✅ **NQ4 resolved** — Rendering technology = **SVG** (B1/B2 implemented)
-3. **Continue client implementation** — pending order: D1 → C4 (finish) → C3 → G2 → G1 → G3 → D2 (see `docs/BORRADOR-features-pendientes.md`)
-4. ✅ **P22/P24 resolved, P23 partial** (SDD 2026-07-04) — G1/G2/G3 specs ready (Presentation only); P23: time WILL affect score, the *how* (A5 amendment mechanism) is still open
-5. **Close remaining decisions** — P23 (how time enters A5), P20 (F4), P21 (D2), level-unlock rule (C3), local-user scope (D1), UI `PAUSED` state (C4)
+The roadmap is **complete**. All 7 sprints shipped; both implementation repos are closed and frozen at `v1.0.0`:
 
-### Implementation Phase (After approval)
-1. **Clone template structure** — Use `docs/STACK.md` folder structure exactly for both repos
-2. **Implement A1–A5** — Core game motor in frontend domain layer, following specs
-3. **Design B–G specs** — Extend SDD to remaining feature groups (rendering, levels, persistence, auth)
-4. **Setup backend API** — Express.js + PostgreSQL for auth, levels, leaderboard
-5. **Connect frontend-backend** — Use case repos adapt to API contracts from F1–F4
+1. ✅ **All specs resolved** — P15, NQ4, P22, P24 resolved during SDD; P20/P21 closed in implementation; P23 frozen unmaterialized (G3 visual-only in v1.0.0)
+2. ✅ **Client `v1.0.0`** (2026-07-11, release #62) — full feature scope A–D, G, H
+3. ✅ **Backend `v1.0.0`** (2026-07-09, release #18) — E–F, GoF + AOP + Swagger
+4. 📓 **This repo going forward** — historical record: Gherkin specs, architecture decisions, the `.ai-usage/` SDD trail, and the vitácora site (`vitacora/`) documenting how the project was built with AI up to v1.0.0
+
+Work on later versions happens in each implementation repo and is not mirrored here.
 
 ---
 
-**Last updated:** 2026-07-09  
+**Last updated:** 2026-07-11  
 **Maintained by:** Jrgil20  
 **Reference:** 
 - Complete design history: `.ai-usage/manifest.json` (hidden folder)
