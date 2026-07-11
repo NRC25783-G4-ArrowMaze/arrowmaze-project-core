@@ -106,9 +106,8 @@
 
 > **Cierre del cliente (cliente v1.0.0, 2026-07-11):** todo el alcance del cliente — motor (A),
 > presentación (B), flujo (C), persistencia y sincronización (D), producto (G) y FORGE (H1) — quedó
-> implementado y liberado como **`v1.0.0`** (release #62 de `arrowmaze-game`), con CI de build+tests
-> en cada PR. El cliente queda **congelado en v1.0.0** en este repositorio (ver política de
-> versionado en el README).
+> implementado y liberado como **`v1.0.0`** (release #62 de `arrowmaze-game`). El cliente queda
+> **congelado en v1.0.0** en este repositorio (ver política de versionado en el README).
 
 ---
 
